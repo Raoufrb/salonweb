@@ -1,0 +1,1 @@
+// 🧪 Script de peuplement de la base (produits de test, services)
