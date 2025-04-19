@@ -1,1 +1,0 @@
-// Données du formulaire de recrutement (nom, email, fichier)

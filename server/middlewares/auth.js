@@ -1,0 +1,1 @@
+// Vérification JWT (client/employé)
