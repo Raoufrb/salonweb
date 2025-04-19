@@ -1,0 +1,1 @@
+# 🚫 Pour ignorer node_modules, .env, /uploads, etc.
