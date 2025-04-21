@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { findAdminByUsername, createAdmin } from '../models/adminUser.model.js';
 
-const SECRET_KEY = 'secret123';
+const SECRET_KEY = '123456';
 
 export async function registerAdmin(req, res) {
   const { username, password } = req.body;
