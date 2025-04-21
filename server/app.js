@@ -1,19 +1,14 @@
 import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import bodyParser from 'body-parser';
+import adminRoutes from './routes/admin.js';
 import apiRoutes from './routes/api.js';
 
-dotenv.config();
-
 const app = express();
+const PORT = 3000;
 
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(express.json());
+app.use('/api/admin', adminRoutes);
 app.use('/api', apiRoutes);
 
-app.listen(process.env.PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${process.env.PORT}`);
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });

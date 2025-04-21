@@ -1,6 +1,9 @@
-// Toutes les fonctions :
-// traiterRDV(req, res)
-//  traiterCommande(req, res)
-//login(req, res)
-// enregistrerCandidature(req, res)
-// crudProduits(), crudArticles(), etc
+import express from 'express';
+import { registerAdmin, loginAdmin } from '../controllers/adminAuth.controller.js';
+
+const router = express.Router();
+
+router.post('/register', registerAdmin);
+router.post('/login', loginAdmin);
+
+export default router;

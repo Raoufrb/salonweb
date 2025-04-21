@@ -1,7 +1,0 @@
-PORT=3000
-DB_USER=postgres
-DB_PASSWORD=qwerty
-DB_HOST=localhost
-DB_NAME=beauty_salon_db
-DB_PORT=5432
-JWT_SECRET=super_secret_key
