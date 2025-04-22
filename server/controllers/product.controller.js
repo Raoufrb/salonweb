@@ -64,3 +64,26 @@ import {
     }
   }
   
+  export const getAllProductsPage = async (req, res) => {
+    try {
+      const result = await db.query('SELECT * FROM products ORDER BY id DESC');
+      const produits = result.rows;
+      res.render('admin/produits.ejs', { produits });
+    } catch (error) {
+      console.error('Erreur affichage produits :', error);
+      res.status(500).send('Erreur serveur');
+    }
+  };
+  
+
+  // Ajout dans product.controller.js
+export async function getEditProductPage(req, res) {
+  try {
+    const id = parseInt(req.params.id);
+    const produit = await getProductById(id);
+    res.render('admin/edit.ejs', { produit });
+  } catch (error) {
+    console.error('Erreur getEditProductPage :', error);
+    res.status(500).send('Erreur serveur');
+  }
+}

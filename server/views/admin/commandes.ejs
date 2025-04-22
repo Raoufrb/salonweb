@@ -1,2 +1,25 @@
- //Vue des commandes passées
+<!-- /server/views/admin/commandes.ejs -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Commandes</title>
+</head>
+<body>
+  <h1>Liste des Commandes</h1>
 
+  <% if (commandes.length === 0) { %>
+    <p>Aucune commande trouvée.</p>
+  <% } else { %>
+    <ul>
+      <% commandes.forEach(c => { %>
+        <li>
+          Client : <%= c.client_nom %> | 
+          Total : <%= c.total %> DA | 
+          Status : <%= c.status %>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+</body>
+</html>
