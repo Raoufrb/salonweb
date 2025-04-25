@@ -1,1 +1,361 @@
-# 🏠 Page d'accueil : services, tarifs, à propos, CTA
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Oasis Spa & Coiffure - Détente, Style & Raffinement</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../client/Css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="L'Oasis Logo">
+            </div>
+            <div class="nav-links">
+                <a href="#services">Services</a>
+                <a href="#products">Produits</a>
+                <a href="#testimonials">Témoignages</a>
+                <a href="#about">À Propos</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <button class="login-btn">Connexion</button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Votre Oasis de Beauté</h2>
+            <p>Découvrez un univers de détente et d'élégance où chaque détail est pensé pour votre bien-être.</p>
+            <button class="cta-btn">Prendre rendez-vous</button>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="section-title">
+            <h2>Nos Prestations</h2>
+            <p>Découvrez notre gamme complète de services de coiffure et spa pour hommes et femmes</p>
+        </div>
+
+        <div class="gender-tabs">
+            <button class="gender-tab" data-gender="women">Femmes</button>
+            <button class="gender-tab" data-gender="men">Hommes</button>
+        </div>
+
+        <div class="service-categories">
+            <button class="category-btn active" data-category="all">Tous</button>
+            <button class="category-btn" data-category="hair">Coiffure</button>
+            <button class="category-btn" data-category="spa">Spa</button>
+            <button class="category-btn" data-category="nails">Onglerie</button>
+        </div>
+
+        <div class="service-grid">
+            <!-- Women's Hair Services -->
+            <div class="service-card" data-gender="women" data-category="hair">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Coupe femme">
+                </div>
+                <div class="service-info">
+                    <h3>Coupe Femme</h3>
+                    <p>Une coupe personnalisée selon votre morphologie et vos envies, réalisée par nos stylistes experts.</p>
+                    <div class="service-meta">
+                        <span class="price">À partir de 45€</span>
+                        <button class="book-btn">Réserver</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Men's Hair Services -->
+            <div class="service-card" data-gender="men" data-category="hair">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1585747860715-2ba9076f3a7a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Coupe homme">
+                </div>
+                <div class="service-info">
+                    <h3>Coupe Homme</h3>
+                    <p>Coupe moderne ou classique avec finitions au rasoir pour un résultat net et précis.</p>
+                    <div class="service-meta">
+                        <span class="price">À partir de 30€</span>
+                        <button class="book-btn">Réserver</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coloring -->
+            <div class="service-card" data-gender="women" data-category="hair">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1559599076-9c61d8e1b77c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Coloration">
+                </div>
+                <div class="service-info">
+                    <h3>Coloration</h3>
+                    <p>Coloration complète ou mèches avec des produits respectueux de vos cheveux et de l'environnement.</p>
+                    <div class="service-meta">
+                        <span class="price">À partir de 65€</span>
+                        <button class="book-btn">Réserver</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spa Services -->
+            <div class="service-card" data-gender="all" data-category="spa">
+                <div class="service-img">
+                    <img src="" alt="Massage relaxant">
+                </div>
+                <div class="service-info">
+                    <h3>Massage Relaxant</h3>
+                    <p>Détendez-vous avec notre massage aux huiles essentielles pour libérer les tensions et retrouver l'harmonie.</p>
+                    <div class="service-meta">
+                        <span class="price">À partir de 70€</span>
+                        <button class="book-btn">Réserver</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Facial Care -->
+            <div class="service-card" data-gender="women" data-category="spa">
+                <div class="service-img">
+                    <img src="" alt="Soin du visage">
+                </div>
+                <div class="service-info">
+                    <h3>Soin du Visage</h3>
+                    <p>Un soin personnalisé selon votre type de peau pour un teint éclatant et rajeuni.</p>
+                    <div class="service-meta">
+                        <span class="price">À partir de 55€</span>
+                        <button class="book-btn">Réserver</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manicure -->
+            <div class="service-card" data-gender="women" data-category="nails">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1604658243847-17375af581fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Manucure">
+                </div>
+                <div class="service-info">
+                    <h3>Manucure Complète</h3>
+                    <p>Soin des mains, limage, pose de vernis classique ou semi-permanent pour des ongles parfaits.</p>
+                    <div class="service-meta">
+                        <span class="price">À partir de 35€</span>
+                        <button class="book-btn">Réserver</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pedicure -->
+            <div class="service-card" data-gender="all" data-category="nails">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1596704017254-975f62c2a0b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Pédicure">
+                </div>
+                <div class="service-info">
+                    <h3>Pédicure Spa</h3>
+                    <p>Un moment de détente avec soin des pieds, gommage et pose de vernis pour des pieds resplendissants.</p>
+                    <div class="service-meta">
+                        <span class="price">À partir de 45€</span>
+                        <button class="book-btn">Réserver</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Beard Care -->
+            <div class="service-card" data-gender="men" data-category="spa">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1589984662646-e7b2e4962f18?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Soin barbe">
+                </div>
+                <div class="service-info">
+                    <h3>Soin Barbe</h3>
+                    <p>Taille, mise en forme et soin hydratant pour une barbe soyeuse et bien entretenue.</p>
+                    <div class="service-meta">
+                        <span class="price">À partir de 40€</span>
+                        <button class="book-btn">Réserver</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Products Showcase Section -->
+<section class="products-showcase" id="products">
+    <div class="section-title">
+        <h2>Nos Produits Professionnels</h2>
+        <p>Découvrez notre gamme de produits de qualité professionnelle pour entretenir votre beauté à domicile</p>
+    </div>
+
+    <div class="product-grid">
+        <!-- Product 1 -->
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Shampooing Professionnel">
+            </div>
+            <div class="product-info">
+                <h3>Shampooing Réparateur</h3>
+                <p>Formule enrichie en kératine pour cheveux abîmés</p>
+                <div class="product-meta">
+                    <span class="price">24,99€</span>
+                    <button class="shop-btn">Voir produit</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Masque Capillaire">
+            </div>
+            <div class="product-info">
+                <h3>Masque Hydratant</h3>
+                <p>Nutrition intense pour cheveux secs et frisés</p>
+                <div class="product-meta">
+                    <span class="price">29,99€</span>
+                    <button class="shop-btn">Voir produit</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1591088398332-8a7791972803?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Huile de Barbe">
+            </div>
+            <div class="product-info">
+                <h3>Huile de Barbe Premium</h3>
+                <p>Adoucit et conditionne la barbe avec senteur boisée</p>
+                <div class="product-meta">
+                    <span class="price">19,99€</span>
+                    <button class="shop-btn">Voir produit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="view-all-container">
+        <a href="products.html" class="view-all-btn">Voir tous nos produits →</a>
+    </div>
+</section>
+
+    <section class="testimonials" id="testimonials">
+        <div class="testimonial-container">
+            <div class="section-title">
+                <h2>Témoignages</h2>
+                <p>Ce que nos clients disent de leur expérience à L'Oasis</p>
+            </div>
+
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"Le meilleur salon où je sois allée ! L'ambiance est détendue, le personnel est aux petits soins et le résultat est toujours parfait."</p>
+                    <div class="client-info">
+                        <div class="client-img">
+                            <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sophie Martin">
+                        </div>
+                        <div class="client-name">
+                            <h4>Sophie Martin</h4>
+                            <p>Cliente depuis 2018</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"En tant qu'homme, je n'étais pas habitué aux soins, mais leur soin barbe m'a converti. Un vrai moment de détente avec un résultat impeccable."</p>
+                    <div class="client-info">
+                        <div class="client-img">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Thomas Leroy">
+                        </div>
+                        <div class="client-name">
+                            <h4>Thomas Leroy</h4>
+                            <p>Cliente depuis 2020</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    Dimanche: 10h - 15h<div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p>"Je viens chaque mois pour le massage et le soin du visage. C'est devenu mon petit rituel bien-être. Je recommande vivement !"</p>
+                    <div class="client-info">
+                        <div class="client-img">
+                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Élodie Petit">
+                        </div>
+                        <div class="client-name">
+                            <h4>Élodie Petit</h4>
+                            <p>Cliente depuis 2019</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="about" class="about">
+        <div>
+            <h2>À Propos</h2>
+            <p>Notre histoire, nos valeurs, et notre engagement envers votre bien-être.</p>
+        </div>
+        <div>
+            <p>L'Oasis Spa & Coiffure est né d'une passion pour la beauté, le soin et la relaxation. Depuis 2015, nous offrons des services de qualité dans une ambiance chaleureuse et professionnelle. Chaque visite est une parenthèse de bien-être conçue spécialement pour vous.</p>
+        </div>
+    </section>
+    
+
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>L'Oasis Spa & Coiffure</h3>
+                <p>Détente, Style & Raffinement depuis 2015. Votre oasis de bien-être au cœur de la ville.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Horaires</h3>
+                <p>
+                    Dimanche/ Lundi/ Mercredi	9h-19h
+                </p>
+                <p>Mardi/ Jeudi	10h-20h</p>
+                <p>Samedi 17h-20h</p>
+            </div>
+
+            <div class="footer-col">
+                <h3>Infotmations</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Rue de la Paix, 75000 Paris</p>
+                <p><i class="fas fa-phone"></i> +33 1 23 45 67 89</p>
+                <p><i class="fas fa-envelope"></i> contact@loasis-spa.com</p>
+            </div>
+
+            <div class="footer-col">
+                <div class="footer-col">
+                    <h3>Contacter-nous</h3>
+                    <p>Besoin de nous écrire directement ? Cliquez ci-dessous pour accéder à notre page de contact.</p>
+                    <button onclick="window.location.href='contact.html';" style="background-color: var(--gold); color: var(--dark); border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-weight: 600;">Nous contacter</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2023 L'Oasis Spa & Coiffure. Tous droits réservés.</p>
+        </div>
+    </footer>
+    <script type="text/javascript" src="../client/js/script.js"></script>
+</body>
+</html>

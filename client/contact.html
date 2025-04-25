@@ -1,1 +1,108 @@
-# 📞 Contact général + 📄 formulaire de recrutement avec CV
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - L'Oasis Spa & Coiffure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="Css/contact.css">
+
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="logo">
+                <h1>Contactez-Nous</h1>
+                <p>L'Oasis Spa & Coiffure</p>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Adresse</h3>
+                            <p>123 Rue du Spa, 75000 Paris</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Téléphone</h3>
+                            <p>01 23 45 67 89</p>
+                            <p>06 12 34 56 78 (Mobile)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <p>contact@loasis-spa.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Heures d'Ouverture</h3>
+                            <table class="hours-table">
+                                <tr><td>Dimanche/ Lundi/ Mercredi</td><td>9h-19h</td></tr>
+                                <tr><td>Mardi/ Jeudi</td><td>10h-20h</td></tr>
+                                <tr><td>Samedi</td><td>17h-20h</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contactForm" class="compact-form">
+                        <div class="form-group">
+                            <label for="contact-name">Nom Complet</label>
+                            <div class="input-icon">
+                                <input type="text" id="contact-name" name="name" required>
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact-email">Email</label>
+                            <div class="input-icon">
+                                <input type="email" id="contact-email" name="email" required>
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact-phone">Téléphone</label>
+                            <div class="input-icon">
+                                <input type="tel" id="contact-phone" name="phone">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact-message">Message</label>
+                            <textarea id="contact-message" name="message" rows="4" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: 'Montserrat', sans-serif;"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn">Envoyer Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<script type="text/javascript" src="js/contact.js"></script>
+</body>
+</html>
