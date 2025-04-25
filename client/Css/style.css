@@ -61,6 +61,7 @@ nav {
 }
 
 .nav-links a {
+    margin: 1rem;
     color: var(--dark);
     text-decoration: none;
     font-weight: 600;
