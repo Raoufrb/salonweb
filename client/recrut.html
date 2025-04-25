@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recrutement - L'Oasis Spa & Coiffure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="Css/style.css">
+    <link rel="stylesheet" href="Css/recrut.css">
+</head>
+<body>
+   
+    <main class="recruitment-main">
+        <section class="recruitment-hero">
+            <div class="hero-content">
+                <h2>Rejoignez Notre Équipe</h2>
+                <p>Nous recherchons des talents passionnés pour notre salon d'exception</p>
+            </div>
+        </section>
+
+        <section class="recruitment-section">
+            <div class="section-title">
+                <h2>Postes Disponibles</h2>
+                <p>Découvrez les opportunités de carrière à L'Oasis</p>
+            </div>
+
+            <div class="positions-grid">
+                <div class="position-card">
+                    <div class="position-icon">
+                        <i class="fas fa-scissors"></i>
+                    </div>
+                    <h3>Coiffeur(se)</h3>
+                    <ul class="position-details">
+                        <li><i class="fas fa-check"></i> Expérience minimum 3 ans</li>
+                        <li><i class="fas fa-check"></i> Maîtrise des techniques actuelles</li>
+                        <li><i class="fas fa-check"></i> Sens du relationnel</li>
+                    </ul>
+
+                </div>
+
+                <div class="position-card">
+                    <div class="position-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3>Esthéticienne</h3>
+                    <ul class="position-details">
+                        <li><i class="fas fa-check"></i> Diplôme d'esthétique requis</li>
+                        <li><i class="fas fa-check"></i> Expérience en institut</li>
+                        <li><i class="fas fa-check"></i> Connaissance des produits haut de gamme</li>
+                    </ul>
+                </div>
+
+                <div class="position-card">
+                    <div class="position-icon">
+                        <i class="fas fa-concierge-bell"></i>
+                    </div>
+                    <h3>Réceptionniste</h3>
+                    <ul class="position-details">
+                        <li><i class="fas fa-check"></i> Excellente présentation</li>
+                        <li><i class="fas fa-check"></i> Maîtrise des logiciels de réservation</li>
+                        <li><i class="fas fa-check"></i> Multilingue un atout</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="application-form-section" id="applicationForm">
+            <div class="section-title">
+                <h2>Formulaire de Candidature</h2>
+                <p>Remplissez ce formulaire pour postuler à nos offres d'emploi</p>
+            </div>
+
+            <form class="application-form">
+                <div class="form-group">
+                    <label for="fullName">Nom Complet</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Téléphone</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="position">Poste recherché</label>
+                    <select id="position" name="position" required>
+                        <option value="">Sélectionnez un poste</option>
+                        <option value="coiffeur">Coiffeur(se)</option>
+                        <option value="estheticienne">Esthéticienne</option>
+                        <option value="receptionniste">Réceptionniste</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="experience">Années d'expérience</label>
+                    <input type="number" id="experience" name="experience" min="0" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="message">Lettre de motivation</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="cv">CV (PDF uniquement, max 5MB)</label>
+                    <input type="file" id="cv" name="cv" accept=".pdf" required>
+                </div>
+
+                <div class="form-submit">
+                    <button type="submit" class="submit-btn">Envoyer ma candidature</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="why-join">
+            <div class="section-title">
+                <h2>Pourquoi Nous Rejoindre ?</h2>
+                <p>Découvrez les avantages de faire partie de L'Oasis</p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <i class="fas fa-gem"></i>
+                    <h3>Environnement Luxueux</h3>
+                    <p>Un cadre de travail exceptionnel avec des équipements haut de gamme</p>
+                </div>
+
+                <div class="benefit-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Équipe Passionnée</h3>
+                    <p>Collègues expérimentés et passionnés par leur métier</p>
+                </div>
+
+                <div class="benefit-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Évolution Professionnelle</h3>
+                    <p>Formations régulières et possibilités d'évolution</p>
+                </div>
+
+                <div class="benefit-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Avantages Sociaux</h3>
+                    <p>Forfait bien-être, commissions attractives et avantages clients</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>L'Oasis Spa & Coiffure</h3>
+                <p>Détente, Style & Raffinement depuis 2015. Votre oasis de bien-être au cœur de la ville.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Horaires</h3>
+                <p>Dimanche/ Lundi/ Mercredi 9h-19h</p>
+                <p>Mardi/ Jeudi 10h-20h</p>
+                <p>Samedi 17h-20h</p>
+            </div>
+
+            <div class="footer-col">
+                <h3>Informations</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Rue de la Paix, 75000 Paris</p>
+                <p><i class="fas fa-phone"></i> +33 1 23 45 67 89</p>
+                <p><i class="fas fa-envelope"></i> recrutement@loasis-spa.com</p>
+            </div>
+
+            <div class="footer-col">
+                <h3>Recrutement</h3>
+                <p>Envie de rejoindre notre équipe ? Consultez nos offres d'emploi.</p>
+                <a href="recrut.html" class="footer-recruitment-btn">Voir les postes</a>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2023 L'Oasis Spa & Coiffure. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="js/recruitment.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+.profile-details{
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;
+}
+.detail-card{
+    background-color: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+h2{
+    color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
+}
+
+.profile-container{
+    margin: 8%;
+    background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(1rem); padding: 2rem; border-radius: 2rem;
+}
+       .profile-action-btn {
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.3s;
+        width: 100%;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .profile-action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .profile-action-btn i {
+        font-size: 1.1rem;
+    }
+    
+    #edit-profile-btn:hover {
+        background-color: #5a7a94 !important;
+    }
+    
+    #change-password-btn:hover {
+        background-color: #873947 !important;
+    }
+    
+    #logout-btn:hover {
+        background-color: #b71c1c !important;
+    }
+    
+    .cancel-btn {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 0.4rem 0.8rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .cancel-btn:hover {
+        background-color: #d32f2f;
+        transform: translateY(-1px);
+    }
