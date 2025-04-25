@@ -12,7 +12,7 @@
 <body>
 
     <main class="profile-section">
-        <div class="profile-container" style="">
+        <div class="profile-container">
             <div class="profile-header">
                 <div class="profile-avatar">
                     <i class="fas fa-user-circle" style="font-size: 5rem; color: var(--primary);"></i>
@@ -20,9 +20,9 @@
                 <h1 style="color: var(--primary);">Welcome, <span id="username-display">User</span></h1>
             </div>
             
-            <div class="profile-details" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
-                <div class="detail-card" style="background-color: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
-                    <h2 style="color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <div class="profile-details" s>
+                <div class="detail-card" >
+                    <h2>
                         <i class="fas fa-info-circle"></i> Informations Personelles
                     </h2>
                     <p><strong>Nom:</strong> <span id="user-fullname">John Doe</span></p>
@@ -30,8 +30,8 @@
                     <p><strong>Numero de Telephone:</strong> <span id="user-phone">+1234567890</span></p>
                 </div>
                 
-                <div class="detail-card" style="background-color: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
-                    <h2 style="color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <div class="detail-card">
+                    <h2>
                         <i class="fas fa-calendar-alt"></i> Rendez-vous
                     </h2>
                     <div id="appointments-list">
@@ -39,8 +39,8 @@
                     </div>
                 </div>
                 
-                <div class="detail-card" style="background-color: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
-                    <h2 style="color: var(--primary); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                <div class="detail-card">
+                    <h2>
                         <i class="fas fa-cog"></i> Parametres du compte
                     </h2>
                     <button class="profile-action-btn" id="edit-profile-btn" style="background-color: var(--secondary);">

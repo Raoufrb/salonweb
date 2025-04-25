@@ -585,6 +585,32 @@ footer {
     transform: translateY(-3px);
 }
 
+.footer-recruitment-btn {
+    background-color: var(--gold);
+    color: var(--dark);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.footer-recruitment-btn:hover {
+    color: #6d4e53;
+    background-color: #6d4e53;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
 .copyright {
     text-align: center;
     margin-top: 3rem;
