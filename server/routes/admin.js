@@ -1,55 +1,114 @@
 import express from 'express';
-import { registerAdmin , loginAdmin } from '../controllers/adminAuth.controller.js';
-import { listProducts, getOneProduct, createProduct, editProduct, removeProduct} from '../controllers/product.controller.js';
-import { authAdmin } from '../middlewares/authAdmin.js';
-import { getAllProductsPage } from '../controllers/product.controller.js';
 import multer from 'multer';
 import path from 'path';
-import { getEditProductPage } from '../controllers/product.controller.js';
-import {showCommandes,validerCommande,refuserCommande} from '../controllers/commande.controller.js';
+import methodOverride from 'method-override';
+
+import { 
+  registerAdmin, 
+  loginAdmin 
+} from '../controllers/adminAuth.controller.js';
+
+import { 
+  showCommandes, 
+  validerCommande, 
+  refuserCommande, 
+  passerCommande 
+} from '../controllers/commande.controller.js';
+
+import { 
+  approveApplication 
+} from '../controllers/admin.Controller.js';
+
+import { 
+  addProduct, 
+  updateProduct, 
+  deleteProduct 
+} from '../models/product.model.js';
+
+import { authAdmin } from '../middlewares/authAdmin.js';
 
 const router = express.Router();
+router.use(methodOverride('_method'));
+
+// ----------------- AUTHENTIFICATION ADMIN -----------------
+
 router.post('/register', registerAdmin);
 router.post('/login', loginAdmin);
 
-
-// Authentification admin
-
 router.get('/dashboard', authAdmin, (req, res) => {
-  res.json({ message: ' Bienvenue Admin ' });
+  res.json({ message: 'Bienvenue Admin' });
 });
- 
-// Authentification admin
 
 router.get('/protected', authAdmin, (req, res) => {
-    res.status(200).json({
-      message: ' Bienvenue dans la zone protégée 🔒 ',
-      admin: req.user,
-    });
+  res.status(200).json({
+    message: 'Bienvenue dans la zone protégée 🔒',
+    admin: req.user,
   });
+});
 
-  const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './server/public/uploads');
-    },
-    filename: function (req, file, cb) {
-      const unique = Date.now() + path.extname(file.originalname);
-      cb(null, unique);
+// ----------------- MULTER CONFIGURATION -----------------
+
+const productStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/products'),
+  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
+});
+const uploadProduct = multer({ storage: productStorage });
+
+// ----------------- ADMIN PRODUIT CRUD -----------------
+
+router.post('/products', uploadProduct.single('image'), async (req, res) => {
+  try {
+    const { name, price, description } = req.body;
+    const image = req.file ? req.file.filename : null;
+
+    if (!name || !price || !image) {
+      return res.status(400).json({ error: 'Champs requis manquants' });
     }
-  });
-  const upload = multer({ storage });
 
-// Routes produits
+    await addProduct({ name, price, description, image });
+    res.redirect('/admin/produits');
+  } catch (err) {
+    console.error('Erreur lors de l\'ajout du produit:', err.message);
+    res.status(500).send('Erreur serveur');
+  }
+});
 
-router.get('/products', listProducts);             // ✅ Tous les produits
-router.get('/products/:id', getOneProduct);        // 🔍 Détail d’un produit
-router.post('/admin/products', createProduct);     // ➕ Ajouter produit (admin)
-router.put('/admin/products/:id', editProduct);    // ✏️ Modifier produit (admin)
-router.delete('/admin/products/:id', removeProduct); // 🗑️ Supprimer produit (admin) // ❌ Supprimer un produit
-router.get('/products/edit/:id', getEditProductPage);   // ➕ Page édition produit
-router.get('/commandes', authAdmin, showCommandes);            // Affichage & filtres
-router.post('/commandes/:id/valider', authAdmin, validerCommande); 
+router.put('/products/:id', uploadProduct.single('image'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, price, description } = req.body;
+    const image = req.file ? req.file.filename : null;
+
+    await updateProduct(id, { name, price, description, image });
+    res.redirect('/admin/produits');
+  } catch (err) {
+    console.error('Erreur lors de la mise à jour du produit:', err.message);
+    res.status(500).send('Erreur serveur');
+  }
+});
+
+router.delete('/products/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await deleteProduct(id);
+    res.redirect('/admin/produits');
+  } catch (err) {
+    console.error('Erreur lors de la suppression du produit:', err.message);
+    res.status(500).send('Erreur serveur');
+  }
+});
+
+// ----------------- GESTION COMMANDES -----------------
+
+router.get('/commandes', authAdmin, showCommandes);
+router.post('/commandes/:id/valider', authAdmin, validerCommande);
 router.post('/commandes/:id/refuser', authAdmin, refuserCommande);
-router.get('/dashboard/products', authAdmin, getAllProductsPage);
 
- export default router;
+// ✅ Commande client directe
+router.post('/commandes', passerCommande);
+
+// ----------------- APPROBATION CANDIDATURE -----------------
+
+router.post('/approve-application', approveApplication);
+
+export default router;

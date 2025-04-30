@@ -1,8 +1,8 @@
-<!-- views/admin/produits.ejs -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestion des Produits – Admin</title>
   <link rel="stylesheet" href="/css/admin.css">
 </head>
@@ -11,44 +11,58 @@
 
   <!-- Formulaire d'ajout -->
   <h2>➕ Ajouter un produit</h2>
-  <form action="/api/admin/products" method="POST">
+  <form action="/api/admin/products" method="POST" enctype="multipart/form-data">
     <input type="text" name="name" placeholder="Nom" required />
     <input type="number" step="0.01" name="price" placeholder="Prix" required />
     <input type="text" name="description" placeholder="Description" />
-    <input type="text" name="image" placeholder="Image (ex: produit.jpg)" />
+    <input type="file" name="image" accept="image/*" required />
     <button type="submit">Ajouter</button>
-  
   </form>
 
   <!-- Liste des produits -->
-  <h2>📦 Produits existants</h2>
-  <table border="1">
-    <tr>
-      <th>ID</th>
-      <th>Nom</th>
-      <th>Description</th>
-      <th>Prix</th>
-      <th>Image</th>
-      <th>Actions</th>
-    </tr>
+  <h2>📋 Liste des Produits</h2>
+  <table>
+    <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Description</th>
+          <th>Prix</th>
+          <th>Image</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% produits.forEach(produit => { %>
+          <tr>
+            <td><%= produit.id %></td>
+            <td><%= produit.name %></td>
+            <td><%= produit.description %></td>
+            <td><%= produit.price %> DA</td>
+            <td>
+              <% if (produit.image) { %>
+                <img src="/uploads/products/<%= produit.image %>" alt="<%= produit.name %>" width="100">
+              <% } else { %>
+                <span>Aucune image</span>
+              <% } %>
+            </td>
+            <td>
+              <!-- Update Button -->
+              <form action="/api/admin/products/<%= produit.id %>?_method=PUT" method="POST" style="display: inline;">
+                <input type="text" name="name" value="<%= produit.name %>" required />
+                <input type="number" step="0.01" name="price" value="<%= produit.price %>" required />
+                <input type="text" name="description" value="<%= produit.description %>" />
+                <button type="submit">Modifier</button>
+              </form>
 
-    <% produits.forEach((p) => { %>
-      <tr>
-        <td><%= p.id %></td>
-        <td><%= p.name %></td>
-        <td><%= p.description %></td>
-        <td><%= p.price %></td>
-        <td><img src="/uploads/<%= p.image %>" alt="img" width="50" /></td>
-        <td>
-          <!-- Bouton supprimer -->
-          <form action="/api/admin/products/<%= p.id %>?_method=DELETE" method="POST" style="display:inline;">
-            <button type="submit">🗑️ Supprimer</button>
-          </form>
-          <!-- (Optionnel) Modifier -->
-          <a href="/admin/products/edit/<%= p.id %>">✏️ Modifier</a>
-        </td>
-      </tr>
-    <% }) %>
+              <!-- Delete Button -->
+              <form action="/api/admin/products/<%= produit.id %>?_method=DELETE" method="POST" style="display: inline;">
+                <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
   </table>
 </body>
 </html>

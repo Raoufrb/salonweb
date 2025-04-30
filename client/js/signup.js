@@ -1,141 +1,52 @@
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("signup.js loaded"); // Debug log to confirm the script is loaded
 
-    // Regex Patterns
-    const fullnameRegex = /^[A-Z][a-z]+\s[A-Z][a-z]+$/;
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const phoneRegex = /^0[567]\d{8}$/;
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const signupForm = document.getElementById('signupForm');
+    if (!signupForm) {
+        console.error("Form with ID 'signupForm' not found"); // Debug log if the form is not found
+        return;
+    }
 
-    // Validation Flags
-    let fullnameValid = true;
-    let emailValid = true;
-    let phoneValid = true;
-    let passwordValid = true;
-    let confirmPasswordValid = true;
+    signupForm.addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent the default form submission (page refresh)
+        console.log("Form submission intercepted"); // Debug log to confirm the event listener is working
 
-    // Password toggle visibility
-    $('#togglePassword').click(function(){
-        const password = $('#password');
-        const icon = $(this).find('i');
-        if(password.attr('type') === 'password'){
-            password.attr('type', 'text');
-            icon.removeClass('fa-eye').addClass('fa-eye-slash');
-        } else {
-            password.attr('type', 'password');
-            icon.removeClass('fa-eye-slash').addClass('fa-eye');
-        }
-    });
+        const fullname = document.getElementById('fullname').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
 
-    // Real-time Validation
-    $("#fullname").on("input", function() {
-        const fullname = $(this).val();
-        if (!fullnameRegex.test(fullname) && fullname) {
-            $("#err-fullname").show();
-            fullnameValid = false;
-        } else {
-            $("#err-fullname").hide();
-            fullnameValid = true;
-        }
-    });
+        // Debugging logs
+        console.log("Form submitted with data:", { fullname, email, phone, password, confirmPassword });
 
-    $("#email").on("input", function() {
-        const email = $(this).val();
-        if (!emailRegex.test(email) && email) {
-            $("#err-email").show();
-            emailValid = false;
-        } else {
-            $("#err-email").hide();
-            emailValid = true;
-        }
-    });
-
-    $("#phone").on("input", function() {
-        const phone = $(this).val().replace(/\s/g, '');
-        if (!phoneRegex.test(phone) && phone) {
-            $("#err-phone").show();
-            phoneValid = false;
-        } else {
-            $("#err-phone").hide();
-            phoneValid = true;
-        }
-        // Auto-format phone number
-        if(phone.length > 2 && phone.length <= 10) {
-            $(this).val(phone.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5'));
-        }
-    });
-
-    $("#password").on("input", function() {
-        const password = $(this).val();
-        if (!passwordRegex.test(password) && password) {
-            $("#err-password").show();
-            passwordValid = false;
-        } else {
-            $("#err-password").hide();
-            passwordValid = true;
-        }
-        // Trigger confirmation check
-        if($("#confirm-password").val()) {
-            $("#confirm-password").trigger("input");
-        }
-    });
-
-    $("#confirm-password").on("input", function() {
-        const confirmPassword = $(this).val();
-        if (confirmPassword !== $("#password").val()) {
-            $("#err-confirm-password").show();
-            confirmPasswordValid = false;
-        } else {
-            $("#err-confirm-password").hide();
-            confirmPasswordValid = true;
-        }
-    });
-
-    // Form Submission
-    $("#signupForm").on("submit", function(event) {
-        event.preventDefault();
-        
-        const fullname = $("#fullname").val();
-        const email = $("#email").val();
-        const phone = $("#phone").val();
-        const password = $("#password").val();
-        const confirmPassword = $("#confirm-password").val();
-
-        // Trigger all validations
-        $("#fullname").trigger("input");
-        $("#email").trigger("input");
-        $("#phone").trigger("input");
-        $("#password").trigger("input");
-        $("#confirm-password").trigger("input");
-
-        // General Error (Missing Fields)
-        if (!fullname || !email || !phone || !password || !confirmPassword) {
-            $("#err-general").show();
+        // Validate passwords match
+        if (password !== confirmPassword) {
+            document.getElementById('err-confirm-password').style.display = 'block';
             return;
         } else {
-            $("#err-general").hide();
+            document.getElementById('err-confirm-password').style.display = 'none';
         }
 
-        // Detailed Validation
-        if (fullnameValid && emailValid && phoneValid && passwordValid && confirmPasswordValid) {
-            // Save to sessionStorage
-            sessionStorage.setItem('signupFullname', fullname);
-            sessionStorage.setItem('signupEmail', email);
-            sessionStorage.setItem('signupPhone', phone);
-            
-            // Success Action
-            alert("Compte créé avec succès !");
-            window.location.href = "login.html"; // Redirect to login
-        }
-    });
+        try {
+            const response = await fetch('/api/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ fullname, email, phone, password }),
+            });
 
-    // Load saved data if available
-    $(document).ready(function() {
-        if (sessionStorage.getItem('signupFullname')) {
-            $("#fullname").val(sessionStorage.getItem('signupFullname'));
-        }
-        if (sessionStorage.getItem('signupEmail')) {
-            $("#email").val(sessionStorage.getItem('signupEmail'));
-        }
-        if (sessionStorage.getItem('signupPhone')) {
-            $("#phone").val(sessionStorage.getItem('signupPhone'));
+            const result = await response.json();
+            console.log("Server response:", result); // Debug log
+
+            if (response.ok) {
+                alert(result.message);
+                window.location.href = "login.html"; // Redirect to login
+            } else {
+                alert(result.error);
+            }
+        } catch (err) {
+            console.error('Erreur:', err);
+            alert('Erreur serveur');
         }
     });
+});

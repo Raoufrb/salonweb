@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Votre Panier – L'Oasis Spa</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      background-color: #f8f5f1;
+    }
+
+    h1 {
+      text-align: center;
+      color: #5c3d2e;
+    }
+
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    .cart-table th, .cart-table td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .total {
+      text-align: right;
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
+
+    .form-section {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    .form-section input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form-section button {
+      background-color: #c47a54;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form-section button:hover {
+      background-color: #a85f3a;
+    }
+  </style>
+</head>
+<body>
+  <h1>Votre Panier</h1>
+
+  <table class="cart-table" id="cartTable">
+    <thead>
+      <tr>
+        <th>Produit</th>
+        <th>Prix</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="total">
+    Total: <span id="totalAmount">0 DA</span>
+  </div>
+
+  <div class="form-section">
+    <h2>Finaliser votre commande</h2>
+    <form id="orderForm">
+        <input type="text" id="clientName" placeholder="Nom complet" required />
+        <input type="text" id="clientPhone" placeholder="Téléphone" required />
+        <input type="text" id="clientAddress" placeholder="Adresse complète" required />
+        <button type="submit">Valider la commande</button>
+      </form>
+  </div>
+
+  <script src="js/panier.js"></script>
+</body>
+</html>

@@ -5,7 +5,7 @@
     <title>L'Oasis Spa & Coiffure - Détente, Style & Raffinement</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../client/Css/style.css">
+    <link rel="stylesheet" href="Css/style.css">
 </head>
 <body>
     <header>
@@ -61,7 +61,7 @@
                     <p>Une coupe personnalisée selon votre morphologie et vos envies, réalisée par nos stylistes experts.</p>
                     <div class="service-meta">
                         <span class="price">À partir de 45€</span>
-                        <button class="book-btn">Réserver</button>
+                        <a href="rdv.html" class="book-btn">Réserver</a>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     <p>Coupe moderne ou classique avec finitions au rasoir pour un résultat net et précis.</p>
                     <div class="service-meta">
                         <span class="price">À partir de 30€</span>
-                        <button class="book-btn">Réserver</button>
+                        <a href="rdv.html" class="book-btn">Réserver</a>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                     <p>Coloration complète ou mèches avec des produits respectueux de vos cheveux et de l'environnement.</p>
                     <div class="service-meta">
                         <span class="price">À partir de 65€</span>
-                        <button class="book-btn">Réserver</button>
+                        <a href="rdv.html" class="book-btn">Réserver</a>
                     </div>
                 </div>
             </div>
@@ -106,7 +106,7 @@
                     <p>Détendez-vous avec notre massage aux huiles essentielles pour libérer les tensions et retrouver l'harmonie.</p>
                     <div class="service-meta">
                         <span class="price">À partir de 70€</span>
-                        <button class="book-btn">Réserver</button>
+                        <a href="rdv.html" class="book-btn">Réserver</a>
                     </div>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                     <p>Un soin personnalisé selon votre type de peau pour un teint éclatant et rajeuni.</p>
                     <div class="service-meta">
                         <span class="price">À partir de 55€</span>
-                        <button class="book-btn">Réserver</button>
+                        <a href="rdv.html" class="book-btn">Réserver</a>
                     </div>
                 </div>
             </div>
@@ -136,7 +136,7 @@
                     <p>Soin des mains, limage, pose de vernis classique ou semi-permanent pour des ongles parfaits.</p>
                     <div class="service-meta">
                         <span class="price">À partir de 35€</span>
-                        <button class="book-btn">Réserver</button>
+                        <a href="rdv.html" class="book-btn">Réserver</a>
                     </div>
                 </div>
             </div>
@@ -151,7 +151,7 @@
                     <p>Un moment de détente avec soin des pieds, gommage et pose de vernis pour des pieds resplendissants.</p>
                     <div class="service-meta">
                         <span class="price">À partir de 45€</span>
-                        <button class="book-btn">Réserver</button>
+                        <a href="rdv.html" class="book-btn">Réserver</a>
                     </div>
                 </div>
             </div>
@@ -166,72 +166,28 @@
                     <p>Taille, mise en forme et soin hydratant pour une barbe soyeuse et bien entretenue.</p>
                     <div class="service-meta">
                         <span class="price">À partir de 40€</span>
-                        <button class="book-btn">Réserver</button>
+                        <a href="rdv.html" class="book-btn">Réserver</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-<!-- Products Showcase Section -->
-<section class="products-showcase" id="products">
-    <div class="section-title">
-        <h2>Nos Produits Professionnels</h2>
-        <p>Découvrez notre gamme de produits de qualité professionnelle pour entretenir votre beauté à domicile</p>
-    </div>
-
-    <div class="product-grid">
-        <!-- Product 1 -->
-        <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Shampooing Professionnel">
-            </div>
-            <div class="product-info">
-                <h3>Shampooing Réparateur</h3>
-                <p>Formule enrichie en kératine pour cheveux abîmés</p>
-                <div class="product-meta">
-                    <span class="price">24,99€</span>
-                    <button class="shop-btn">Voir produit</button>
-                </div>
-            </div>
+    <section class="products-showcase" id="products">
+        <div class="section-title">
+            <h2>Nos Produits Professionnels</h2>
+            <p>Découvrez notre gamme de produits de qualité professionnelle pour entretenir votre beauté à domicile</p>
         </div>
-
-        <!-- Product 2 -->
-        <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Masque Capillaire">
-            </div>
-            <div class="product-info">
-                <h3>Masque Hydratant</h3>
-                <p>Nutrition intense pour cheveux secs et frisés</p>
-                <div class="product-meta">
-                    <span class="price">29,99€</span>
-                    <button class="shop-btn">Voir produit</button>
-                </div>
-            </div>
+    
+        <div class="product-grid" id="productGrid">
+            <!-- Products will be dynamically inserted here -->
         </div>
-
-        <!-- Product 3 -->
-        <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1591088398332-8a7791972803?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Huile de Barbe">
-            </div>
-            <div class="product-info">
-                <h3>Huile de Barbe Premium</h3>
-                <p>Adoucit et conditionne la barbe avec senteur boisée</p>
-                <div class="product-meta">
-                    <span class="price">19,99€</span>
-                    <button class="shop-btn">Voir produit</button>
-                </div>
-            </div>
+    
+        <div class="view-all-container">
+            <a href="produits.html" class="view-all-btn">Voir tous nos produits →</a>
         </div>
-    </div>
-
-    <div class="view-all-container">
-        <a href="products.html" class="view-all-btn">Voir tous nos produits →</a>
-    </div>
-</section>
-
+    </section>
+    
     <section class="testimonials" id="testimonials">
         <div class="testimonial-container">
             <div class="section-title">
@@ -363,6 +319,6 @@
             <p>&copy; 2023 L'Oasis Spa & Coiffure. Tous droits réservés.</p>
         </div>
     </footer>
-    <script type="text/javascript" src="../client/js/script.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>

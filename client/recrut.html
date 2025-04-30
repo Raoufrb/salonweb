@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="Css/recrut.css">
 </head>
 <body>
-   
     <main class="recruitment-main">
+        <!-- Hero Section -->
         <section class="recruitment-hero">
             <div class="hero-content">
                 <h2>Rejoignez Notre Équipe</h2>
@@ -19,6 +19,7 @@
             </div>
         </section>
 
+        <!-- Available Positions Section -->
         <section class="recruitment-section">
             <div class="section-title">
                 <h2>Postes Disponibles</h2>
@@ -36,7 +37,6 @@
                         <li><i class="fas fa-check"></i> Maîtrise des techniques actuelles</li>
                         <li><i class="fas fa-check"></i> Sens du relationnel</li>
                     </ul>
-
                 </div>
 
                 <div class="position-card">
@@ -65,13 +65,14 @@
             </div>
         </section>
 
+        <!-- Application Form Section -->
         <section class="application-form-section" id="applicationForm">
             <div class="section-title">
                 <h2>Formulaire de Candidature</h2>
                 <p>Remplissez ce formulaire pour postuler à nos offres d'emploi</p>
             </div>
 
-            <form class="application-form">
+            <form id="recruitmentForm" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="fullName">Nom Complet</label>
                     <input type="text" id="fullName" name="fullName" required>
@@ -119,6 +120,7 @@
             </form>
         </section>
 
+        <!-- Why Join Section -->
         <section class="why-join">
             <div class="section-title">
                 <h2>Pourquoi Nous Rejoindre ?</h2>
@@ -190,7 +192,6 @@
             <p>&copy; 2023 L'Oasis Spa & Coiffure. Tous droits réservés.</p>
         </div>
     </footer>
-
     <script src="js/recruitment.js"></script>
 </body>
 </html>

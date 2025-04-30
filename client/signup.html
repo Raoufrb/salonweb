@@ -5,90 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un Compte - L'Oasis Spa & Coiffure</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../client/Css/signup.css">
 </head>
 <body>
     <div class="container">
         <div class="form-container">
-            <div class="logo">
-                <h1>L'Oasis Spa & Coiffure</h1>
-                <p>Détente, Style & Raffinement</p>
-            </div>
-            
             <form id="signupForm">
                 <div class="form-group">
                     <label for="fullname">Nom Complet</label>
-                    <div class="input-icon">
-                        <input type="text" id="fullname" name="fullname" required>
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <small id="err-fullname" class="error-msg" style="display: none;">
-                        Suivre le format: Prénom Nom (e.g., Jean Dupont)
-                    </small>
+                    <input type="text" id="fullname" name="fullname" required>
                 </div>
-
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <div class="input-icon">
-                        <input type="email" id="email" name="email" required>
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <small id="err-email" class="error-msg" style="display: none;">
-                        Suivre le format: exemple@domain.com
-                    </small>
+                    <input type="email" id="email" name="email" required>
                 </div>
-
                 <div class="form-group">
                     <label for="phone">Téléphone</label>
-                    <div class="input-icon">
-                        <input type="tel" id="phone" name="phone" required>
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <small id="err-phone" class="error-msg" style="display: none;">
-                        Format: 0(5,6 ou 7) XX XX XX XX
-                    </small>
+                    <input type="tel" id="phone" name="phone" required>
                 </div>
-                
                 <div class="form-group">
                     <label for="password">Mot de passe</label>
-                    <div class="input-icon">
-                        <input type="password" id="password" name="password" required>
-                        <i class="fas fa-lock"></i>
-                        <span class="password-toggle" id="togglePassword">
-                            <i class="fas fa-eye"></i>
-                        </span>
-                    </div>
-                    <small id="err-password" class="error-msg" style="display: none;">
-                        Doit contenir 8+ caractères, majuscules, chiffres et symboles(@$!%*?&)
-                    </small>
+                    <input type="password" id="password" name="password" required>
                 </div>
-
                 <div class="form-group">
                     <label for="confirm-password">Confirmer Mot de passe</label>
-                    <div class="input-icon">
-                        <input type="password" id="confirm-password" name="confirm-password" required>
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <small id="err-confirm-password" class="error-msg" style="display: none;">
-                        Les mots de passe ne correspondent pas
-                    </small>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
                 </div>
-
-                <small id="err-general" class="error-msg" style="display: none; text-align: center;">
-                    Veuillez remplir tous les champs correctement.
-                </small>
-                
+                <small id="err-confirm-password" style="display: none; color: red;">Les mots de passe ne correspondent pas</small>
                 <button type="submit" class="btn">Créer un Compte</button>
-                
-                <div class="login-link">
-                    Vous avez déjà un compte? <a href="login.html">Se connecter</a>
-                </div>
             </form>
         </div>
     </div>
-
-    <script type="text/javascript" src="jquery.js"></script>
-    <script src="signup.js"></script>
+    <script src="js/signup.js"></script>
 </body>
 </html>

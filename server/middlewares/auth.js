@@ -1,25 +1,20 @@
-// Vérification JWT (client/employé)
-function handleSuccessfulLogin(userData) {
-    // Store login state and user data
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userData', JSON.stringify(userData));
-    
-    // Redirect to profile page
-    window.location.href = 'profile.html';
+import jwt from 'jsonwebtoken';
+
+export function auth(req, res, next) {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ error: 'Accès non autorisé' });
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    try {
+        const decoded = jwt.verify(token, 'mySuperSecretKey123!@#'); // Replace with your JWT_SECRET
+        req.user = decoded; // Attach user info (id and role) to the request
+        next();
+    } catch (err) {
+        return res.status(403).json({ error: 'Token invalide' });
+    }
 }
 
-// Update your login form submission to call handleSuccessfulLogin
-document.getElementById('login-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Your existing login logic...
-    // On successful login:
-    const userData = {
-        username: document.getElementById('username').value,
-        fullname: "Fetched from your backend", // Replace with actual data
-        email: "Fetched from your backend",    // Replace with actual data
-        phone: "Fetched from your backend"     // Replace with actual data
-    };
-    
-    handleSuccessfulLogin(userData);
-});

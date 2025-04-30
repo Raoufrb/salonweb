@@ -649,3 +649,14 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+/* Show only the first 3 product cards */
+.product-grid .product-card:nth-child(n+4) {
+    display: none; /* Hide all product cards starting from the 4th */
+}
+
+/* Responsive Design: Show only 2 products on smaller screens */
+@media (max-width: 768px) {
+    .product-grid .product-card:nth-child(n+3) {
+        display: none; /* Hide all product cards starting from the 3rd */
+    }
+}

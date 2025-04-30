@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Profil</title>
-    <link rel="stylesheet" href="../client/Css/style.css">
-    <link rel="stylesheet" href="../client/Css/profile.css">
+    <link rel="stylesheet" href="Css/style.css">
+    <link rel="stylesheet" href="Css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -13,23 +13,27 @@
 
     <main class="profile-section">
         <div class="profile-container">
+            <!-- Profile Header -->
             <div class="profile-header">
                 <div class="profile-avatar">
                     <i class="fas fa-user-circle" style="font-size: 5rem; color: var(--primary);"></i>
                 </div>
-                <h1 style="color: var(--primary);">Welcome, <span id="username-display">User</span></h1>
+                <h1 style="color: var(--primary);">Bienvenue, <span id="username-display">User</span></h1>
             </div>
             
-            <div class="profile-details" s>
-                <div class="detail-card" >
+            <!-- Profile Details -->
+            <div class="profile-details">
+                <!-- Personal Information -->
+                <div class="detail-card">
                     <h2>
-                        <i class="fas fa-info-circle"></i> Informations Personelles
+                        <i class="fas fa-info-circle"></i> Informations Personnelles
                     </h2>
                     <p><strong>Nom:</strong> <span id="user-fullname">John Doe</span></p>
                     <p><strong>Email:</strong> <span id="user-email">john@example.com</span></p>
-                    <p><strong>Numero de Telephone:</strong> <span id="user-phone">+1234567890</span></p>
+                    <p id="phone-container"><strong>Numéro de Téléphone:</strong> <span id="user-phone">+1234567890</span></p>
                 </div>
                 
+                <!-- Appointments -->
                 <div class="detail-card">
                     <h2>
                         <i class="fas fa-calendar-alt"></i> Rendez-vous
@@ -38,19 +42,30 @@
                         <p>Aucun Rendez-vous</p>
                     </div>
                 </div>
-                
+
+                <!-- Orders (Clients Only) -->
+                <div class="detail-card" id="orders-section" style="display: none;">
+                    <h2>
+                        <i class="fas fa-shopping-cart"></i> Commandes
+                    </h2>
+                    <div id="orders-list">
+                        <p>Aucune Commande</p>
+                    </div>
+                </div>
+
+                <!-- Account Settings -->
                 <div class="detail-card">
                     <h2>
-                        <i class="fas fa-cog"></i> Parametres du compte
+                        <i class="fas fa-cog"></i> Paramètres du Compte
                     </h2>
                     <button class="profile-action-btn" id="edit-profile-btn" style="background-color: var(--secondary);">
                         <i class="fas fa-user-edit"></i> Modifier Nom
                     </button>
                     <button class="profile-action-btn" id="change-password-btn" style="background-color: var(--primary); margin-top: 0.8rem;">
-                        <i class="fas fa-key"></i> Changer Mot de passe
+                        <i class="fas fa-key"></i> Changer Mot de Passe
                     </button>
                     <button class="profile-action-btn" id="logout-btn" style="background-color: #d32f2f; margin-top: 0.8rem;">
-                        <i class="fas fa-sign-out-alt"></i> Se deconnecter
+                        <i class="fas fa-sign-out-alt"></i> Se Déconnecter
                     </button>
                 </div>
             </div>
@@ -61,9 +76,9 @@
         <div class="footer-container">
             <div class="footer-col">
                 <h3>Liens Rapides</h3>
-                <a href="index.html">Home</a>
+                <a href="index.html">Accueil</a>
                 <a href="services.html">Services</a>
-                <a href="about.html">About Us</a>
+                <a href="about.html">À Propos</a>
                 <a href="contact.html">Contact</a>
             </div>
             <div class="footer-col">
@@ -73,7 +88,7 @@
                 <p><i class="fas fa-envelope"></i> info@salonweb.com</p>
             </div>
             <div class="footer-col">
-                <h3>Follow Us</h3>
+                <h3>Suivez-nous</h3>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
@@ -82,11 +97,10 @@
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2023 Salon Web. All Rights Reserved.</p>
+            <p>&copy; 2023 Salon Web. Tous Droits Réservés.</p>
         </div>
     </footer>
 
-    <script src="js/auth.js"></script>
     <script src="js/profile.js"></script>
 </body>
 </html>

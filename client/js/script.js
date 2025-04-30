@@ -68,3 +68,39 @@ document.querySelector('.cta-btn').addEventListener('click', () => {
     alert('Découvrez nos disponibilités et réservez votre créneau en ligne.');
     window.location.href = 'login.html';
 });
+
+// Fetch all products from the API and render them
+async function fetchAndRenderAllProducts() {
+    try {
+      const response = await fetch('/api/products'); // Fetch all products from the backend API
+      const products = await response.json();
+  
+      const productGrid = document.getElementById('productGrid');
+      productGrid.innerHTML = ''; // Clear any existing content
+  
+      // Loop through the products and create product cards
+      products.forEach(product => {
+        const productCard = `
+          <div class="product-card">
+            <div class="product-img">
+              <img src="/uploads/products/${product.image}" alt="${product.name}">
+            </div>
+            <div class="product-info">
+              <h3>${product.name}</h3>
+              <p>${product.description}</p>
+              <div class="product-meta">
+                <span class="price">${product.price}€</span>
+                <button class="shop-btn">Voir produit</button>
+              </div>
+            </div>
+          </div>
+        `;
+        productGrid.innerHTML += productCard; // Append the product card to the grid
+      });
+    } catch (err) {
+      console.error('Erreur lors de la récupération des produits:', err.message);
+    }
+  }
+  
+  // Call the function to fetch and render all products
+  fetchAndRenderAllProducts();

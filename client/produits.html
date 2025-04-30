@@ -1,97 +1,24 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boutique | L'Oasis Spa & Coiffure</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../client/Css/products.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nos Produits – L'Oasis Spa</title>
+  <link rel="stylesheet" href="css/products.css" />
 </head>
 <body>
-    <!-- Header with Cart -->
-    <header>
-        <nav>
-            <div class="logo">
-                <img src="../client/assets/images/logo.png" alt="L'Oasis Logo">
-            </div>
-            <div class="nav-links">
-                <a href="index.html">Accueil</a>
-                <a href="index.html#services">Services</a>
-                <a href="products.html" class="active">Boutique</a>
-                <a href="index.html#contact">Contact</a>
-            </div>
-            <div class="cart-icon" id="cartToggle">
-                <i class="fas fa-shopping-bag"></i>
-                <span class="cart-count">0</span>
-            </div>
-            <button class="login-btn">Connexion</button>
-        </nav>
-    </header>
 
-    <!-- Main Products Section -->
-    <main class="products-main">
-        <div class="section-title">
-            <h2>Notre Boutique</h2>
-            <p>Produits professionnels pour votre routine beauté à domicile</p>
-        </div>
+  <header>
+    <h1>Nos Produits</h1>
+    <input type="text" id="searchInput" placeholder="🔍 Rechercher un produit...">
+  </header>
 
-        <!-- Product Filters -->
-        <div class="product-filters">
-            <div class="filter-group">
-                <h4>Catégories</h4>
-                <div class="filter-options">
-                    <button class="filter-btn active" data-category="all">Tous</button>
-                    <button class="filter-btn" data-category="hair">Cheveux</button>
-                    <button class="filter-btn" data-category="skin">Soin Visage</button>
-                    <button class="filter-btn" data-category="body">Corps</button>
-                </div>
-            </div>
-            <div class="filter-group">
-                <h4>Prix</h4>
-                <div class="filter-options">
-                    <button class="filter-btn active" data-price="all">Tous</button>
-                    <button class="filter-btn" data-price="0-30">Moins de 30€</button>
-                    <button class="filter-btn" data-price="30-50">30€ - 50€</button>
-                    <button class="filter-btn" data-price="50+">50€+</button>
-                </div>
-            </div>
-            <div class="filter-group">
-                <h4>Trier par</h4>
-                <div class="filter-options">
-                    <button class="filter-btn" data-sort="popular">Populaire</button>
-                    <button class="filter-btn active" data-sort="price-asc">Prix croissant</button>
-                    <button class="filter-btn" data-sort="price-desc">Prix décroissant</button>
-                </div>
-            </div>
-        </div>
+  <section id="productGrid" class="product-grid">
+    <!-- Les produits seront insérés ici dynamiquement par JavaScript -->
+  </section>
 
-        <!-- Product Grid -->
-        <div class="product-grid" id="productGrid">
-            <!-- Products will be inserted here by JavaScript -->
-        </div>
-    </main>
-
-    <!-- Cart Sidebar -->
-    <div class="cart-overlay" id="cartOverlay"></div>
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h3>Votre Panier</h3>
-            <button id="closeCart"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="cart-items" id="cartItems">
-            <!-- Cart items will appear here -->
-            <div class="empty-cart">
-                <p>Votre panier est vide</p>
-                <a href="products.html" class="view-all-btn">Parcourir la boutique</a>
-            </div>
-        </div>
-        <div class="cart-total">
-            Total: <span id="cartTotal">0€</span>
-        </div>
-        <button class="checkout-btn">Passer la Commande</button>
-    </div>
-    
-    <script type="text/javascript" src="../client/js/products.js"></script>
+  <!-- Scripts externes -->
+  <script src="js/products.js"></script>
+  <script src="js/panier.js"></script>
 </body>
 </html>

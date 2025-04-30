@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prendre Rendez-vous</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Css/rdv.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html"><img src="assets/images/logo.png" alt="L'Oasis Logo"></a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="rdv-section">
+        <div class="rdv-container">
+            <h1>Prendre Rendez-vous</h1>
+            <div class="service-details">
+                <h2 id="service-name">Service: Coupe Femme</h2>
+                <p id="service-price">Prix: À partir de 45€</p>
+            </div>
+
+            <form id="rdv-form">
+                <div class="form-group">
+                    <label for="nom">Nom & Prénom</label>
+                    <input type="text" id="nom" name="nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="tel">Téléphone</label>
+                    <input type="tel" id="tel" name="tel" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="heure">Heure</label>
+                    <input type="time" id="heure" name="heure" required>
+                </div>
+                <input type="hidden" id="service" name="service">
+                <button type="submit" class="submit-btn">Confirmer</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="js/rdv.js"></script>
+</body>
+</html>
