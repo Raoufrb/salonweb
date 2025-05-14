@@ -65,3 +65,10 @@ orderForm.addEventListener('submit', async (e) => {
     alert('Erreur réseau');
   }
 });
+
+
+  // Simulate login (this should be replaced with actual login logic)
+  document.getElementById('login-btn').addEventListener('click', () => {
+    localStorage.setItem('isAuthenticated', 'true'); // Set user as authenticated
+    window.location.href = 'index.html'; // Redirect to home page
+  });

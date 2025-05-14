@@ -9,12 +9,31 @@ body {
     font-family: 'Montserrat', sans-serif;
     background-color: var(--light);
     color: var(--dark);
-    margin: 0;
-    padding: 0;
     background-image: url('../assets/images/background.jpeg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+}
+
+.return-home-btn {
+    background-color: var(--secondary);
+    color: white;
+    margin: 1rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.return-home-btn:hover {
+    background-color: #5a7a94;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .container {

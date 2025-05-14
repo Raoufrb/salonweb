@@ -1,1 +1,56 @@
-// Interface pour voir/valider les RDVs
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion des RDVs</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="header">
+    <a href="/admin/dashboard" class="btn btn-primary">Retour au Tableau de Bord</a>
+  </div>
+
+  <h1>📅 Gestion des RDVs</h1>
+
+  <% if (rdvs.length === 0) { %>
+    <p>Aucun RDV trouvé.</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Téléphone</th>
+          <th>Service</th>
+          <th>Date</th>
+          <th>Heure</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% rdvs.forEach(rdv => { %>
+          <tr>
+            <td><%= rdv.id %></td>
+            <td><%= rdv.nom %></td>
+            <td><%= rdv.tel %></td>
+            <td><%= rdv.service %></td>
+            <td><%= rdv.date %></td>
+            <td><%= rdv.heure %></td>
+            <td class="status <%= rdv.statut.toLowerCase() %>"><%= rdv.statut %></td>
+            <td>
+              <form action="/admin/rdvs/<%= rdv.id %>/valider" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-success">Valider</button>
+              </form>
+              <form action="/admin/rdvs/<%= rdv.id %>/refuser" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Refuser</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</body>
+</html>

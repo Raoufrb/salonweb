@@ -8,16 +8,16 @@ import {
   loginAdmin 
 } from '../controllers/adminAuth.controller.js';
 
-import { 
-  showCommandes, 
-  validerCommande, 
-  refuserCommande, 
-  passerCommande 
+import {
+  showCommandes,
+  passerCommande,
+  validerCommande,
+  refuserCommande
 } from '../controllers/commande.controller.js';
 
 import { 
   approveApplication 
-} from '../controllers/admin.Controller.js';
+} from '../controllers/admin.controller.js';
 
 import { 
   addProduct, 
@@ -26,6 +26,8 @@ import {
 } from '../models/product.model.js';
 
 import { authAdmin } from '../middlewares/authAdmin.js';
+
+
 
 const router = express.Router();
 router.use(methodOverride('_method'));
@@ -53,6 +55,9 @@ const productStorage = multer.diskStorage({
   filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
 });
 const uploadProduct = multer({ storage: productStorage });
+
+
+
 
 // ----------------- ADMIN PRODUIT CRUD -----------------
 
@@ -99,16 +104,21 @@ router.delete('/products/:id', async (req, res) => {
 });
 
 // ----------------- GESTION COMMANDES -----------------
-
-router.get('/commandes', authAdmin, showCommandes);
-router.post('/commandes/:id/valider', authAdmin, validerCommande);
-router.post('/commandes/:id/refuser', authAdmin, refuserCommande);
+// Routes for commandes
+router.get('/commandes', showCommandes); // Show all commandes
+router.post('/commandes', passerCommande); // Place a new commande
+router.put('/commandes/:id/valider', validerCommande); // Validate a commande
+router.put('/commandes/:id/refuser', refuserCommande); // Refuse a commande
 
 // ✅ Commande client directe
 router.post('/commandes', passerCommande);
 
+
+
+
 // ----------------- APPROBATION CANDIDATURE -----------------
 
 router.post('/approve-application', approveApplication);
+
 
 export default router;

@@ -660,3 +660,23 @@ footer {
         display: none; /* Hide all product cards starting from the 3rd */
     }
 }
+.auth-button-container a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 10px 20px;
+    background-color: var(--primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .auth-button-container a:hover {
+    background-color: var(--secondary);
+  }
+  
+  .auth-button-container a i {
+    font-size: 1.2rem;
+  }

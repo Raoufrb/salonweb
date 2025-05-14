@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <h1>Tableau de Bord</h1>
+
+  <div class="dashboard-metrics">
+    <div class="metric">
+      <h2>Total Commandes</h2>
+      <p><%= totalCommandes %></p>
+    </div>
+    <div class="metric">
+      <h2>Total Revenus</h2>
+      <p><%= totalRevenus %> DA</p>
+    </div>
+    <div class="metric">
+      <h2>Commandes en Attente</h2>
+      <p><%= commandesEnAttente %></p>
+    </div>
+    <div class="metric">
+      <h2>Commandes Acceptées</h2>
+      <p><%= commandesAcceptees %></p>
+    </div>
+  </div>
+
+  <div class="dashboard-links">
+    <a href="/admin/commandes" class="btn">Gérer les Commandes</a>
+    <a href="/admin/produits" class="btn">Gérer les Produits</a>
+  </div>
+</body>
+</html>

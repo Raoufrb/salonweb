@@ -1,0 +1,279 @@
+/* panier.css */
+:root {
+    --primary: #6d4e53;
+    --secondary: #6b8da9;
+    --light: #fff4f6;
+    --dark: #3a2e3d;
+    --gold: #d4af37;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--light);
+    color: var(--dark);
+    background-image: url('../assets/images/background.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(1rem);
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+/* Navigation Buttons */
+.navigation-buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+}
+
+.return-home-btn {
+    background-color: var(--secondary);
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.return-home-btn:hover {
+    background-color: #5a7a94;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* If you want it to match your gold buttons instead */
+/* .return-home-btn {
+    background-color: var(--gold);
+    color: var(--dark);
+} */
+/* Cart Table */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(0.5rem);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cart-table th {
+    background-color: var(--primary);
+    color: white;
+    padding: 1.2rem;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cart-table td {
+    padding: 1.2rem;
+    border-bottom: 1px solid rgba(58, 46, 61, 0.1);
+    vertical-align: middle;
+}
+
+.cart-table tr:last-child td {
+    border-bottom: none;
+}
+
+.cart-table tr:hover {
+    background-color: rgba(255, 244, 246, 0.5);
+}
+
+/* Product cells */
+.cart-table .product-cell {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.cart-table .product-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cart-table .product-name {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Action buttons */
+.remove-btn {
+    background-color: transparent;
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.remove-btn:hover {
+    background-color: #d32f2f;
+    color: white;
+}
+
+/* Total section */
+.total {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(0.5rem);
+    padding: 1.5rem;
+    border-radius: 15px;
+    text-align: right;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.total span {
+    color: var(--gold);
+}
+
+/* Form section */
+.form-section {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(0.5rem);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h2 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+#orderForm {
+    display: grid;
+    gap: 1.5rem;
+}
+
+#orderForm input {
+    padding: 1rem;
+    border: 1px solid rgba(58, 46, 61, 0.2);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+#orderForm input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(109, 78, 83, 0.2);
+}
+
+#orderForm button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1rem;
+}
+
+#orderForm button:hover {
+    background-color: #873947;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Empty cart message */
+.empty-cart {
+    text-align: center;
+    padding: 3rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(0.5rem);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.empty-cart p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: var(--dark);
+}
+
+.shop-btn {
+    background-color: var(--primary);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+.shop-btn:hover {
+    background-color: #873947;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cart-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .cart-table .product-cell {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .cart-table th, 
+    .cart-table td {
+        padding: 0.8rem;
+    }
+    
+    body {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #orderForm {
+        grid-template-columns: 1fr;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+}

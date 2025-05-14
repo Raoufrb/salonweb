@@ -5,6 +5,7 @@
     <title>L'Oasis Spa & Coiffure - Détente, Style & Raffinement</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="Css/style.css">
 </head>
 <body>
@@ -20,15 +21,20 @@
                 <a href="#about">À Propos</a>
                 <a href="#contact">Contact</a>
             </div>
-            <button class="login-btn">Connexion</button>
+            <div class="auth-button-container">
+                <a href="login.html" id="auth-button" class="btn btn-primary">Connexion</a>
+              </div>
         </nav>
+     
     </header>
 
     <section class="hero">
         <div class="hero-content">
             <h2>Votre Oasis de Beauté</h2>
             <p>Découvrez un univers de détente et d'élégance où chaque détail est pensé pour votre bien-être.</p>
-            <button class="cta-btn">Prendre rendez-vous</button>
+            <a href="rdv.html">
+                <button class="cta-btn">Prendre rendez-vous</button>
+              </a>              
         </div>
     </section>
 
@@ -184,7 +190,7 @@
         </div>
     
         <div class="view-all-container">
-            <a href="produits.html" class="view-all-btn">Voir tous nos produits →</a>
+            <a href="produits.html" class="view-all-btn"> Voir tous nos produits →</a>
         </div>
     </section>
     
@@ -320,5 +326,7 @@
         </div>
     </footer>
     <script type="text/javascript" src="js/script.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/service.js"></script>
 </body>
 </html>

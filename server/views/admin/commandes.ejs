@@ -1,25 +1,57 @@
-<!-- /server/views/admin/commandes.ejs -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Commandes</title>
+  <title>Liste des Commandes</title>
+  <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
+  <div class="header">
+    <a href="/admin/dashboard" class="btn btn-primary">Retour au Tableau de Bord</a>
+  </div>
+
   <h1>Liste des Commandes</h1>
 
   <% if (commandes.length === 0) { %>
     <p>Aucune commande trouvée.</p>
   <% } else { %>
-    <ul>
-      <% commandes.forEach(c => { %>
-        <li>
-          Client : <%= c.client_nom %> | 
-          Total : <%= c.total %> DA | 
-          Status : <%= c.status %>
-        </li>
-      <% }) %>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Client</th>
+          <th>Produits</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% commandes.forEach(c => { %>
+          <tr>
+            <td><%= c.id %></td>
+            <td><%= c.client_nom %></td>
+            <td>
+              <% c.produits.forEach(produit => { %>
+                <div>- <%= produit %></div>
+              <% }) %>
+            </td>
+            <td><%= c.total %> DA</td>
+            <td class="status <%= c.status.toLowerCase() %>"><%= c.status %></td>
+            <td><%= new Date(c.date).toLocaleDateString('fr-FR') %></td>
+            <td>
+              <form action="/admin/commandes/<%= c.id %>/valider" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-success">Valider</button>
+              </form>
+              <form action="/admin/commandes/<%= c.id %>/refuser" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Annuler</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
   <% } %>
 </body>
 </html>

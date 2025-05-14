@@ -146,3 +146,10 @@ async function updateRdvStatus(rdvId, statut) {
         alert('Erreur serveur.');
     }
 }
+
+
+  // Simulate logout (this should be in profile.html)
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    localStorage.removeItem('isAuthenticated'); // Remove authentication
+    window.location.href = 'index.html'; // Redirect to home page
+  });

@@ -1,23 +1,21 @@
 import { pool } from '../config/db.js';
 
-// 🔍 Liste filtrée des commandes avec nom du client
 export async function getCommandesFiltréesAvecNoms({ status, client, date }) {
   let query = `
-    SELECT c.id, c.produits, c.total, c.date, c.status, c.adresse,
-           u.nom AS client_nom
-    FROM commandes c
-    JOIN clients u ON u.id = c.client_id
-    WHERE 1=1
-  `;
+  SELECT c.id, cl.nom AS client_nom, c.produits, c.total, c.status, c.date
+  FROM commandes c
+  JOIN clients cl ON c.client_id = cl.id
+  WHERE 1=1
+`;
   const values = [];
 
-  if (status && status !== 'toutes') {
-    query += ` AND c.status = $${values.length + 1}`;
+  if (status !== 'toutes') {
+    query += ' AND c.status = $1';
     values.push(status);
   }
 
   if (client) {
-    query += ` AND LOWER(u.nom) LIKE LOWER($${values.length + 1})`;
+    query += ` AND cl.nom ILIKE $${values.length + 1}`;
     values.push(`%${client}%`);
   }
 
@@ -28,11 +26,23 @@ export async function getCommandesFiltréesAvecNoms({ status, client, date }) {
 
   query += ' ORDER BY c.date DESC';
 
-  const result = await pool.query(query, values);
-  return result.rows;
+  console.log('Executing query:', query, 'with values:', values); // Debugging log
+  try {
+    const result = await pool.query(query, values);
+    return result.rows;
+  } catch (err) {
+    console.error('❌ Erreur SQL :', err); // Log SQL errors
+    throw err;
+  }
 }
 
-// ✅ Mise à jour du statut commande
-export async function updateCommandeStatus(id, newStatus) {
-  await pool.query('UPDATE commandes SET status = $1 WHERE id = $2', [newStatus, id]);
+export async function updateCommandeStatus(id, status) {
+  const query = 'UPDATE commandes SET status = $1 WHERE id = $2';
+  try {
+    await pool.query(query, [status, id]);
+    console.log(`Commande ID ${id} updated to status: ${status}`); // Debugging log
+  } catch (err) {
+    console.error('Erreur SQL dans updateCommandeStatus:', err.message);
+    throw err;
+  }
 }

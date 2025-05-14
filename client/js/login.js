@@ -52,3 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+// Handle login button click
+  document.getElementById('login-btn').addEventListener('click', () => {
+    localStorage.setItem('isAuthenticated', 'true'); // Set user as authenticated
+    window.location.href = 'index.html'; // Redirect to home page
+  });

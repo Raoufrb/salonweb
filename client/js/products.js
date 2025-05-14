@@ -1,15 +1,21 @@
 // Function to create a product card
 function createProductCard(product, index) {
   return `
-    <div class="product-card" data-product-index="${index}">
-      <img src="/uploads/products/${product.image}" alt="${product.name}" class="product-img">
+      <div class="product-card" data-product-index="${index}">
+      <div class="product-img-container">
+        <img src="/uploads/products/${product.image}" alt="${product.name}" class="product-img">
+      </div>
       <h3 class="product-title">${product.name}</h3>
-      <p class="price">${product.price} DA</p>
-      <div class="product-description">${product.description}</div>
-      <button class="add-to-cart" data-index="${index}">Ajouter au Panier</button>
+      <div class="product-desc">${product.description}</div>
+      <span class="show-more-btn">Voir plus</span>
+      <div class="product-meta">
+        <span class="product-price">${product.price} DA</span>
+        <button class="add-to-cart">Ajouter au panier</button>
+      </div>
     </div>
   `;
 }
+
 // Fetch products from the API and render them
 async function fetchProducts() {
   try {
@@ -105,3 +111,12 @@ document.getElementById('searchInput').addEventListener('input', handleSearch);
 
 // Initial fetch of products
 fetchProducts();
+
+  // Toggle Show More / Show Less for descriptions
+  document.addEventListener("click", function(e) {
+    if (e.target.classList.contains("show-more-btn")) {
+      const desc = e.target.previousElementSibling;
+      desc.classList.toggle("expanded");
+      e.target.textContent = desc.classList.contains("expanded") ? "Voir moins" : "Voir plus";
+    }
+  });
