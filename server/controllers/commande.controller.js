@@ -4,7 +4,8 @@ import {
   updateCommandeStatus
 } from '../models/commande.model.js';
 
-// Place a new order
+
+// ✅ Placer une nouvelle commande
 export async function passerCommande(req, res) {
   try {
     const { nom, tel, adresse, produits, total } = req.body;
@@ -13,12 +14,21 @@ export async function passerCommande(req, res) {
       return res.status(400).json({ error: 'Champs requis manquants' });
     }
 
-    const clientRes = await pool.query(
-      'INSERT INTO clients(nom, tel, adresse) VALUES($1, $2, $3) RETURNING id',
-      [nom, tel, adresse]
-    );
-    const clientId = clientRes.rows[0].id;
+    let clientId = null;
 
+    // 🔐 Si l'utilisateur est connecté
+    if (req.user && req.user.role === 'client') {
+      clientId = req.user.id;
+    } else {
+      // 👤 Créer un nouveau client invité
+      const clientRes = await pool.query(
+        'INSERT INTO clients(nom, tel, adresse) VALUES($1, $2, $3) RETURNING id',
+        [nom, tel, adresse]
+      );
+      clientId = clientRes.rows[0].id;
+    }
+
+    // 🛒 Enregistrement de la commande
     await pool.query(
       'INSERT INTO commandes(client_id, produits, total, adresse) VALUES($1, $2, $3, $4)',
       [clientId, produits, total, adresse]
@@ -31,31 +41,40 @@ export async function passerCommande(req, res) {
   }
 }
 
-// Show all orders with filters
+// ✅ Affichage des commandes avec filtres
 export async function showCommandes(req, res) {
-  console.log('showCommandes called'); // Debugging log
   try {
-    const commandes = await getCommandesFiltréesAvecNoms({ status: 'toutes', client: '', date: '' });
-    console.log('Fetched commandes:', commandes); // Debugging log
+    const commandes = await getCommandesFiltréesAvecNoms({
+      status: 'toutes',
+      client: '',
+      date: ''
+    });
     res.render('admin/commandes', { commandes });
   } catch (err) {
-    console.error('❌ Erreur showCommandes :', err); // Log the error
+    console.error('❌ Erreur showCommandes :', err);
     res.status(500).send('Erreur serveur');
   }
 }
-// Validate an order
+
+// ✅ Valider une commande
 export async function validerCommande(req, res) {
   try {
     const id = req.params.id;
-    await updateCommandeStatus(id, 'acceptée');
-    res.status(200).json({ message: 'Commande acceptée ✅' });
+
+    // Mise à jour du statut
+    await pool.query('UPDATE commandes SET status = $1 WHERE id = $2', ['acceptée', id]);
+
+    // Redirection vers la page des commandes
+    res.redirect('/admin/commandes');
   } catch (err) {
-    console.error('❌ Erreur validerCommande :', err);
-    res.status(500).json({ error: 'Erreur validation' });
+    console.error('❌ Erreur validation commande :', err.message);
+    res.status(500).send('Erreur serveur');
   }
 }
 
-// Refuse an order
+
+
+// ✅ Refuser une commande
 export async function refuserCommande(req, res) {
   try {
     const id = req.params.id;

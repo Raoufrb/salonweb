@@ -11,6 +11,10 @@ import { getAllProducts } from './models/product.model.js';
 import { getCommandesFiltréesAvecNoms } from './models/commande.model.js';
 import { pool } from './config/db.js';
 import { updateCommandeStatus } from './models/commande.model.js';
+import adminServicesRouter from './routes/admin.js';
+import nodemailer from 'nodemailer';
+
+
 
 
 // Support for __dirname in ES modules
@@ -24,6 +28,8 @@ const PORT = 3001;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
+
+
 
 // 📁 View Engine Configuration
 app.set('view engine', 'ejs');
@@ -51,12 +57,54 @@ app.get('/admin/commandes', async (req, res) => {
   }
 });
 
-// 🛍️ Valider une commande
+
+// ✅ Fonction pour valider une commande
 app.post('/admin/commandes/:id/valider', async (req, res) => {
   try {
     const id = req.params.id;
-    await updateCommandeStatus(id, 'acceptée'); // Update the status to 'acceptée'
-    res.redirect('/admin/commandes'); // Redirect back to the commandes page
+
+    // 1. Mettre à jour la commande comme "acceptée"
+    await updateCommandeStatus(id, 'acceptée');
+
+    // 2. Récupérer l'email du client
+    const commandeRes = await pool.query(`
+      SELECT c.email, c.nom, c.tel, cmd.total
+      FROM commandes cmd
+      JOIN clients c ON cmd.client_id = c.id
+      WHERE cmd.id = $1
+    `, [id]);
+
+    if (commandeRes.rows.length > 0) {
+      const { email, nom, total } = commandeRes.rows[0];
+
+      // 3. Configurer le transporteur
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'fyoorr@gmail.com',
+          pass: 'brtx urty tzbs abpx' // mot de passe d’application
+        }
+      });
+
+      // 4. Contenu de l'e-mail
+      const mailOptions = {
+        from: "L'Oasis Spa <fyoorr@gmail.com>",
+        to: email,
+        subject: 'Votre commande a été acceptée ! 🎉',
+        html: `
+          <h2>Bonjour ${nom},</h2>
+          <p>Votre commande d’un montant de <strong>${total} DA</strong> a été <strong>acceptée</strong> avec succès.</p>
+          <p>📦 Elle sera traitée dans les prochains jours. Nous vous remercions de votre confiance.</p>
+          <br>
+          <p>— L’équipe de L’Oasis Spa</p>
+        `
+      };
+
+      // 5. Envoi de l'e-mail
+      await transporter.sendMail(mailOptions);
+    }
+
+    res.redirect('/admin/commandes');
   } catch (err) {
     console.error('Erreur lors de la validation de la commande:', err.message);
     res.status(500).send('Erreur serveur');
@@ -75,28 +123,50 @@ app.post('/admin/commandes/:id/refuser', async (req, res) => {
   }
 });
 
-// 🛍️ Admin Dashboard
 app.get('/admin/dashboard', async (req, res) => {
   try {
-    const totalCommandes = await pool.query('SELECT COUNT(*) FROM commandes');
-    const totalRevenus = await pool.query('SELECT SUM(total) FROM commandes WHERE status = $1', ['acceptée']);
-    const commandesEnAttente = await pool.query('SELECT COUNT(*) FROM commandes WHERE status = $1', ['en attente']);
-    const commandesAcceptees = await pool.query('SELECT COUNT(*) FROM commandes WHERE status = $1', ['acceptée']);
+    const [
+      totalCommandesRes,
+      commandesEnAttenteRes,
+      commandesAccepteesRes,
+      rdvsEnAttenteRes,
+      revenusCommandesRes,
+      revenusRDVRes
+    ] = await Promise.all([
+      pool.query('SELECT COUNT(*) FROM commandes'),
+      pool.query('SELECT COUNT(*) FROM commandes WHERE status = $1', ['en attente']),
+      pool.query('SELECT COUNT(*) FROM commandes WHERE status = $1', ['acceptée']),
+      pool.query('SELECT COUNT(*) FROM rdvs WHERE statut = $1', ['en attente']),
+      pool.query('SELECT SUM(total) FROM commandes WHERE status = $1', ['acceptée']),
+      pool.query('SELECT SUM(prix) FROM rdvs WHERE statut = $1', ['validé'])
+    ]);
+
+    const totalCommandes = totalCommandesRes.rows[0].count;
+    const commandesEnAttente = commandesEnAttenteRes.rows[0].count;
+    const commandesAcceptees = commandesAccepteesRes.rows[0].count;
+    const rdvsEnAttente = rdvsEnAttenteRes.rows[0].count;
+    const revenusCommandes = parseFloat(revenusCommandesRes.rows[0].sum || 0);
+    const revenusRDV = parseFloat(revenusRDVRes.rows[0].sum || 0);
+    const totalRevenus = revenusCommandes + revenusRDV;
 
     res.render('admin/dashboard', {
-      totalCommandes: totalCommandes.rows[0].count,
-      totalRevenus: totalRevenus.rows[0].sum || 0,
-      commandesEnAttente: commandesEnAttente.rows[0].count,
-      commandesAcceptees: commandesAcceptees.rows[0].count,
+      totalCommandes,
+      commandesEnAttente,
+      commandesAcceptees,
+      rdvsEnAttente,
+      revenusCommandes,
+      revenusRDV,
+      totalRevenus
     });
   } catch (err) {
     console.error('Erreur lors de la récupération des données du tableau de bord:', err.message);
     res.status(500).send('Erreur serveur');
   }
-});
+})
 
 // 📦 API Routes
-app.use('/api/admin', adminRoutes);
+app.use('/admin', adminRoutes);// Pour les vues admin EJS
+app.use('/api/admin', adminRoutes);// Pour l'API (si tu veux des endpoints JSON
 app.use('/api/client', clientRoutes);
 app.use('/api/employe', employeRoutes);
 app.use('/api/auth', authRoutes);
@@ -113,41 +183,20 @@ app.use('/images', express.static(path.join(__dirname, 'public/images')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
-// 🛠️ Gestion des RDVs
-app.get('/admin/rdvs', async (req, res) => {
-  try {
-    const rdvs = await pool.query('SELECT * FROM rdvs ORDER BY date, heure');
-    res.render('admin/rdv', { rdvs: rdvs.rows });
-  } catch (err) {
-    console.error('Erreur lors de la récupération des RDVs:', err.message);
-    res.status(500).send('Erreur serveur');
-  }
-});
-// ✅ Valider un RDV
-app.post('/admin/rdvs/:id/valider', async (req, res) => {
-  try {
-    const id = req.params.id;
-    await pool.query('UPDATE rdvs SET statut = $1 WHERE id = $2', ['validé', id]);
-    res.redirect('/admin/rdvs');
-  } catch (err) {
-    console.error('Erreur lors de la validation du RDV:', err.message);
-    res.status(500).send('Erreur serveur');
-  }
-});
-// ❌ Refuser un RDV
-app.post('/admin/rdvs/:id/refuser', async (req, res) => {
-  try {
-    const id = req.params.id;
-    await pool.query('UPDATE rdvs SET statut = $1 WHERE id = $2', ['refusé', id]);
-    res.redirect('/admin/rdvs');
-  } catch (err) {
-    console.error('Erreur lors du refus du RDV:', err.message);
-    res.status(500).send('Erreur serveur');
-  }
-});
+
+import serviceRoutes from './routes/api.js';
+app.use(serviceRoutes);
+
+
+app.use('/admin/services', adminServicesRouter);
 
 
 
+
+// Use the API routes
+app.use('/api', apiRoutes);
+
+app.use('/api/employe', employeRoutes);
 
 // 🚀 Start Server
 app.listen(PORT, () => {

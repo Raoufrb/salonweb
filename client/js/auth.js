@@ -1,19 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Check if the user is authenticated
-  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-
-  // Get the auth button element
   const authButton = document.getElementById('auth-button');
+  const token = localStorage.getItem('token');
 
   if (authButton) {
-    if (isAuthenticated) {
-      // If authenticated, show "Profile" button with a person icon
-      authButton.innerHTML = '<i class="fas fa-user"></i> Profil';
+    if (token) {
+      authButton.textContent = 'Profil';
       authButton.href = 'profile.html';
     } else {
-      // If not authenticated, show "Connexion" button
-      authButton.innerHTML = 'Connexion';
+      authButton.textContent = 'Connexion';
       authButton.href = 'login.html';
     }
   }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const rdvBtn = document.getElementById('rdv-btn');
+
+  rdvBtn.addEventListener('click', () => {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      // Utilisateur connecté → redirection vers rdv
+      window.location.href = 'rdv.html';
+    } else {
+      // Non connecté → affiche alerte + redirige vers login
+      alert('Veuillez vous connecter pour prendre un rendez-vous.');
+      window.location.href = 'login.html';
+    }
+  });
 });

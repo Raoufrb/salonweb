@@ -1,136 +1,122 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements
-    const rdvForm = document.getElementById('rdvForm');
-    const serviceSelect = document.getElementById('service');
-    const dateInput = document.getElementById('date');
-    const timeSelect = document.getElementById('time');
-    const notesTextarea = document.getElementById('notes');
-    
-    // Summary Elements
-    const summaryService = document.getElementById('summary-service');
-    const summaryDate = document.getElementById('summary-date');
-    const summaryTime = document.getElementById('summary-time');
-    const summaryTotal = document.getElementById('summary-total');
-    
-    // Service Prices
-    const servicePrices = {
-        'coupe-femme': 45,
-        'coupe-homme': 30,
-        'coloration': 65,
-        'massage': 70,
-        'soin-visage': 55,
-        'manucure': 35,
-        'pedicure': 45,
-        'soin-barbe': 40
-    };
-    
-    // Service Names
-    const serviceNames = {
-        'coupe-femme': 'Coupe Femme',
-        'coupe-homme': 'Coupe Homme',
-        'coloration': 'Coloration',
-        'massage': 'Massage Relaxant',
-        'soin-visage': 'Soin du Visage',
-        'manucure': 'Manucure',
-        'pedicure': 'Pédicure',
-        'soin-barbe': 'Soin Barbe'
-    };
-    
-    // Set minimum date to today
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
-    
-    // Update summary when form changes
-    function updateSummary() {
-        const serviceValue = serviceSelect.value;
-        const dateValue = dateInput.value;
-        const timeValue = timeSelect.value;
-        
-        if (serviceValue) {
-            summaryService.textContent = serviceNames[serviceValue];
-            summaryTotal.textContent = servicePrices[serviceValue] + '€';
-        } else {
-            summaryService.textContent = '-';
-            summaryTotal.textContent = '0€';
-        }
-        
-        summaryDate.textContent = dateValue ? formatDate(dateValue) : '-';
-        summaryTime.textContent = timeValue || '-';
+document.addEventListener('DOMContentLoaded', () => {
+  // Elements du DOM
+  const rdvForm = document.getElementById('rdvForm');
+  const serviceSelect = document.getElementById('service');
+  const dateInput = document.getElementById('date');
+  const timeSelect = document.getElementById('time');
+  const notesTextarea = document.getElementById('notes');
+  const authBtn = document.getElementById('rdv-auth-btn');
+
+  // Récapitulatif
+  const summaryService = document.getElementById('summary-service');
+  const summaryDate = document.getElementById('summary-date');
+  const summaryTime = document.getElementById('summary-time');
+  const summaryTotal = document.getElementById('summary-total');
+
+  // Variables globales
+  let selectedPrice = 0;
+  let selectedServiceName = '';
+
+  // Authentification utilisateur
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  const userName = localStorage.getItem('userName') || 'Client';
+  const userTel = localStorage.getItem('userTel') || '0000000000';
+
+  // Définir la date min
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.min = today;
+
+  // Peupler la liste déroulante des services
+  async function populateServices() {
+    try {
+      const res = await fetch('/api/services');
+      const services = await res.json();
+
+      serviceSelect.innerHTML = `<option value="">Sélectionnez un service</option>`;
+      services.forEach(service => {
+        const option = document.createElement('option');
+        option.value = service.name;
+        option.dataset.price = service.price;
+        option.textContent = `${service.name} (${service.price} DA)`;
+        serviceSelect.appendChild(option);
+      });
+    } catch (err) {
+      console.error('❌ Erreur chargement services:', err);
+      serviceSelect.innerHTML = `<option value="">Erreur de chargement</option>`;
     }
-    
-    // Format date to French format
-    function formatDate(dateString) {
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString('fr-FR', options);
+  }
+
+  // Mettre à jour le résumé
+  function updateSummary() {
+    const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+    selectedPrice = selectedOption?.dataset.price || 0;
+    selectedServiceName = selectedOption?.value || '-';
+
+    summaryService.textContent = selectedServiceName;
+    summaryDate.textContent = dateInput.value || '-';
+    summaryTime.textContent = timeSelect.value || '-';
+    summaryTotal.textContent = `${selectedPrice} DA`;
+  }
+
+  // Soumettre le formulaire
+  rdvForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!isAuthenticated) {
+      alert('Veuillez vous connecter pour prendre rendez-vous.');
+      return window.location.href = 'login.html';
     }
-    
-    // Form submission
-    rdvForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        if (!serviceSelect.value || !dateInput.value || !timeSelect.value) {
-            alert('Veuillez sélectionner un service, une date et une heure');
-            return;
-        }
-        
-        const rdvData = {
-            service: serviceSelect.value,
-            serviceName: serviceNames[serviceSelect.value],
-            date: dateInput.value,
-            time: timeSelect.value,
-            notes: notesTextarea.value,
-            price: servicePrices[serviceSelect.value]
-        };
-        
-        // Here you would typically send the data to your backend
-        console.log('RDV data:', rdvData);
-        
-        // For demo purposes, we'll just show an alert
-        alert(`Rendez-vous confirmé pour ${serviceNames[serviceSelect.value]} le ${formatDate(dateInput.value)} à ${timeSelect.value}\n\nNous avons hâte de vous voir !`);
-        
-        // Reset form
+
+    if (!serviceSelect.value || !dateInput.value || !timeSelect.value) {
+      return alert('Veuillez remplir tous les champs.');
+    }
+
+    const rdvData = {
+      nom: userName,
+      tel: userTel,
+      service: selectedServiceName,
+      date: dateInput.value,
+      heure: timeSelect.value,
+      statut: 'en attente',
+      prix: selectedPrice
+    };
+
+    try {
+      const res = await fetch('/api/rdvs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(rdvData)
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        alert('✅ Rendez-vous confirmé !');
         rdvForm.reset();
         updateSummary();
-    });
-    
-    // Update summary when inputs change
-    serviceSelect.addEventListener('change', updateSummary);
-    dateInput.addEventListener('change', updateSummary);
-    timeSelect.addEventListener('change', updateSummary);
-    
-    // Initialize summary
-    updateSummary();
-});
-
-// Check for URL parameters when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const serviceParam = urlParams.get('service');
-    
-    if (serviceParam) {
-        const serviceSelect = document.getElementById('service');
-        const optionToSelect = Array.from(serviceSelect.options).find(
-            option => option.value === serviceParam
-        );
-        
-        if (optionToSelect) {
-            optionToSelect.selected = true;
-            
-            // Trigger the change event to update the summary
-            const event = new Event('change');
-            serviceSelect.dispatchEvent(event);
-        }
-    }
-});
-
-
-  document.addEventListener('DOMContentLoaded', () => {
-    // Check if the user is authenticated
-    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-
-    // Redirect to login page if not authenticated
-    if (!isAuthenticated) {
-      alert('Vous devez être connecté pour accéder à cette page.');
-      window.location.href = 'login.html';
+      } else {
+        alert('❌ ' + (result.error || 'Erreur lors de l\'enregistrement'));
+      }
+    } catch (err) {
+      console.error('❌ Erreur réseau:', err.message);
+      alert('❌ Une erreur est survenue.');
     }
   });
+
+  // Mise à jour du résumé à chaque changement
+  serviceSelect.addEventListener('change', updateSummary);
+  dateInput.addEventListener('change', updateSummary);
+  timeSelect.addEventListener('change', updateSummary);
+
+  // Redirection bouton auth
+  if (authBtn) {
+    authBtn.textContent = isAuthenticated ? 'Profil' : 'Connexion';
+    authBtn.onclick = () => {
+      window.location.href = isAuthenticated ? 'profile.html' : 'login.html';
+    };
+  }
+
+  // Lancement initial
+  populateServices();
+  updateSummary();
+});

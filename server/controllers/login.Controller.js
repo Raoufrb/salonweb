@@ -1,37 +1,70 @@
-import { pool } from '../config/db.js';
+// auth.controller.js
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { pool } from '../config/db.js';
+
+const JWT_SECRET = 'mySuperSecretKey123!@#'; // Stocke ceci dans .env
 
 export async function loginUser(req, res) {
   try {
-    const { email, password } = req.body;
+    const { email, mot_de_passe } = req.body;
 
-    // Validate required fields
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Champs requis manquants' });
+    if (!email || !mot_de_passe) {
+      return res.status(400).json({ error: 'Tous les champs sont requis' });
     }
 
-    // Check if the user exists
-    const userQuery = 'SELECT * FROM clients WHERE email = $1';
-    const userResult = await pool.query(userQuery, [email]);
-    if (userResult.rows.length === 0) {
-      return res.status(400).json({ error: 'Email ou mot de passe incorrect' });
+    // Vérifie si c'est un client
+    const clientResult = await pool.query('SELECT * FROM clients WHERE email = $1', [email]);
+
+    if (clientResult.rows.length > 0) {
+      const client = clientResult.rows[0];
+      const isMatch = await bcrypt.compare(mot_de_passe, client.mot_de_passe);
+
+      if (!isMatch) {
+        return res.status(401).json({ error: 'Mot de passe incorrect' });
+      }
+
+      const token = jwt.sign({ id: client.id, role: 'client' }, JWT_SECRET, { expiresIn: '1d' });
+
+      return res.status(200).json({
+        message: 'Connexion client réussie',
+        token,
+        role: 'client',
+        client: {
+          nom: client.nom,
+          tel: client.tel,
+          email: client.email
+        }
+      });
     }
 
-    const user = userResult.rows[0];
+    // Vérifie si c'est un employé
+    const employeResult = await pool.query('SELECT * FROM employes WHERE email = $1', [email]);
 
-    // Compare the password
-    const isPasswordValid = await bcrypt.compare(password, user.mot_de_passe);
-    if (!isPasswordValid) {
-      return res.status(400).json({ error: 'Email ou mot de passe incorrect' });
+    if (employeResult.rows.length > 0) {
+      const employe = employeResult.rows[0];
+      const isMatch = await bcrypt.compare(mot_de_passe, employe.mot_de_passe);
+
+      if (!isMatch) {
+        return res.status(401).json({ error: 'Mot de passe incorrect' });
+      }
+
+      const token = jwt.sign({ id: employe.id, role: 'employe' }, JWT_SECRET, { expiresIn: '1d' });
+
+      return res.status(200).json({
+        message: 'Connexion employé réussie',
+        token,
+        role: 'employe',
+        employe: {
+          nom: employe.nom,
+          email: employe.email
+        }
+      });
     }
 
-    // Generate a JWT token
-    const token = jwt.sign({ id: user.id, email: user.email }, 'your_jwt_secret', { expiresIn: '1h' });
-
-    res.status(200).json({ message: 'Connexion réussie', token });
+    return res.status(404).json({ error: 'Utilisateur non trouvé' });
   } catch (err) {
-    console.error('Erreur lors de la connexion:', err.message);
-    res.status(500).json({ error: 'Erreur serveur' });
+    console.error('❌ Erreur login:', err.message);
+    return res.status(500).json({ error: 'Erreur serveur' });
   }
 }

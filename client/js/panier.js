@@ -2,10 +2,14 @@ const cartTableBody = document.querySelector('#cartTable tbody');
 const totalAmountEl = document.getElementById('totalAmount');
 const orderForm = document.getElementById('orderForm');
 
+// Retrieve the cart from localStorage
 let panier = JSON.parse(localStorage.getItem('panier')) || [];
 
+// Function to update the cart display
 function updateCartDisplay() {
-  cartTableBody.innerHTML = '';
+  const cartTableBody = document.getElementById('cartTableBody');
+  const totalAmountEl = document.getElementById('totalAmount');
+  cartTableBody.innerHTML = ''; // Clear the table body
   let total = 0;
 
   panier.forEach((prod, index) => {
@@ -22,12 +26,14 @@ function updateCartDisplay() {
   totalAmountEl.textContent = total.toFixed(2) + ' DA';
 }
 
+// Function to remove a product from the cart
 function removeProduct(index) {
-  panier.splice(index, 1);
-  localStorage.setItem('panier', JSON.stringify(panier));
-  updateCartDisplay();
+  panier.splice(index, 1); // Remove the product from the cart
+  localStorage.setItem('panier', JSON.stringify(panier)); // Update localStorage
+  updateCartDisplay(); // Update the cart display
 }
 
+// Call updateCartDisplay when the page loads
 updateCartDisplay();
 
 orderForm.addEventListener('submit', async (e) => {
@@ -37,6 +43,8 @@ orderForm.addEventListener('submit', async (e) => {
   const phone = document.getElementById('clientPhone').value.trim();
   const address = document.getElementById('clientAddress').value.trim();
   const produits = panier.map(p => p.name);
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
 
   if (!name || !phone || !address || produits.length === 0) {
     alert('Veuillez remplir tous les champs et ajouter au moins un produit.');
@@ -49,7 +57,10 @@ orderForm.addEventListener('submit', async (e) => {
   try {
     const res = await fetch('http://localhost:3001/api/commandes', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
       body: JSON.stringify(data)
     });
 

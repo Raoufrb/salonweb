@@ -16,7 +16,7 @@ import {
 } from '../controllers/commande.controller.js';
 
 import { 
-  approveApplication 
+  approveApplication,listApplications, rejectApplication  
 } from '../controllers/admin.controller.js';
 
 import { 
@@ -28,6 +28,25 @@ import {
 import { authAdmin } from '../middlewares/authAdmin.js';
 
 
+import {
+  listServices,
+  addService,
+  updateService,
+  deleteService
+} from '../controllers/adminServices.controller.js';
+
+import { listRdvs, validerRdv, refuserRdv } from '../controllers/rdvs.controller.js';
+
+import {
+  listEmployes,
+  createEmploye,
+  deleteEmploye
+} from '../controllers/employe.controller.js';
+
+import {
+  getAllContacts,
+  sendReply
+} from '../controllers/contact.controller.js';
 
 const router = express.Router();
 router.use(methodOverride('_method'));
@@ -57,6 +76,11 @@ const productStorage = multer.diskStorage({
 const uploadProduct = multer({ storage: productStorage });
 
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/services'),
+  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
+});
+const upload = multer({ storage });
 
 
 // ----------------- ADMIN PRODUIT CRUD -----------------
@@ -115,10 +139,61 @@ router.post('/commandes', passerCommande);
 
 
 
-
+// 📩 Contacts
+router.get('/contacts', getAllContacts); // Show messages
+router.post('/contacts/reply', sendReply); // Send reply & delete
 // ----------------- APPROBATION CANDIDATURE -----------------
 
 router.post('/approve-application', approveApplication);
+router.get('/recruitment', listApplications);
 
+
+router.post('/recruitment/:id/approve', approveApplication);
+router.post('/recruitment/:id/reject', rejectApplication);
+
+// Define the route handler for GET requests to '/'
+//router.get('/', (req, res) => {
+  //res.send('Admin Services Page');
+//});
+
+
+
+// ----------------- SERVICES ROUTES -----------------
+
+// GET /admin/services
+router.get('/', async (req, res) => {
+  try {
+    const services = await listServices();
+    res.render('admin/service', { services });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Erreur serveur');
+  }
+});
+
+// POST /admin/services
+router.post('/', upload.single('image'), addService);
+
+// PUT /admin/services/:id
+router.put('/:id', upload.single('image'), updateService);
+
+// DELETE /admin/services/:id
+router.delete('/:id', deleteService);
+
+
+
+// ----------------- RDV ROUTES -----------------
+
+// ----------------- RDV ADMIN ROUTES -----------------
+
+// RDVs (Gestion Admin)
+router.get('/rdvs', listRdvs);
+router.post('/rdvs/:id/valider', validerRdv);
+router.post('/rdvs/:id/refuser', refuserRdv);
+
+router.get('/employes', listEmployes);
+router.post('/employes', createEmploye);
+router.delete('/employes/:id', deleteEmploye);
 
 export default router;
+

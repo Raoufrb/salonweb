@@ -1,151 +1,83 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prendre Rendez-vous - L'Oasis Spa & Coiffure</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/rdv.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prendre Rendez-vous - L'Oasis Spa</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/rdv.css" />
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">
-                <img src="assets/images/logo.png" alt="L'Oasis Logo">
-            </div>
-            <div class="nav-links">
-                <a href="index.html#services">Services</a>
-                <a href="index.html#products">Produits</a>
-                <a href="index.html#testimonials">Témoignages</a>
-                <a href="index.html#about">À Propos</a>
-                <a href="index.html#contact">Contact</a>
-            </div>
-            <button class="login-btn">Connexion</button>
-        </nav>
-    </header>
 
-    <section class="rdv-hero">
-        <div class="rdv-hero-content">
-            <h2>Réservez Votre Moment de Détente</h2>
-            <p>Choisissez parmi nos services exceptionnels et réservez votre créneau</p>
-        </div>
-    </section>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="assets/images/logo.png" alt="L'Oasis Spa" />
+      </div>
+      <div class="nav-links">
+        <a href="index.html#services">Services</a>
+        <a href="index.html#products">Produits</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <button id="rdv-auth-btn" class="login-btn">Connexion</button>
+    </nav>
+  </header>
 
-    <section class="rdv-container">
-        <div class="rdv-form-container">
-            <h2><i class="fas fa-calendar-alt"></i> Prendre Rendez-vous</h2>
-            
-            <form id="rdvForm">
-                <div class="form-group">
-                    <label for="service">Service</label>
-                    <select id="service" required>
-                        <option value="">Sélectionnez un service</option>
-                        <option value="coupe-femme">Coupe Femme (45€)</option>
-                        <option value="coupe-homme">Coupe Homme (30€)</option>
-                        <option value="coloration">Coloration (65€)</option>
-                        <option value="massage">Massage Relaxant (70€)</option>
-                        <option value="soin-visage">Soin du Visage (55€)</option>
-                        <option value="manucure">Manucure (35€)</option>
-                        <option value="pedicure">Pédicure (45€)</option>
-                        <option value="soin-barbe">Soin Barbe (40€)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="date">Date</label>
-                    <input type="date" id="date" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="time">Heure</label>
-                    <select id="time" required>
-                        <option value="">Sélectionnez une heure</option>
-                        <option value="09:00">09:00</option>
-                        <option value="10:00">10:00</option>
-                        <option value="11:00">11:00</option>
-                        <option value="12:00">12:00</option>
-                        <option value="14:00">14:00</option>
-                        <option value="15:00">15:00</option>
-                        <option value="16:00">16:00</option>
-                        <option value="17:00">17:00</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="notes">Notes supplémentaires</label>
-                    <textarea id="notes" rows="3" placeholder="Précisez vos préférences..."></textarea>
-                </div>
-
-                <button type="submit" class="rdv-submit-btn">Confirmer le Rendez-vous</button>
-            </form>
+  <section class="rdv-container">
+    <div class="rdv-form-container">
+      <h2>📅 Prendre Rendez-vous</h2>
+      <form id="rdvForm">
+        <div class="form-group">
+          <label for="service">Service</label>
+          <select id="service" name="service" required>
+            <option value="">Chargement des services...</option>
+          </select>
         </div>
 
-        <div class="rdv-summary">
-            <h3><i class="fas fa-receipt"></i> Récapitulatif</h3>
-            <div class="summary-content">
-                <div class="summary-item">
-                    <span>Service:</span>
-                    <span id="summary-service">-</span>
-                </div>
-                <div class="summary-item">
-                    <span>Date:</span>
-                    <span id="summary-date">-</span>
-                </div>
-                <div class="summary-item">
-                    <span>Heure:</span>
-                    <span id="summary-time">-</span>
-                </div>
-                <div class="summary-item total">
-                    <span>Total:</span>
-                    <span id="summary-total">0€</span>
-                </div>
-            </div>
+        <div class="form-group">
+          <label for="date">Date</label>
+          <input type="date" id="date" name="date" required />
         </div>
-    </section>
 
-    <footer id="contact">
-        <div class="footer-container">
-            <div class="footer-col">
-                <h3>L'Oasis Spa & Coiffure</h3>
-                <p>Détente, Style & Raffinement depuis 2015. Votre oasis de bien-être au cœur de la ville.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                </div>
-            </div>
-
-            <div class="footer-col">
-                <h3>Horaires</h3>
-                <p>Lundi/Mercredi: 9h-19h</p>
-                <p>Mardi/Jeudi: 10h-20h</p>
-                <p>Samedi: 17h-20h</p>
-                <p>Dimanche: 10h-15h</p>
-            </div>
-
-            <div class="footer-col">
-                <h3>Informations</h3>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Rue de la Paix, 75000 Paris</p>
-                <p><i class="fas fa-phone"></i> +33 1 23 45 67 89</p>
-                <p><i class="fas fa-envelope"></i> contact@loasis-spa.com</p>
-            </div>
-
-            <div class="footer-col">
-                <h3>Contacter-nous</h3>
-                <p>Besoin de nous écrire directement ?</p>
-                <button class="cta-btn" onclick="window.location.href='contact.html'">Nous contacter</button>
-            </div>
+        <div class="form-group">
+          <label for="time">Heure</label>
+          <select id="time" name="heure" required>
+            <option value="">Sélectionnez une heure</option>
+            <option value="09:00">09:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+          </select>
         </div>
-        <div class="copyright">
-            <p>&copy; 2023 L'Oasis Spa & Coiffure. Tous droits réservés.</p>
+
+        <div class="form-group">
+          <label for="notes">Notes</label>
+          <textarea id="notes" name="notes" rows="3" placeholder="Préférences ou remarques..."></textarea>
         </div>
-    </footer>
-    
 
+        <button type="submit" class="rdv-submit-btn">Confirmer le Rendez-vous</button>
+      </form>
+    </div>
 
-    <script src="js/rdv.js"></script>
- 
+    <div class="rdv-summary">
+      <h3>🧾 Récapitulatif</h3>
+      <div class="summary-content">
+        <div class="summary-item"><span>Service :</span> <span id="summary-service">-</span></div>
+        <div class="summary-item"><span>Date :</span> <span id="summary-date">-</span></div>
+        <div class="summary-item"><span>Heure :</span> <span id="summary-time">-</span></div>
+        <div class="summary-item total"><span>Total :</span> <span id="summary-total">0 DA</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2024 L'Oasis Spa. Tous droits réservés.</p>
+  </footer>
+
+  <script src="js/rdv.js"></script>
 </body>
 </html>

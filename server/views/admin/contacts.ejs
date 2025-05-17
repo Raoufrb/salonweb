@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📩 Messages de Contact</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #9c8378;
+      --secondary-color: #eae0d5;
+      --accent-color: #c19a6b;
+      --text-color: #4a4a4a;
+      --light-bg: #f9f7f4;
+      --header-font: 'Playfair Display', Georgia, serif;
+      --body-font: 'Montserrat', 'Segoe UI', sans-serif;
+    }
+    
+    body {
+      font-family: var(--body-font);
+      background-color: var(--light-bg);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .salon-header {
+      background-color: white;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+      padding: 15px 0;
+      position: relative;
+    }
+    
+    .salon-header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-family: var(--header-font);
+      font-size: 28px;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo i {
+      color: var(--accent-color);
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-link {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+    }
+    
+    .nav-link.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    h1, .page-title {
+      font-family: var(--header-font);
+      text-align: center;
+      color: var(--primary-color);
+      margin: 30px 0;
+      font-size: 32px;
+      font-weight: normal;
+      position: relative;
+    }
+    
+    h1::after, .page-title::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 3px;
+      background-color: var(--accent-color);
+      margin: 15px auto;
+    }
+    
+    .content-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 40px 0;
+      color: #888;
+    }
+    
+    .empty-state i {
+      font-size: 48px;
+      margin-bottom: 15px;
+      color: var(--secondary-color);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    }
+    
+    th, td {
+      padding: 16px;
+      text-align: left;
+      border-bottom: 1px solid #f0ebe6;
+    }
+    
+    th {
+      font-weight: 600;
+      color: var(--primary-color);
+      background-color: var(--secondary-color);
+      opacity: 0.8;
+    }
+    
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    tr:hover {
+      background-color: var(--light-bg);
+    }
+    
+    .replyForm {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    input, textarea {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: var(--body-font);
+    }
+    
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-color);
+    }
+    
+    .btn, button {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .btn:hover, button:hover {
+      background-color: #876d62;
+    }
+    
+    .footer {
+      text-align: center;
+      color: #888;
+      margin-top: 40px;
+      padding: 20px 0;
+      font-size: 14px;
+      border-top: 1px solid var(--secondary-color);
+    }
+    
+    @media (max-width: 768px) {
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="salon-header">
+    <div class="container">
+      <div class="logo">
+        <i class="fas fa-envelope"></i>
+        <span>L'Oasis – Votre Instant Beauté</span>
+      </div>
+      <nav class="nav-links">
+        <a href="/admin/dashboard" class="nav-link">Tableau de Bord</a>
+        <a href="/admin/contacts" class="nav-link active">Messages</a>
+        <a href="/admin/services" class="nav-link">Services</a>
+        <a href="/admin/clients" class="nav-link">Clients</a>
+        <a href="/admin/paramètres" class="nav-link">Paramètres</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="page-title">📥 Messages reçus</h1>
+    
+    <div class="content-card">
+      <% if (messages.length === 0) { %>
+        <div class="empty-state">
+          <i class="fas fa-envelope-open"></i>
+          <p>Aucun message pour le moment.</p>
+        </div>
+      <% } else { %>
+        <table>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Message</th>
+              <th>Date</th>
+              <th>Répondre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% messages.forEach((msg, index) => { %>
+              <tr>
+                <td><%= msg.name %></td>
+                <td><%= msg.email %></td>
+                <td><%= msg.phone || '-' %></td>
+                <td><%= msg.message %></td>
+                <td><%= new Date(msg.created_at).toLocaleString() %></td>
+                <td>
+                  <form class="replyForm" data-email="<%= msg.email %>">
+                    <input type="text" name="subject" placeholder="Sujet" required />
+                    <textarea name="reply" placeholder="Votre réponse" required></textarea>
+                    <button type="submit">Envoyer</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } %>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 L'Oasis Beauté - Tous droits réservés</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.replyForm').forEach(form => {
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const email = form.dataset.email;
+        const subject = form.querySelector('input[name="subject"]').value;
+        const reply = form.querySelector('textarea[name="reply"]').value;
+
+        try {
+          const res = await fetch('/admin/contacts/reply', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, subject, reply })
+          });
+
+          const result = await res.json();
+          if (res.ok) {
+            alert(result.message || '✅ Réponse envoyée !');
+            window.location.reload();
+          } else {
+            alert('❌ Erreur : ' + result.error);
+          }
+        } catch (err) {
+          alert('❌ Erreur serveur');
+          console.error(err);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

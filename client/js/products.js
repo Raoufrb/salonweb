@@ -1,7 +1,7 @@
 // Function to create a product card
 function createProductCard(product, index) {
   return `
-      <div class="product-card" data-product-index="${index}">
+    <div class="product-card" data-product-index="${index}">
       <div class="product-img-container">
         <img src="/uploads/products/${product.image}" alt="${product.name}" class="product-img">
       </div>
@@ -10,7 +10,7 @@ function createProductCard(product, index) {
       <span class="show-more-btn">Voir plus</span>
       <div class="product-meta">
         <span class="product-price">${product.price} DA</span>
-        <button class="add-to-cart">Ajouter au panier</button>
+        <button class="add-to-cart" data-index="${index}">Ajouter au panier</button>
       </div>
     </div>
   `;
@@ -22,12 +22,13 @@ async function fetchProducts() {
     const response = await fetch('/api/products');
     const products = await response.json();
 
-    // Store products globally for search functionality
+    console.log("✅ Produits récupérés :", products); // 👈 Vérifie ici
+
     window.products = products;
 
-    renderProducts(products); // Render all products initially
+    renderProducts(products);
   } catch (err) {
-    console.error('Erreur lors de la récupération des produits :', err);
+    console.error('❌ Erreur lors de la récupération des produits :', err);
     document.getElementById('productGrid').innerHTML = '<p>Erreur de chargement des produits.</p>';
   }
 }
@@ -37,26 +38,28 @@ function renderProducts(products) {
   const productGrid = document.getElementById('productGrid');
   productGrid.innerHTML = '';
 
-  if (products.length === 0) {
+  // Lire la limite depuis l’attribut data-limit
+  const limit = parseInt(productGrid.dataset.limit);
+  const visibleProducts = isNaN(limit) ? products : products.slice(0, limit);
+
+  if (visibleProducts.length === 0) {
     productGrid.innerHTML = '<p>Aucun produit disponible.</p>';
     return;
   }
 
-  const productCards = products.map((p, i) => createProductCard(p, i)).join('');
+  const productCards = visibleProducts.map((p, i) => createProductCard(p, i)).join('');
   productGrid.innerHTML = productCards;
 
-  attachCartButtons(products); // Attach cart functionality to buttons
+  attachCartButtons(visibleProducts);
 }
-
 // Attach "Ajouter au Panier" buttons to products
 function attachCartButtons(products) {
   const buttons = document.querySelectorAll('.add-to-cart');
 
-  buttons.forEach((btn) => {
+  buttons.forEach((btn, index) => {
     btn.addEventListener('click', () => {
-      const index = btn.getAttribute('data-index');
-      const selectedProduct = products[index];
-      addToCart(selectedProduct);
+      const selectedProduct = products[index]; // Get the product using the index
+      addToCart(selectedProduct.name, selectedProduct.price); // Pass name and price to addToCart
 
       // Replace button with link
       btn.outerHTML = `<a href="panier.html" class="view-cart-btn">Voir le Panier</a>`;
@@ -68,10 +71,11 @@ function attachCartButtons(products) {
 }
 
 // Add a product to the cart
-function addToCart(product) {
-  const panier = JSON.parse(localStorage.getItem('panier')) || [];
-  panier.push(product);
+function addToCart(name, price) {
+  let panier = JSON.parse(localStorage.getItem('panier')) || [];
+  panier.push({ name, price });
   localStorage.setItem('panier', JSON.stringify(panier));
+  alert(`${name} a été ajouté au panier.`);
 }
 
 // Show the floating cart preview

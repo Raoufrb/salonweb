@@ -1,61 +1,59 @@
+// public/js/login.js
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
-    const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
-
-    // Toggle password visibility
+    const togglePassword = document.getElementById('togglePassword');
+  
+    // 👁 Afficher/Masquer mot de passe
     togglePassword.addEventListener('click', () => {
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-        togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
     });
-
-    // Handle form submission
+  
     loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
-
-        // Basic validation
-        if (!email || !password) {
-            alert('Veuillez remplir tous les champs.');
-            return;
+      e.preventDefault();
+  
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+  
+      if (!email || !password) {
+        alert('Veuillez remplir tous les champs.');
+        return;
+      }
+  
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, mot_de_passe: password })
+        });
+  
+        const data = await res.json();
+  
+        if (!res.ok) {
+          alert(data.error || 'Erreur lors de la connexion.');
+          return;
         }
-
-        try {
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, mot_de_passe: password }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                alert(errorData.error || 'Erreur lors de la connexion.');
-                return;
-            }
-
-            const data = await response.json();
-
-            // Store token and role in localStorage
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('role', data.role);
-
-            // Redirect to profile page
-            window.location.href = 'profile.html';
-        } catch (err) {
-            console.error('Erreur lors de la connexion:', err.message);
-            alert('Erreur serveur.');
+  
+        // Stocke le token et le rôle
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('role', data.role);
+        localStorage.setItem('isAuthenticated', 'true');
+  
+        // Stocke les infos utilisateur
+        if (data.role === 'client') {
+          localStorage.setItem('userName', data.client.nom);
+          localStorage.setItem('userTel', data.client.tel);
+        } else if (data.role === 'employe') {
+          localStorage.setItem('userName', data.employe.nom);
         }
+  
+        // Redirige vers profil
+        window.location.href = 'profile.html';
+      } catch (err) {
+        alert('Erreur serveur.');
+        console.error(err);
+      }
     });
-});
-
-
-// Handle login button click
-  document.getElementById('login-btn').addEventListener('click', () => {
-    localStorage.setItem('isAuthenticated', 'true'); // Set user as authenticated
-    window.location.href = 'index.html'; // Redirect to home page
   });
