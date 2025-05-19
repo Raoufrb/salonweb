@@ -124,7 +124,8 @@ app.get('/admin/dashboard', async (req, res) => {
       produitTopRes,
       jourTopRes,
       heureTopRes,
-      serviceTopRes
+      serviceTopRes,
+      revenusParMoisRes
     ] = await Promise.all([
       pool.query('SELECT COUNT(*) FROM commandes'),
       pool.query('SELECT COUNT(*) FROM commandes WHERE status = $1', ['en attente']),
@@ -132,8 +133,6 @@ app.get('/admin/dashboard', async (req, res) => {
       pool.query('SELECT COUNT(*) FROM rdvs WHERE statut = $1', ['en attente']),
       pool.query('SELECT SUM(total) FROM commandes WHERE status = $1', ['acceptée']),
       pool.query('SELECT SUM(prix) FROM rdvs WHERE statut = $1', ['validé']),
-
-      // 📈 Produit le + vendu (from array of names)
       pool.query(`
         SELECT unnest(produits) AS produit, COUNT(*) AS count
         FROM commandes
@@ -141,8 +140,6 @@ app.get('/admin/dashboard', async (req, res) => {
         ORDER BY count DESC
         LIMIT 1
       `),
-
-      // 📅 Jour le plus fréquenté
       pool.query(`
         SELECT jour, COUNT(*) as total FROM (
           SELECT TO_CHAR(created_at, 'Day') AS jour FROM commandes
@@ -153,8 +150,6 @@ app.get('/admin/dashboard', async (req, res) => {
         ORDER BY total DESC
         LIMIT 1
       `),
-
-      // 🕒 Heure de pointe
       pool.query(`
         SELECT heure, COUNT(*) as total FROM (
           SELECT TO_CHAR(created_at, 'HH24') AS heure FROM commandes
@@ -165,14 +160,23 @@ app.get('/admin/dashboard', async (req, res) => {
         ORDER BY total DESC
         LIMIT 1
       `),
-
-      // 🧴 Service le + demandé
       pool.query(`
         SELECT service, COUNT(*) as total
         FROM rdvs
         GROUP BY service
         ORDER BY total DESC
         LIMIT 1
+      `),
+      // ✅ revenus grouped by month
+      pool.query(`
+        SELECT
+          TO_CHAR(created_at, 'YYYY-MM') AS month,
+          COUNT(*) AS commandes,
+          COALESCE(SUM(total), 0) AS revenus
+        FROM commandes
+        WHERE created_at >= NOW() - INTERVAL '12 months'
+        GROUP BY month
+        ORDER BY month
       `)
     ]);
 
@@ -184,11 +188,16 @@ app.get('/admin/dashboard', async (req, res) => {
     const revenusRDV = parseFloat(revenusRDVRes.rows[0].sum || 0);
     const totalRevenus = revenusCommandes + revenusRDV;
 
-    // New metrics
     const produitTop = produitTopRes.rows[0]?.produit || 'Aucun';
     const jourTop = jourTopRes.rows[0]?.jour?.trim() || 'Inconnu';
     const heureTop = heureTopRes.rows[0]?.heure || 'Inconnue';
     const serviceTop = serviceTopRes.rows[0]?.service || 'Aucun';
+
+    const revenusParJour = revenusParMoisRes.rows.map(row => ({
+      date: row.month, // YYYY-MM format
+      commandes: parseInt(row.commandes),
+      revenus: parseFloat(row.revenus)
+    }));
 
     res.render('admin/dashboard', {
       totalCommandes,
@@ -198,20 +207,17 @@ app.get('/admin/dashboard', async (req, res) => {
       revenusCommandes,
       revenusRDV,
       totalRevenus,
-
       produitTop,
       jourTop,
       heureTop,
-      serviceTop
+      serviceTop,
+      revenusParJour
     });
   } catch (err) {
-    console.error('Erreur lors de la récupération des données du tableau de bord:', err.message);
+    console.error(err);
     res.status(500).send('Erreur serveur');
   }
 });
-
-
-
 
 app.get('/admin/rdvs', async (req, res) => {
   const result = await pool.query('SELECT * FROM rdvs');

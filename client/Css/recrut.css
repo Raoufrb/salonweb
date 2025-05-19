@@ -1,26 +1,36 @@
+/* Enhanced Recruitment Page Styles */
+
+/* Return Home Button */
 .return-home-btn {
     background-color: var(--secondary);
     color: white;
-    margin: .45rem;
-    padding: 0.7rem 1.5rem;
+    margin: .5rem;
+    padding: 0.75rem 1.75rem;
     border-radius: 30px;
     text-decoration: none;
     font-weight: 600;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    gap: 0.75rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .return-home-btn:hover {
     background-color: #5a7a94;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
 }
 
+.return-home-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Hero Section */
 .recruitment-hero {
-    height: 20vh;
+    height: 30vh;
+    min-height: 250px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -28,10 +38,11 @@
     text-align: center;
     color: white;
     position: relative;
-    padding: 0 2rem;
+    padding: 2rem;
     background-image: url('../assets/images/recruitment-bg.jpg');
     background-size: cover;
     background-position: center;
+    margin-bottom: 3rem;
 }
 
 .recruitment-hero::before {
@@ -41,98 +52,131 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(58, 46, 61, 0.7);
+    background: linear-gradient(135deg, rgba(58, 46, 61, 0.85), rgba(58, 46, 61, 0.65));
     z-index: 1;
 }
 
 .recruitment-hero .hero-content {
     position: relative;
     z-index: 2;
-    max-width: 800px;
+    max-width: 900px;
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .recruitment-hero h2 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 3.25rem;
+    margin-bottom: 1.25rem;
     color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 .recruitment-hero p {
-    font-size: 1.2rem;
-    margin-bottom: 0rem;
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
     color: var(--light);
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
 }
 
+/* Positions Grid */
 .positions-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin: 3rem auto;
+    max-width: 1400px;
+    padding: 0 2rem;
 }
 
 .position-card {
     background-color: white;
-    border-radius: 15px;
-    padding: 2rem;
+    border-radius: 18px;
+    padding: 2.5rem 2rem;
     text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s ease;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .position-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-7px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    border-color: rgba(var(--primary-rgb), 0.1);
 }
 
 .position-icon {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: var(--primary);
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.position-card:hover .position-icon {
+    transform: scale(1.1);
 }
 
 .position-card h3 {
     color: var(--primary);
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
+    margin-bottom: 1.75rem;
+    font-size: 1.75rem;
+    font-weight: 600;
 }
 
 .position-details {
     text-align: left;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     list-style: none;
+    padding: 0;
+    flex-grow: 1;
 }
 
 .position-details li {
-    margin-bottom: 0.8rem;
+    margin-bottom: 1rem;
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    align-items: flex-start;
+    gap: 0.75rem;
+    line-height: 1.5;
 }
 
 .position-details i {
     color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 3px;
 }
 
-
+/* Application Form */
 .application-form-section {
-    background-color: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(.5rem);
-    padding: 3rem 2rem;
-    border-radius: 1rem;
-    margin: 3rem auto;
-    max-width: 1200px;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 4rem 3rem;
+    border-radius: 1.25rem;
+    margin: 4rem auto;
+    max-width: 1300px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .application-form {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 2.5rem;
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .form-group.full-width {
@@ -141,20 +185,23 @@
 
 .form-group label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     font-weight: 600;
     color: var(--dark);
+    font-size: 1.05rem;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
     font-family: 'Montserrat', sans-serif;
-    transition: border-color 0.3s;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
 .form-group input:focus,
@@ -162,75 +209,93 @@
 .form-group textarea:focus {
     border-color: var(--primary);
     outline: none;
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.15);
+    background-color: white;
+}
+
+.form-group textarea {
+    min-height: 150px;
+    resize: vertical;
 }
 
 .form-submit {
     grid-column: 1 / -1;
     text-align: center;
-    margin-top: 1rem;
+    margin-top: 2rem;
 }
 
 .submit-btn {
     background-color: var(--gold);
     color: var(--dark);
     border: none;
-    padding: 1rem 2rem;
+    padding: 1.1rem 2.5rem;
     border-radius: 30px;
     cursor: pointer;
     font-weight: 600;
-    transition: all 0.3s;
-    font-size: 1.1rem;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
 .submit-btn:hover {
     background-color: #e6c260;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
+.submit-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Benefits Grid */
 .benefits-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    margin: 3rem auto;
+    max-width: 1400px;
+    padding: 0 2rem;
 }
 
 .benefit-card {
     text-align: center;
-    padding: 2rem;
+    padding: 2.5rem 2rem;
     background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    height: 100%;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .benefit-card i {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: var(--gold);
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.benefit-card:hover i {
+    transform: scale(1.1);
 }
 
 .benefit-card h3 {
     color: var(--primary);
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .benefit-card p {
     color: var(--dark);
-    line-height: 1.6;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .recruitment-hero h2 {
-        font-size: 2.2rem;
-    }
-    
-    .recruitment-hero p {
-        font-size: 1rem;
-    }
-    
-    .application-form {
-        grid-template-columns: 1fr;
-    }
+    line-height: 1.7;
+    font-size: 1.05rem;
 }

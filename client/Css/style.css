@@ -560,7 +560,7 @@ nav {
 
 /* Image container with gradient overlay - smaller height */
 .product-img-container {
-    height: 220px;
+    height: 300px;
     overflow: hidden;
     position: relative;
 }
