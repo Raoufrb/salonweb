@@ -1,7 +1,7 @@
 import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
 
-// 📋 Liste des employés
+// ✅ List all employees
 export async function listEmployes(req, res) {
   try {
     const result = await pool.query('SELECT id, nom, email FROM employes ORDER BY id DESC');
@@ -12,19 +12,19 @@ export async function listEmployes(req, res) {
   }
 }
 
-// ➕ Ajouter un employé
+// ✅ Add a new employee
 export async function createEmploye(req, res) {
   const { nom, email, mot_de_passe } = req.body;
 
   if (!nom || !email || !mot_de_passe) {
-    return res.status(400).send("❌ Tous les champs sont requis.");
+    return res.status(400).send('❌ Tous les champs sont requis.');
   }
 
   try {
-    // Vérifie si l'email existe déjà
+    // Check if the email already exists
     const existing = await pool.query('SELECT * FROM employes WHERE email = $1', [email]);
     if (existing.rows.length > 0) {
-      return res.status(400).send("❌ Cet email est déjà utilisé.");
+      return res.status(400).send('❌ Cet email est déjà utilisé.');
     }
 
     const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
@@ -41,7 +41,7 @@ export async function createEmploye(req, res) {
   }
 }
 
-// ❌ Supprimer un employé
+// ❌ Delete an employee
 export async function deleteEmploye(req, res) {
   const { id } = req.params;
 
@@ -50,6 +50,6 @@ export async function deleteEmploye(req, res) {
     res.redirect('/admin/employes');
   } catch (err) {
     console.error('❌ Erreur suppression employé:', err.message);
-    res.status(500).send("Erreur lors de la suppression.");
+    res.status(500).send('Erreur lors de la suppression.');
   }
 }

@@ -1,12 +1,10 @@
 import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
 
+// ✅ Signup a new user
 export async function signupUser(req, res) {
   try {
     const { fullname, email, phone, password } = req.body;
-
-    // Debugging log
-    console.log("Signup request received:", req.body);
 
     // Validate required fields
     if (!fullname || !email || !password) {
@@ -31,10 +29,9 @@ export async function signupUser(req, res) {
     `;
     const result = await pool.query(insertUserQuery, [fullname, email, hashedPassword, phone]);
 
-    console.log("User created:", result.rows[0]); // Debug log
     res.status(201).json({ message: 'Utilisateur créé avec succès', user: result.rows[0] });
   } catch (err) {
-    console.error('Erreur lors de l\'inscription:', err.message);
+    console.error('❌ Erreur lors de l\'inscription:', err.message);
     res.status(500).json({ error: 'Erreur serveur' });
   }
 }

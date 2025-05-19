@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>✂️ L'Oasis - Gestion des RDVs</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap">
   <style>
-    :root {
+   :root {
       --primary-color: #9c8378;
       --secondary-color: #eae0d5;
       --accent-color: #c19a6b;
@@ -80,6 +81,7 @@
       background-color: var(--primary-color);
       color: white;
     }
+    
     
     .page-title {
       font-family: var(--header-font);
@@ -352,72 +354,61 @@
   <header class="salon-header">
     <div class="container">
       <div class="logo">
-        <i class="fas fa-spa"></i>
+        <i class="fas fa-users"></i>
         <span>L'Oasis – Votre Instant Beauté</span>
       </div>
       <nav class="nav-links">
-        <a href="/admin/dashboard" class="nav-link">Tableau de Bord</a>
-        <a href="/admin/rdvs" class="nav-link active">Rendez-vous</a>
+        <a href="/admin/dashboard" class="nav-link ">Tableau de Bord</a>
+        <a href="/admin/commandes" class="nav-link">Commandes</a>
+        <a href="/admin/rdvs" class="nav-link active">RDV</a>
         <a href="/admin/services" class="nav-link">Services</a>
-        <a href="/admin/clients" class="nav-link">Clients</a>
-        <a href="/admin/paramètres" class="nav-link">Paramètres</a>
+        <a href="/admin/produits" class="nav-link">Produits</a>
+        <a href="/admin/employes" class="nav-link">Employés</a> 
       </nav>
     </div>
   </header>
 
+  <!-- Main Content -->
   <div class="container">
     <h1 class="page-title">Gestion des Rendez-vous</h1>
-    
+    <!-- Dashboard Stats -->
     <div class="dashboard-stats">
       <div class="stat-card">
-        <div class="stat-icon">
-          <i class="fas fa-calendar-check"></i>
-        </div>
-        <div class="stat-value">12</div>
+        <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+        <div class="stat-value"><%= totalRdvs %></div>
+        <div class="stat-label">Total des RDVs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="stat-value"><%= acceptedRdvs %></div>
+        <div class="stat-label">RDVs acceptés</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+        <div class="stat-value"><%= todayRdvs %></div>
         <div class="stat-label">RDVs aujourd'hui</div>
       </div>
-      
       <div class="stat-card">
-        <div class="stat-icon">
-          <i class="fas fa-clock"></i>
-        </div>
-        <div class="stat-value">5</div>
-        <div class="stat-label">En attente</div>
-      </div>
-      
-      <div class="stat-card">
-        <div class="stat-icon">
-          <i class="fas fa-check-circle"></i>
-        </div>
-        <div class="stat-value">35</div>
-        <div class="stat-label">RDVs cette semaine</div>
-      </div>
-      
-      <div class="stat-card">
-        <div class="stat-icon">
-          <i class="fas fa-user-friends"></i>
-        </div>
-        <div class="stat-value">8</div>
-        <div class="stat-label">Nouveaux clients</div>
+        <div class="stat-icon"><i class="fas fa-coins"></i></div>
+        <div class="stat-value"><%= monthlyRevenue %> DA</div>
+        <div class="stat-label">Revenu ce mois</div>
       </div>
     </div>
-    
+
+    <!-- RDV List -->
     <div class="content-card">
       <div class="card-header">
         <h2 class="card-title">Liste des Rendez-vous</h2>
-        <a href="/admin/rdvs/nouveau" class="btn btn-primary">
-          <i class="fas fa-plus"></i> Nouveau RDV
-        </a>
       </div>
-      
+
+      <!-- Filters -->
       <div class="filters">
         <div class="filter-group">
-          <span class="filter-label">Filtrer par date:</span>
+          <label for="date-filter" class="filter-label">Filtrer par date:</label>
           <input type="date" class="filter-select" id="date-filter">
         </div>
-        
         <div class="filter-group">
-          <span class="filter-label">Statut:</span>
+          <label for="status-filter" class="filter-label">Statut:</label>
           <select class="filter-select" id="status-filter">
             <option value="tous">Tous</option>
             <option value="en attente">En attente</option>
@@ -426,25 +417,32 @@
             <option value="terminé">Terminé</option>
           </select>
         </div>
-        
         <div class="filter-group">
-          <span class="filter-label">Service:</span>
+          <label for="service-filter" class="filter-label">Service:</label>
           <select class="filter-select" id="service-filter">
             <option value="tous">Tous</option>
-            <option value="coupe">Coupe</option>
-            <option value="coloration">Coloration</option>
-            <option value="soin">Soin</option>
-            <option value="manucure">Manucure</option>
+            <option value="Greffe de Cheveux">Greffe de Cheveux</option>
+            <option value="Sauna">Sauna</option>
+            <option value="Hammam">Hammam</option>
+            <option value="Soin Barbe	">Soin Barbe</option>
+            <option value="Pédicure Hygiénique">Pédicure Hygiénique</option>
+            <option value="Manucure Classique">Manucure Classique</option>
+            <option value="Beauté & Esthétique">Beauté & Esthétique</option>
+            <option value="Soins du Visage">Soins du Visage</option>
+            <option value="Massage Relaxant">Massage Relaxant</option>
+            <option value="Coloration">Coloration</option>
+            <option value="Coupe Homme">Coupe Homme</option>
+            <option value="Coupe Femme">Coupe Femme</option>
+
+
+
+
           </select>
         </div>
       </div>
-      
-      <% if (typeof rdvs !== 'undefined' && rdvs.length === 0) { %>
-        <div class="empty-state">
-          <i class="fas fa-calendar-times"></i>
-          <p>Aucun rendez-vous trouvé.</p>
-        </div>
-      <% } else { %>
+
+      <!-- RDV Table -->
+      <% if (rdvs && rdvs.length > 0) { %>
         <table class="appointments-table">
           <thead>
             <tr>
@@ -459,74 +457,83 @@
             </tr>
           </thead>
           <tbody>
-            <% if (typeof rdvs !== 'undefined') { %>
-              <% rdvs.forEach(rdv => { %>
-                <tr>
-                  <td>#<%= rdv.id %></td>
-                  <td><%= rdv.nom %></td>
-                  <td><%= rdv.tel %></td>
-                  <td><span class="service-pill"><%= rdv.service %></span></td>
-                  <td>
-                    <div class="date-time">
-                      <i class="far fa-calendar-alt"></i>
-                      <%= rdv.date %>
-                    </div>
-                    <div class="date-time">
-                      <i class="far fa-clock"></i>
-                      <%= rdv.heure %>
-                    </div>
-                  </td>
-                  <td><%= rdv.prix %> DA</td>
-                  <td><span class="status <%= rdv.statut.toLowerCase().replace(' ', '.') %>"><%= rdv.statut %></span></td>
-                  <td class="action-buttons">
-                    <form action="/admin/rdvs/<%= rdv.id %>/valider" method="POST">
-                      <button type="submit" class="btn btn-success" title="Valider">
-                        <i class="fas fa-check"></i>
-                      </button>
-                    </form>
-                    <form action="/admin/rdvs/<%= rdv.id %>/refuser" method="POST">
-                      <button type="submit" class="btn btn-danger" title="Refuser">
-                        <i class="fas fa-times"></i>
-                      </button>
-                    </form>
-                    <a href="/admin/rdvs/<%= rdv.id %>/details" class="btn btn-primary" title="Détails">
-                      <i class="fas fa-eye"></i>
-                    </a>
-                  </td>
-                </tr>
-              <% }) %>
-            <% } %>
+            <% rdvs.forEach(rdv => { %>
+              <tr>
+                <td>#<%= rdv.id %></td>
+                <td><%= rdv.nom %></td>
+                <td><%= rdv.tel %></td>
+                <td><span class="service-pill"><%= rdv.service %></span></td>
+                <td>
+                  <div class="date-time">
+                    <i class="far fa-calendar-alt"></i> <%= rdv.date %>
+                  </div>
+                  <div class="date-time">
+                    <i class="far fa-clock"></i> <%= rdv.heure %>
+                  </div>
+                </td>
+                <td><%= rdv.prix %> DA</td>
+                <td><span class="status <%= rdv.statut.toLowerCase().replace(' ', '-') %>"><%= rdv.statut %></span></td>
+                <td class="action-buttons">
+                  <form action="/admin/rdvs/<%= rdv.id %>/valider" method="POST">
+                    <button type="submit" class="btn btn-success" title="Valider">
+                      <i class="fas fa-check"></i>
+                    </button>
+                  </form>
+                  <form action="/admin/rdvs/<%= rdv.id %>/refuser" method="POST">
+                    <button type="submit" class="btn btn-danger" title="Refuser">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </form>
+                  <a href="/admin/rdvs/<%= rdv.id %>/details" class="btn btn-primary" title="Détails">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
           </tbody>
         </table>
+      <% } else { %>
+        <div class="empty-state">
+          <i class="fas fa-calendar-times"></i>
+          <p>Aucun rendez-vous trouvé.</p>
+        </div>
       <% } %>
     </div>
   </div>
-  
+
+  <!-- Footer -->
   <footer class="footer">
     <div class="container">
       <p>&copy; 2025 L'Oasis – Votre Instant Beauté - Tous droits réservés</p>
     </div>
   </footer>
-  
+
+  <!-- Filters Script -->
   <script>
-    // Script pour filtrage (à implémenter si nécessaire)
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const dateFilter = document.getElementById('date-filter');
       const statusFilter = document.getElementById('status-filter');
       const serviceFilter = document.getElementById('service-filter');
-      
-      // Fonction pour appliquer les filtres
+      const rows = document.querySelectorAll('.appointments-table tbody tr');
+
       function applyFilters() {
         const date = dateFilter.value;
-        const status = statusFilter.value;
-        const service = serviceFilter.value;
-        
-        // Ici vous pouvez implémenter la logique de filtrage
-        // Soit côté client ou envoyer une requête au serveur
-        console.log(`Filtres appliqués: Date=${date}, Statut=${status}, Service=${service}`);
+        const status = statusFilter.value.toLowerCase();
+        const service = serviceFilter.value.toLowerCase();
+
+        rows.forEach(row => {
+          const dateText = row.querySelector('.date-time').textContent.trim();
+          const statusText = row.querySelector('.status').textContent.trim().toLowerCase();
+          const serviceText = row.querySelector('.service-pill').textContent.trim().toLowerCase();
+
+          const matchDate = !date || dateText.includes(date);
+          const matchStatus = status === 'tous' || statusText === status;
+          const matchService = service === 'tous' || serviceText === service;
+
+          row.style.display = matchDate && matchStatus && matchService ? '' : 'none';
+        });
       }
-      
-      // Attacher les événements
+
       dateFilter.addEventListener('change', applyFilters);
       statusFilter.addEventListener('change', applyFilters);
       serviceFilter.addEventListener('change', applyFilters);

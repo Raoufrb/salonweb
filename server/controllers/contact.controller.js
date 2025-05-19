@@ -1,6 +1,7 @@
 import { pool } from '../config/db.js';
 import nodemailer from 'nodemailer';
 
+// ✅ Send a message
 export async function envoyerMessage(req, res) {
   const { name, email, phone, message } = req.body;
 
@@ -20,6 +21,7 @@ export async function envoyerMessage(req, res) {
   }
 }
 
+// ✅ Get all contacts
 export async function getAllContacts(req, res) {
   try {
     const result = await pool.query('SELECT * FROM contacts ORDER BY created_at DESC');
@@ -30,9 +32,8 @@ export async function getAllContacts(req, res) {
   }
 }
 
+// ✅ Send a reply to a contact
 export async function sendReply(req, res) {
-
-
   const { email, subject, reply } = req.body;
 
   if (!email || !subject || !reply) {
@@ -43,8 +44,8 @@ export async function sendReply(req, res) {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'fyoorr@gmail.com', // ✅ ton email Gmail
-        pass: 'brtxurtytzbsabpx' // ✅ mot de passe d’application
+        user: 'fyoorr@gmail.com', // ✅ Your Gmail address
+        pass: 'brtxurtytzbsabpx' // ✅ App password
       }
     });
 
@@ -55,7 +56,7 @@ export async function sendReply(req, res) {
       html: `<p>${reply}</p>`
     });
 
-    // ❌ Supprimer le contact après l'envoi
+    // Delete the contact after sending the reply
     await pool.query('DELETE FROM contacts WHERE email = $1', [email]);
 
     res.status(200).json({ message: '✅ Réponse envoyée avec succès' });

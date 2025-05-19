@@ -4,8 +4,7 @@ import {
   updateCommandeStatus
 } from '../models/commande.model.js';
 
-
-// ✅ Placer une nouvelle commande
+// ✅ Place a new order
 export async function passerCommande(req, res) {
   try {
     const { nom, tel, adresse, produits, total } = req.body;
@@ -16,11 +15,11 @@ export async function passerCommande(req, res) {
 
     let clientId = null;
 
-    // 🔐 Si l'utilisateur est connecté
+    // If the user is logged in
     if (req.user && req.user.role === 'client') {
       clientId = req.user.id;
     } else {
-      // 👤 Créer un nouveau client invité
+      // Create a new guest client
       const clientRes = await pool.query(
         'INSERT INTO clients(nom, tel, adresse) VALUES($1, $2, $3) RETURNING id',
         [nom, tel, adresse]
@@ -28,7 +27,7 @@ export async function passerCommande(req, res) {
       clientId = clientRes.rows[0].id;
     }
 
-    // 🛒 Enregistrement de la commande
+    // Save the order
     await pool.query(
       'INSERT INTO commandes(client_id, produits, total, adresse) VALUES($1, $2, $3, $4)',
       [clientId, produits, total, adresse]
@@ -41,7 +40,7 @@ export async function passerCommande(req, res) {
   }
 }
 
-// ✅ Affichage des commandes avec filtres
+// ✅ Display orders with filters
 export async function showCommandes(req, res) {
   try {
     const commandes = await getCommandesFiltréesAvecNoms({
@@ -56,15 +55,15 @@ export async function showCommandes(req, res) {
   }
 }
 
-// ✅ Valider une commande
+// ✅ Validate an order
 export async function validerCommande(req, res) {
   try {
     const id = req.params.id;
 
-    // Mise à jour du statut
+    // Update the status
     await pool.query('UPDATE commandes SET status = $1 WHERE id = $2', ['acceptée', id]);
 
-    // Redirection vers la page des commandes
+    // Redirect to the orders page
     res.redirect('/admin/commandes');
   } catch (err) {
     console.error('❌ Erreur validation commande :', err.message);
@@ -72,9 +71,7 @@ export async function validerCommande(req, res) {
   }
 }
 
-
-
-// ✅ Refuser une commande
+// ✅ Reject an order
 export async function refuserCommande(req, res) {
   try {
     const id = req.params.id;

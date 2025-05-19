@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>📊 Tableau de Bord – Admin</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap">
   <style>
     :root {
       --primary-color: #9c8378;
@@ -169,6 +170,30 @@
       border-top: 1px solid var(--secondary-color);
     }
 
+    .dashboard-insights {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+.insight {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  flex: 1 1 250px;
+}
+.insight h2 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+.insight p {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+}
+
     @media (max-width: 768px) {
       .nav-links {
         display: none;
@@ -198,16 +223,16 @@
       <nav class="nav-links">
         <a href="/admin/dashboard" class="nav-link active">Tableau de Bord</a>
         <a href="/admin/commandes" class="nav-link">Commandes</a>
-        <a href="/admin/employes" class="nav-link">Employés</a>
-        <a href="/admin/clients" class="nav-link">Clients</a>
-        <a href="/admin/recruitment" class="nav-link">Candidatures</a>
-        <a href="/admin/paramètres" class="nav-link">Paramètres</a>
+        <a href="/admin/rdvs" class="nav-link">RDV</a>
+        <a href="/admin/services" class="nav-link">Services</a>
+        <a href="/admin/produits" class="nav-link">Produits</a>
+        <a href="/admin/employes" class="nav-link">Employés</a> 
       </nav>
     </div>
   </header>
 
   <div class="container">
-    <h1 class="page-title">📊 Tableau de Bord Administrateur</h1>
+    <h1 class="page-title">Tableau de Bord Administrateur</h1>
 
     <div class="dashboard-metrics">
       <div class="metric">
@@ -230,15 +255,6 @@
         <p><%= rdvsEnAttente %></p>
       </div>
 
-      <div class="metric">
-        <h2>💰 Revenus Commandes</h2>
-        <p><%= revenusCommandes %> DA</p>
-      </div>
-
-      <div class="metric">
-        <h2>💆 Revenus RDVs</h2>
-        <p><%= revenusRDV %> DA</p>
-      </div>
 
       <div class="metric">
         <h2>💸 Total Revenus</h2>
@@ -246,13 +262,29 @@
       </div>
     </div>
 
+        <div class="dashboard-insights">
+      <div class="insight">
+        <h2>📈 Produit le plus vendu</h2>
+        <p><%= produitTop %></p>
+      </div>
+
+      <div class="insight">
+        <h2>📅 Jour le plus fréquenté</h2>
+        <p><%= jourTop %></p>
+      </div>
+
+      <div class="insight">
+        <h2>🕒 Heure de pointe</h2>
+        <p><%= heureTop %>h</p>
+      </div>
+
+      <div class="insight">
+        <h2>💅 Service le plus demandé</h2>
+        <p><%= serviceTop %></p>
+      </div>
+    </div>
+
     <div class="dashboard-links">
-      <a href="/admin/commandes" class="btn">📦 Gérer les Commandes</a>
-      <a href="/admin/produits" class="btn">🛍️ Gérer les Produits</a>
-      <a href="/admin/services" class="btn">💆‍♀️ Gérer les Services</a>
-      <a href="/admin/rdvs" class="btn">📅 Gérer les RDVs</a>
-      <a href="/admin/employes" class="btn">👨‍💼 Gérer les Employés</a>
-      <a href="/admin/clients" class="btn">👥 Gérer les Clients</a>
       <a href="/admin/contacts" class="btn">📨 Contacts</a>
       <a href="/admin/recruitment" class="btn">📄 Candidatures</a>
     </div>

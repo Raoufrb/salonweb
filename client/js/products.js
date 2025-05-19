@@ -1,4 +1,4 @@
-// Function to create a product card
+// Créer une carte produit
 function createProductCard(product, index) {
   return `
     <div class="product-card" data-product-index="${index}">
@@ -16,29 +16,23 @@ function createProductCard(product, index) {
   `;
 }
 
-// Fetch products from the API and render them
+// Récupérer les produits de l'API
 async function fetchProducts() {
   try {
     const response = await fetch('/api/products');
     const products = await response.json();
-
-    console.log("✅ Produits récupérés :", products); // 👈 Vérifie ici
-
     window.products = products;
-
     renderProducts(products);
   } catch (err) {
-    console.error('❌ Erreur lors de la récupération des produits :', err);
     document.getElementById('productGrid').innerHTML = '<p>Erreur de chargement des produits.</p>';
   }
 }
 
-// Render products in the product grid
+// Afficher les produits dans la grille
 function renderProducts(products) {
   const productGrid = document.getElementById('productGrid');
   productGrid.innerHTML = '';
 
-  // Lire la limite depuis l’attribut data-limit
   const limit = parseInt(productGrid.dataset.limit);
   const visibleProducts = isNaN(limit) ? products : products.slice(0, limit);
 
@@ -52,75 +46,79 @@ function renderProducts(products) {
 
   attachCartButtons(visibleProducts);
 }
-// Attach "Ajouter au Panier" buttons to products
+
+// Ajouter les boutons "Ajouter au panier"
 function attachCartButtons(products) {
   const buttons = document.querySelectorAll('.add-to-cart');
 
   buttons.forEach((btn, index) => {
     btn.addEventListener('click', () => {
-      const selectedProduct = products[index]; // Get the product using the index
-      addToCart(selectedProduct.name, selectedProduct.price); // Pass name and price to addToCart
+      const selectedProduct = products[index];
+      addToCart(selectedProduct.name, selectedProduct.price);
 
-      // Replace button with link
       btn.outerHTML = `<a href="panier.html" class="view-cart-btn">Voir le Panier</a>`;
-
-      // Show cart preview
       showCartPreview();
     });
   });
 }
 
-// Add a product to the cart
+// Ajouter un produit au panier
 function addToCart(name, price) {
   let panier = JSON.parse(localStorage.getItem('panier')) || [];
   panier.push({ name, price });
   localStorage.setItem('panier', JSON.stringify(panier));
-  alert(`${name} a été ajouté au panier.`);
 }
 
-// Show the floating cart preview
-function showCartPreview() {
-  let preview = document.getElementById('cartPreview');
-  if (!preview) {
-    preview = document.createElement('div');
-    preview.id = 'cartPreview';
-    preview.innerHTML = `
-      <div class="cart-float">
-        <p>🛒 ${getPanier().length} produit(s) dans le panier</p>
-        <a href="panier.html" class="btn-panier">Voir le Panier</a>
-      </div>
-    `;
-    document.body.appendChild(preview);
-  } else {
-    preview.querySelector('p').textContent = `🛒 ${getPanier().length} produit(s) dans le panier`;
-  }
-}
-
-// Get the cart from localStorage
+// Récupérer le panier
 function getPanier() {
   return JSON.parse(localStorage.getItem('panier')) || [];
 }
 
-// Handle search functionality
+// Afficher l’aperçu flottant du panier
+function showCartPreview() {
+  const cartItems = getPanier();
+  let preview = document.getElementById('cartPreview');
+
+  if (!preview) {
+    preview = document.createElement('div');
+    preview.id = 'cartPreview';
+    preview.className = 'cart-float';
+    preview.innerHTML = `
+      <p class="cart-text">🛒 ${cartItems.length} produit(s) dans le panier</p>
+      <a href="panier.html" class="btn-panier">Voir le Panier</a>
+    `;
+    document.body.appendChild(preview);
+  } else {
+    const textElement = preview.querySelector('.cart-text');
+    if (textElement) {
+      textElement.textContent = `🛒 ${cartItems.length} produit(s) dans le panier`;
+    }
+  }
+}
+
+// Gérer la recherche en direct
 function handleSearch() {
   const searchInput = document.getElementById('searchInput').value.toLowerCase();
   const filteredProducts = window.products.filter(product =>
     product.name.toLowerCase().includes(searchInput)
   );
-  renderProducts(filteredProducts); // Re-render the product grid with filtered products
+  renderProducts(filteredProducts);
 }
 
-// Add event listener for the search input
+// Afficher/masquer la description complète
+document.addEventListener("click", function (e) {
+  const btn = e.target.closest(".show-more-btn");
+  if (!btn) return;
+
+  const desc = btn.previousElementSibling;
+  if (!desc) return;
+
+  desc.classList.toggle("expanded");
+  btn.textContent = desc.classList.contains("expanded") ? "Voir moins" : "Voir plus";
+});
+
+// Lancer la recherche
 document.getElementById('searchInput').addEventListener('input', handleSearch);
 
-// Initial fetch of products
+// Récupérer les produits au chargement
 fetchProducts();
-
-  // Toggle Show More / Show Less for descriptions
-  document.addEventListener("click", function(e) {
-    if (e.target.classList.contains("show-more-btn")) {
-      const desc = e.target.previousElementSibling;
-      desc.classList.toggle("expanded");
-      e.target.textContent = desc.classList.contains("expanded") ? "Voir moins" : "Voir plus";
-    }
-  });

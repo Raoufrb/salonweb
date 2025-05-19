@@ -18,49 +18,45 @@ import { envoyerMessage } from '../controllers/contact.controller.js';
 import { signupUser } from '../controllers/signup.Controller.js';
 import { loginUser } from '../controllers/login.Controller.js';
 import { handleRecruitment, upload } from '../controllers/recruitment.Controller.js';
-import { getAllProducts } from '../models/product.model.js';
 
 import { listServices } from '../controllers/adminServices.controller.js';
 
-import {
-  passerCommande,
-} from '../controllers/commande.controller.js';
-
+import { passerCommande } from '../controllers/commande.controller.js';
 
 // ----------------- PRODUCTS -----------------
-router.get('/products', listProducts);                   // ✅ Tous les produits
-router.get('/products/:id', getOneProduct);              // 🔍 Détail d’un produit
+router.get('/products', listProducts);                   // ✅ List all products
+router.get('/products/:id', getOneProduct);              // 🔍 Get product details
 
 // ----------------- ADMIN PRODUCTS -----------------
-router.post('/admin/products', createProduct);           // ➕ Ajouter produit (admin)
-router.put('/admin/products/:id', editProduct);          // ✏️ Modifier produit (admin)
-router.delete('/admin/products/:id', removeProduct);     // 🗑️ Supprimer produit (admin)
+router.post('/admin/products', createProduct);           // ➕ Add product (admin)
+router.put('/admin/products/:id', editProduct);          // ✏️ Edit product (admin)
+router.delete('/admin/products/:id', removeProduct);     // 🗑️ Delete product (admin)
 
 // ----------------- AUTH -----------------
-router.post('/signup', signupUser);                      // 📝 Inscription
-router.post('/login', loginUser);                        // 🔐 Connexion
+router.post('/signup', signupUser);                      // 📝 Signup
+router.post('/login', loginUser);                        // 🔐 Login
 
 // ----------------- CONTACT -----------------
-router.post('/contact', envoyerMessage);                 // ✉️ Envoyer message
+router.post('/contact', envoyerMessage);                 // ✉️ Send a message
 
 // ----------------- COMMANDES -----------------
-router.post('/commandes', auth, passerCommande);              // 🛒 Passer commande
+router.post('/commandes', auth, passerCommande);         // 🛒 Place an order
 
 // ----------------- RECRUITMENT -----------------
-router.post('/recruitment', upload.single('cv'), handleRecruitment); // 📄 Recrutement
+router.post('/recruitment', upload.single('cv'), handleRecruitment); // 📄 Recruitment
 
-// ----------------- API (JSON endpoints) -----------------
-router.get('/api/products', async (req, res) => {
+// ----------------- SERVICES -----------------
+router.get('/services', async (req, res) => {
   try {
-    const products = await pool.query('SELECT * FROM products');
-    res.json(products.rows); // Ensure the response is an array of products
+    const services = await listServices();
+    res.json(services);
   } catch (err) {
-    console.error('Erreur lors de la récupération des produits:', err.message);
+    console.error('Erreur API services:', err.message);
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
 
-// ✅ POST /api/rdvs - Créer un nouveau RDV
+// ----------------- RDVS -----------------
 router.post('/rdvs', async (req, res) => {
   const { nom, tel, service, date, heure, statut = 'en attente', prix } = req.body;
 
@@ -82,20 +78,7 @@ router.post('/rdvs', async (req, res) => {
   }
 });
 
-
-router.get('/services', async (req, res) => {
-  try {
-    const services = await listServices();
-    res.json(services);
-  } catch (err) {
-    console.error('Erreur API services:', err.message);
-    res.status(500).json({ error: 'Erreur serveur' });
-  }
-});
-
-
-
-
+// ----------------- USER MANAGEMENT -----------------
 router.put('/change-password', auth, async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const { id, role } = req.user;
@@ -127,7 +110,6 @@ router.put('/change-password', auth, async (req, res) => {
   }
 });
 
-// Route pour clients
 router.put('/client/change-name', auth, async (req, res) => {
   const { nom } = req.body;
   const id = req.user.id;
@@ -143,7 +125,6 @@ router.put('/client/change-name', auth, async (req, res) => {
   }
 });
 
-// Route pour employés
 router.put('/employe/change-name', auth, async (req, res) => {
   const { nom } = req.body;
   const id = req.user.id;
@@ -159,6 +140,15 @@ router.put('/employe/change-name', auth, async (req, res) => {
   }
 });
 
-
+// ----------------- API (JSON endpoints) -----------------
+router.get('/api/products', async (req, res) => {
+  try {
+    const products = await pool.query('SELECT * FROM products');
+    res.json(products.rows); // Ensure the response is an array of products
+  } catch (err) {
+    console.error('Erreur lors de la récupération des produits:', err.message);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
 
 export default router;

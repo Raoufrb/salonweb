@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const data = await response.json();
     const user = role === 'client' ? data.client : data.employe;
 
+    // Populate user information
     document.getElementById('user-fullname').textContent = user.nom;
     document.getElementById('user-email').textContent = user.email;
     document.getElementById('username-display').textContent = user.nom;
@@ -34,86 +35,25 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('phone-container').style.display = 'none';
     }
 
-    const appointmentsList = document.getElementById('appointments-list');
-    appointmentsList.innerHTML = '';
+    // Render appointments
+    renderAppointments(data.rdvs, role);
 
-    if (!data.rdvs || data.rdvs.length === 0) {
-      appointmentsList.innerHTML = '<p>Aucun Rendez-vous</p>';
-    } else {
-      data.rdvs.forEach((rdv) => {
-        const item = document.createElement('div');
-        item.classList.add('appointment-item');
-        item.innerHTML = `
-          <p><strong>Service:</strong> ${rdv.service}</p>
-          <p><strong>Date:</strong> ${rdv.date}</p>
-          <p><strong>Heure:</strong> ${rdv.heure}</p>
-          <p><strong>Prix:</strong> ${rdv.prix} DA</p>
-          <p><strong>Statut:</strong> ${rdv.statut}</p>
-        `;
-
-        if (role === 'employe' && rdv.statut === 'en attente') {
-          const actions = document.createElement('div');
-          actions.className = 'appointment-actions';
-          actions.innerHTML = `
-            <button class="accept-btn" data-id="${rdv.id}">Valider</button>
-            <button class="decline-btn" data-id="${rdv.id}">Refuser</button>
-          `;
-          item.appendChild(actions);
-        }
-
-        appointmentsList.appendChild(item);
-      });
-
-      if (role === 'employe') {
-        document.querySelectorAll('.accept-btn').forEach((btn) => {
-          btn.addEventListener('click', async (e) => {
-            const id = e.target.dataset.id;
-            await updateRdvStatus(id, 'validé');
-          });
-        });
-
-        document.querySelectorAll('.decline-btn').forEach((btn) => {
-          btn.addEventListener('click', async (e) => {
-            const id = e.target.dataset.id;
-            await updateRdvStatus(id, 'refusé');
-          });
-        });
-      }
-    }
-
+    // Render orders for clients
     if (role === 'client') {
-      const ordersSection = document.getElementById('orders-section');
-      const ordersList = document.getElementById('orders-list');
-      ordersSection.style.display = 'block';
-      ordersList.innerHTML = '';
-    
-      if (!data.commandes || data.commandes.length === 0) {
-        ordersList.innerHTML = '<p>Aucune commande.</p>';
-      } else {
-        data.commandes.forEach((commande) => {
-          const div = document.createElement('div');
-          div.className = 'order-item';
-          div.innerHTML = `
-            <p><strong>ID:</strong> ${commande.id}</p>
-            <p><strong>Produits:</strong> ${commande.produits.join(', ')}</p>
-            <p><strong>Total:</strong> ${commande.total} DA</p>
-            <p><strong>Date:</strong> ${new Date(commande.created_at).toLocaleString()}</p>
-            <p><strong>Statut:</strong> ${commande.status}</p>
-          `;
-          ordersList.appendChild(div);
-        });
-      }
+      renderOrders(data.commandes);
     }
   } catch (err) {
     console.error(err.message);
     alert('Erreur lors de la récupération du profil.');
   }
 
+  // Logout functionality
   document.getElementById('logout-btn').addEventListener('click', () => {
     localStorage.clear();
     window.location.href = 'login.html';
   });
 
+  // Edit profile functionality
   document.getElementById('edit-profile-btn').addEventListener('click', async () => {
     const newName = prompt("Entrez votre nouveau nom :");
 
@@ -121,9 +61,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       alert("Le nom ne peut pas être vide.");
       return;
     }
-
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
 
     try {
       const response = await fetch(`/api/${role}/change-name`, {
@@ -152,6 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
+  // Change password functionality
   document.getElementById('change-password-btn').addEventListener('click', async () => {
     const oldPassword = prompt("Entrez votre ancien mot de passe :");
     if (!oldPassword || oldPassword.trim() === "") {
@@ -164,8 +102,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       alert("Le mot de passe doit contenir au moins 6 caractères.");
       return;
     }
-
-    const token = localStorage.getItem('token');
 
     try {
       const response = await fetch('/api/change-password', {
@@ -194,28 +130,106 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 });
 
-async function updateRdvStatus(rdvId, statut) {
-const token = localStorage.getItem('token');
-try {
-  const response = await fetch(`/api/employe/rdvs/${rdvId}`, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ statut }),
+// Function to render appointments
+function renderAppointments(rdvs, role) {
+  const appointmentsList = document.getElementById('appointments-list');
+  appointmentsList.innerHTML = '';
+
+  if (!rdvs || rdvs.length === 0) {
+    appointmentsList.innerHTML = '<p>Aucun Rendez-vous</p>';
+    return;
+  }
+
+  rdvs.forEach((rdv) => {
+    const item = document.createElement('div');
+    item.classList.add('appointment-item');
+    item.innerHTML = `
+      <p><strong>Service:</strong> ${rdv.service}</p>
+      <p><strong>Date:</strong> ${rdv.date}</p>
+      <p><strong>Heure:</strong> ${rdv.heure}</p>
+      <p><strong>Prix:</strong> ${rdv.prix} DA</p>
+      <p><strong>Statut:</strong> ${rdv.statut}</p>
+    `;
+
+    if (role === 'employe' && rdv.statut === 'en attente') {
+      const actions = document.createElement('div');
+      actions.className = 'appointment-actions';
+      actions.innerHTML = `
+        <button class="accept-btn" data-id="${rdv.id}">Valider</button>
+        <button class="decline-btn" data-id="${rdv.id}">Refuser</button>
+      `;
+      item.appendChild(actions);
+    }
+
+    appointmentsList.appendChild(item);
   });
 
-  const result = await response.json();
+  if (role === 'employe') {
+    document.querySelectorAll('.accept-btn').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        const id = e.target.dataset.id;
+        await updateRdvStatus(id, 'validé');
+      });
+    });
 
-  if (response.ok) {
-    alert(`RDV ${statut === 'validé' ? 'validé' : 'refusé'} avec succès.`);
-    location.reload();
-  } else {
-    alert(result.error || 'Erreur lors de la mise à jour du RDV.');
+    document.querySelectorAll('.decline-btn').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        const id = e.target.dataset.id;
+        await updateRdvStatus(id, 'refusé');
+      });
+    });
   }
-} catch (err) {
-  console.error('❌ Erreur réseau:', err.message);
-  alert('Erreur serveur.');
 }
+
+// Function to render orders
+function renderOrders(commandes) {
+  const ordersSection = document.getElementById('orders-section');
+  const ordersList = document.getElementById('orders-list');
+  ordersSection.style.display = 'block';
+  ordersList.innerHTML = '';
+
+  if (!commandes || commandes.length === 0) {
+    ordersList.innerHTML = '<p>Aucune commande.</p>';
+    return;
+  }
+
+  commandes.forEach((commande) => {
+    const div = document.createElement('div');
+    div.className = 'order-item';
+    div.innerHTML = `
+      <p><strong>ID:</strong> ${commande.id}</p>
+      <p><strong>Produits:</strong> ${commande.produits.join(', ')}</p>
+      <p><strong>Total:</strong> ${commande.total} DA</p>
+      <p><strong>Date:</strong> ${new Date(commande.created_at).toLocaleString()}</p>
+      <p><strong>Statut:</strong> ${commande.status}</p>
+    `;
+    ordersList.appendChild(div);
+  });
+}
+
+// Function to update RDV status
+async function updateRdvStatus(rdvId, statut) {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await fetch(`/api/employe/rdvs/${rdvId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ statut }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert(`RDV ${statut === 'validé' ? 'validé' : 'refusé'} avec succès.`);
+      location.reload();
+    } else {
+      alert(result.error || 'Erreur lors de la mise à jour du RDV.');
+    }
+  } catch (err) {
+    console.error('❌ Erreur réseau:', err.message);
+    alert('Erreur serveur.');
+  }
 }

@@ -3,345 +3,664 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>💇‍♀️ Gestion des Services – Admin</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+  <title>💇‍♀️ L'Oasis – Administration</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap">
   <style>
     :root {
       --primary-color: #9c8378;
+      --primary-light: #ac9389;
       --secondary-color: #eae0d5;
       --accent-color: #c19a6b;
-      --text-color: #333;
+      --text-color: #4a4a4a;
       --light-bg: #f9f7f4;
-      --header-font: 'Playfair Display', serif;
-      --body-font: 'Montserrat', sans-serif;
+      --danger: #D96666;
+      --success: #66A182;
+      --info: #5E92C2;
+      --header-font: 'Playfair Display', Georgia, serif;
+      --body-font: 'Montserrat', 'Segoe UI', sans-serif;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --transition: all 0.3s ease;
     }
-
-    * {
-      box-sizing: border-box;
-    }
-
+    
+  
+    
     body {
+      font-family: var(--body-font);
+      background-color: var(--light-bg);
+      color: var(--text-color);
       margin: 0;
       padding: 0;
-      background: var(--light-bg);
-      font-family: var(--body-font);
-      color: var(--text-color);
+      line-height: 1.6;
     }
-
-    /* HEADER */
-    .salon-header {
-      background: white;
-      padding: 15px 0;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      position: sticky;
-      top: 0;
-      z-index: 999;
-    }
-
-    .salon-header .container {
+    
+    .container {
       max-width: 1200px;
-      margin: auto;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    /* Header Styling */
+    .salon-header {
+      background-color: white;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+      padding: 15px 0;
+      position: relative;
+    }
+    
+    .salon-header .container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 20px;
     }
-
+    
     .logo {
       font-family: var(--header-font);
-      font-size: 26px;
+      font-size: 28px;
       color: var(--primary-color);
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
+    
     .logo i {
       color: var(--accent-color);
     }
-
+    
     .nav-links {
       display: flex;
       gap: 20px;
-      flex-wrap: wrap;
     }
-
+    
     .nav-link {
       color: var(--text-color);
-      font-weight: 500;
       text-decoration: none;
-      padding: 6px 14px;
-      border-radius: 6px;
-      transition: 0.3s ease;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
     }
-
+    
     .nav-link:hover {
-      background: var(--secondary-color);
+      background-color: var(--secondary-color);
       color: var(--primary-color);
     }
-
+    
     .nav-link.active {
       background-color: var(--primary-color);
       color: white;
     }
-
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 30px 20px;
-    }
-
-    h1, h2 {
+    
+    /* Typography */
+    h2, h3 {
       font-family: var(--header-font);
       color: var(--primary-color);
-      text-align: center;
-      margin-bottom: 20px;
     }
-
+    
+    h1, .page-title {
+      font-family: var(--header-font);
+      text-align: center;
+      color: var(--primary-color);
+      margin: 30px 0;
+      font-size: 34px;
+      font-weight: normal;
+      position: relative;
+    }
+    
+    h1::after, .page-title::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 3px;
+      background-color: var(--accent-color);
+      margin: 15px auto;
+    }
+    
+    h2 {
+      font-size: 22px;
+      margin: 40px 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    /* Form Styling */
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      padding: 30px;
+      margin-bottom: 40px;
+      transition: var(--transition);
+    }
+    
+    .card:hover {
+      box-shadow: var(--shadow-md);
+    }
+    
     .form-add {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-      margin-bottom: 40px;
     }
-
+    
     .form-group {
       display: flex;
       flex-direction: column;
-    }
-
-    label {
-      font-weight: 600;
+      gap: 8px;
       margin-bottom: 5px;
     }
-
-    input, textarea, select {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-family: var(--body-font);
+    
+    .form-group label {
+      font-weight: 500;
+      color: var(--primary-color);
       font-size: 14px;
     }
-
+    
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      padding: 12px 16px;
+      font-family: var(--body-font);
+      border: 1px solid #E0DAD2;
+      border-radius: 8px;
+      width: 100%;
+      transition: var(--transition);
+      font-size: 14px;
+    }
+    
+    input[type="file"] {
+      padding: 12px 0;
+      font-family: var(--body-font);
+      width: 100%;
+      font-size: 14px;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(193, 154, 107, 0.2);
+    }
+    
     textarea {
+      min-height: 120px;
       resize: vertical;
     }
-
+    
+    /* Buttons */
     .btn {
-      padding: 10px 18px;
       border: none;
-      border-radius: 6px;
+      padding: 12px 20px;
+      border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+      min-width: 120px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-
+    
+    .btn-full {
+      width: 100%;
+    }
+    
     .btn-success {
-      background: #68b984;
+      background-color: var(--success);
       color: white;
     }
-
+    
     .btn-success:hover {
-      background: #57a873;
+      background-color: #5B9274;
     }
-
+    
     .btn-primary {
-      background: var(--primary-color);
+      background-color: var(--info);
       color: white;
     }
-
+    
     .btn-primary:hover {
-      background: #7e685d;
+      background-color: #4D83B3;
     }
-
+    
     .btn-danger {
-      background: #e76f51;
+      background-color: var(--danger);
       color: white;
     }
-
+    
     .btn-danger:hover {
-      background: #c94b30;
+      background-color: #C55757;
     }
-
+    
+    /* Table Styling */
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    
     table {
       width: 100%;
-      background: white;
       border-collapse: collapse;
-      border-radius: 10px;
+      background-color: white;
+      box-shadow: var(--shadow-sm);
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
     }
-
-    th, td {
+    
+    table th, table td {
       padding: 16px;
-      border-bottom: 1px solid #eee;
       text-align: left;
-      font-size: 14px;
     }
-
+    
+    tr {
+      border-bottom: 1px solid var(--secondary-color);
+      transition: var(--transition);
+    }
+    
+    tr:last-child {
+      border-bottom: none;
+    }
+    
+    tr:hover {
+      background-color: rgba(234, 224, 213, 0.3);
+    }
+    
     th {
-      background: var(--secondary-color);
-      color: var(--primary-color);
-      font-weight: 600;
+      background: var(--primary-light);
+      color: white;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      font-size: 14px;
+      white-space: nowrap;
     }
-
+    
+    td {
+      font-size: 14px;
+      vertical-align: middle;
+    }
+    
     .service-thumb {
-      max-width: 100px;
-      border-radius: 6px;
+      width: 80px;
+      height: 60px;
       object-fit: cover;
+      border-radius: 8px;
+      transition: var(--transition);
     }
-
-    .form-inline {
+    
+    .service-thumb:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    /* Forms in table */
+    .action-btns {
       display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-
-    .form-inline input, .form-inline textarea, .form-inline select {
-      width: 100%;
-      padding: 8px;
-      border-radius: 4px;
+    
+    .edit-form {
+      display: none;
+      background: rgba(234, 224, 213, 0.5);
+      padding: 20px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border-left: 4px solid var(--info);
     }
-
+    
+    .edit-form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 30px 0;
+      font-size: 14px;
+      color: #888;
+      background-color: white;
+      border-top: 1px solid var(--secondary-color);
+    }
+    
+    /* Status messages */
+    .status-message {
+      padding: 12px 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 500;
+    }
+    
+    .status-success {
+      background-color: rgba(102, 161, 130, 0.2);
+      color: var(--success);
+      border-left: 4px solid var(--success);
+    }
+    
+    .status-danger {
+      background-color: rgba(217, 102, 102, 0.2);
+      color: var(--danger);
+      border-left: 4px solid var(--danger);
+    }
+    
+    /* Helper classes */
+    .text-center {
+      text-align: center;
+    }
+    
+    .mt-4 {
+      margin-top: 40px;
+    }
+    
+    .mb-2 {
+      margin-bottom: 20px;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .badge-hair {
+      background-color: #F2D7D9;
+      color: #D75A7F;
+    }
+    
+    .badge-spa {
+      background-color: #D7EAF3;
+      color: #4A98C9;
+    }
+    
+    .badge-nails {
+      background-color: #D8E2DC;
+      color: #67937E;
+    }
+    
+    .badge-women {
+      background-color: #FFE5EC;
+      color: #D16277;
+    }
+    
+    .badge-men {
+      background-color: #E0E8FF;
+      color: #5276C8;
+    }
+    
+    .badge-all {
+      background-color: #F0EEE8;
+      color: #9A8566;
+    }
+    
+    /* No data message */
+    .no-data {
+      text-align: center;
+      padding: 40px 20px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .no-data i {
+      font-size: 48px;
+      color: var(--accent-color);
+      margin-bottom: 20px;
+    }
+    
+    .no-data p {
+      font-size: 16px;
+      color: var(--text-color);
+    }
+    
+    /* Mobile adjustments */
     @media (max-width: 768px) {
-      .form-add {
+      .salon-header .container {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      .edit-form-grid {
         grid-template-columns: 1fr;
       }
-      table {
-        overflow-x: auto;
-        display: block;
+      
+      h1 {
+        font-size: 28px;
       }
-      .nav-links {
-        flex-direction: column;
-        align-items: flex-start;
+      
+      .card {
+        padding: 20px;
       }
     }
+    
+  
   </style>
 </head>
 <body>
-
   <header class="salon-header">
     <div class="container">
       <div class="logo">
-        <i class="fas fa-scissors"></i>
+        <i class="fas fa-tachometer-alt"></i>
         <span>L'Oasis – Votre Instant Beauté</span>
       </div>
       <nav class="nav-links">
-        <a href="/admin/dashboard" class="nav-link">Tableau de Bord</a>
+        <a href="/admin/dashboard" class="nav-link ">Tableau de Bord</a>
         <a href="/admin/commandes" class="nav-link">Commandes</a>
-        <a href="/admin/employes" class="nav-link">Employés</a>
-        <a href="/admin/clients" class="nav-link">Clients</a>
+        <a href="/admin/rdvs" class="nav-link">RDV</a>
         <a href="/admin/services" class="nav-link active">Services</a>
-        <a href="/admin/paramètres" class="nav-link">Paramètres</a>
+        <a href="/admin/produits" class="nav-link">Produits</a>
+        <a href="/admin/employes" class="nav-link">Employés</a> 
       </nav>
     </div>
   </header>
-
   <div class="container">
-    <h1>💇‍♀️ Gestion des Services</h1>
+    <h1>Gestion des Services</h1>
+    
+    <!-- Status Message (example) -->
+    <!-- <div class="status-message status-success">
+      Le service a été ajouté avec succès!
+    </div> -->
+    
+    <h2><i class="fas fa-plus-circle"></i> Ajouter un Service</h2>
+    <div class="card">
+      <form action="/admin/services" method="POST" enctype="multipart/form-data" class="form-add">
+        <div class="form-group">
+          <label for="name">Nom du Service</label>
+          <input type="text" id="name" name="name" placeholder="Ex : Coupe et Brushing" required />
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" placeholder="Détail du service..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="price">Prix (DA)</label>
+          <input type="number" id="price" name="price" step="0.01" placeholder="Ex : 800" required />
+        </div>
+        <div class="form-group">
+          <label for="category">Catégorie</label>
+          <select id="category" name="category" required>
+            <option value="">-- Sélectionner --</option>
+            <option value="hair">Coiffure</option>
+            <option value="spa">Spa & Bien-être</option>
+            <option value="nails">Onglerie</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="gender">Genre</label>
+          <select id="gender" name="gender" required>
+            <option value="">-- Sélectionner --</option>
+            <option value="women">Femmes</option>
+            <option value="men">Hommes</option>
+            <option value="all">Tous</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="image">Image du Service</label>
+          <input type="file" id="image" name="image" accept="image/*" />
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-success btn-full">
+            <i class="fas fa-plus-circle"></i> Ajouter ce Service
+          </button>
+        </div>
+      </form>
+    </div>
 
-    <h2>➕ Ajouter un Service</h2>
-    <form action="/admin/services" method="POST" enctype="multipart/form-data" class="form-add">
-      <div class="form-group">
-        <label for="name">Nom</label>
-        <input type="text" id="name" name="name" placeholder="Ex : Coupe Homme" required />
+    <h2><i class="fas fa-list"></i> Services Existants</h2>
+    
+    <% if (services && services.length === 0) { %>
+      <div class="no-data">
+        <i class="fas fa-exclamation-circle"></i>
+        <p>Aucun service n'est enregistré pour le moment.</p>
       </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea id="description" name="description" placeholder="Détail du service..." required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="price">Prix (DA)</label>
-        <input type="number" id="price" name="price" step="0.01" placeholder="Ex : 800" required />
-      </div>
-      <div class="form-group">
-        <label for="category">Catégorie</label>
-        <select id="category" name="category" required>
-          <option value="hair">Coiffure</option>
-          <option value="spa">Spa</option>
-          <option value="nails">Onglerie</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="gender">Genre</label>
-        <select id="gender" name="gender" required>
-          <option value="women">Femmes</option>
-          <option value="men">Hommes</option>
-          <option value="all">Tous</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="image">Image</label>
-        <input type="file" id="image" name="image" accept="image/*" />
-      </div>
-      <button type="submit" class="btn btn-success">✅ Ajouter</button>
-    </form>
-
-    <h2>📋 Services Existants</h2>
-    <% if (services.length === 0) { %>
-      <p>Aucun service trouvé.</p>
     <% } else { %>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Description</th>
-            <th>Prix</th>
-            <th>Catégorie</th>
-            <th>Genre</th>
-            <th>Image</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% services.forEach(service => { %>
+      <div class="table-container">
+        <table>
+          <thead>
             <tr>
-              <td><%= service.id %></td>
-              <td><%= service.name %></td>
-              <td><%= service.description %></td>
-              <td><%= service.price %> DA</td>
-              <td><%= service.category %></td>
-              <td><%= service.gender %></td>
-              <td>
-                <% if (service.image_url) { %>
-                  <img src="/uploads/services/<%= service.image_url %>" class="service-thumb" alt="Service" />
-                <% } else { %>
-                  <span>Aucune image</span>
-                <% } %>
-              </td>
-              <td>
-                <form action="/admin/services/<%= service.id %>?_method=PUT" method="POST" class="form-inline">
-                  <input type="text" name="name" value="<%= service.name %>" required />
-                  <textarea name="description" required><%= service.description %></textarea>
-                  <input type="number" step="0.01" name="price" value="<%= service.price %>" required />
-                  <select name="category">
-                    <option value="hair" <%= service.category === 'hair' ? 'selected' : '' %>>Coiffure</option>
-                    <option value="spa" <%= service.category === 'spa' ? 'selected' : '' %>>Spa</option>
-                    <option value="nails" <%= service.category === 'nails' ? 'selected' : '' %>>Onglerie</option>
-                  </select>
-                  <select name="gender">
-                    <option value="women" <%= service.gender === 'women' ? 'selected' : '' %>>Femmes</option>
-                    <option value="men" <%= service.gender === 'men' ? 'selected' : '' %>>Hommes</option>
-                    <option value="all" <%= service.gender === 'all' ? 'selected' : '' %>>Tous</option>
-                  </select>
-                  <button type="submit" class="btn btn-primary">✔ Enregistrer</button>
-                </form>
-                <form action="/admin/services/<%= service.id %>?_method=DELETE" method="POST" class="form-inline">
-                  <button type="submit" class="btn btn-danger" onclick="return confirm('Supprimer ce service ?')">🗑 Supprimer</button>
-                </form>
-              </td>
+              <th>ID</th>
+              <th>Image</th>
+              <th>Nom</th>
+              <th>Prix</th>
+              <th>Catégorie</th>
+              <th>Genre</th>
+              <th>Actions</th>
             </tr>
-          <% }) %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <% services.forEach(service => { %>
+              <tr>
+                <td><%= service.id %></td>
+                <td>
+                  <% if (service.image_url) { %>
+                    <img src="/uploads/services/<%= service.image_url %>" class="service-thumb" alt="<%= service.name %>" />
+                  <% } else { %>
+                    <i class="fas fa-image" style="color: #ddd; font-size: 24px;"></i>
+                  <% } %>
+                </td>
+                <td>
+                  <strong><%= service.name %></strong>
+                  <p style="color: #777; font-size: 13px; margin-top: 5px;">
+                    <%= service.description.length > 60 ? service.description.substring(0, 60) + '...' : service.description %>
+                  </p>
+                </td>
+                <td><strong><%= service.price %> DA</strong></td>
+                <td>
+                  <% if (service.category === 'hair') { %>
+                    <span class="badge badge-hair">Coiffure</span>
+                  <% } else if (service.category === 'spa') { %>
+                    <span class="badge badge-spa">Spa</span>
+                  <% } else if (service.category === 'nails') { %>
+                    <span class="badge badge-nails">Onglerie</span>
+                  <% } %>
+                </td>
+                <td>
+                  <% if (service.gender === 'women') { %>
+                    <span class="badge badge-women">Femmes</span>
+                  <% } else if (service.gender === 'men') { %>
+                    <span class="badge badge-men">Hommes</span>
+                  <% } else { %>
+                    <span class="badge badge-all">Tous</span>
+                  <% } %>
+                </td>
+                <td>
+                  <div class="action-btns">
+                    <button onclick="toggleEditForm('<%= service.id %>')" class="btn btn-primary">
+                      <i class="fas fa-edit"></i> Modifier
+                    </button>
+                    <form action="/admin/services/<%= service.id %>?_method=DELETE" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce service ?')">
+                      <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i> Supprimer
+                      </button>
+                    </form>
+                  </div>
+                  
+                  <!-- Hidden Edit Form -->
+                  <div id="edit-form-<%= service.id %>" class="edit-form">
+                    <form action="/admin/services/<%= service.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                      <div class="edit-form-grid">
+                        <div class="form-group">
+                          <label>Nom</label>
+                          <input type="text" name="name" value="<%= service.name %>" required />
+                        </div>
+                        <div class="form-group">
+                          <label>Prix (DA)</label>
+                          <input type="number" step="0.01" name="price" value="<%= service.price %>" required />
+                        </div>
+                        <div class="form-group">
+                          <label>Catégorie</label>
+                          <select name="category" required>
+                            <option value="hair" <%= service.category === 'hair' ? 'selected' : '' %>>Coiffure</option>
+                            <option value="spa" <%= service.category === 'spa' ? 'selected' : '' %>>Spa & Bien-être</option>
+                            <option value="nails" <%= service.category === 'nails' ? 'selected' : '' %>>Onglerie</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Genre</label>
+                          <select name="gender" required>
+                            <option value="women" <%= service.gender === 'women' ? 'selected' : '' %>>Femmes</option>
+                            <option value="men" <%= service.gender === 'men' ? 'selected' : '' %>>Hommes</option>
+                            <option value="all" <%= service.gender === 'all' ? 'selected' : '' %>>Tous</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Description</label>
+                          <textarea name="description" required><%= service.description %></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label>Nouvelle Image (optionnel)</label>
+                          <input type="file" name="image" accept="image/*" />
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-success">
+                          <i class="fas fa-save"></i> Enregistrer les Modifications
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
     <% } %>
   </div>
 
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 L'Oasis Beauté – Tous droits réservés</p>
+      <p style="margin-top: 5px; font-size: 12px; color: #aaa;">Version 2.3.0</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleEditForm(id) {
+      const form = document.getElementById('edit-form-' + id);
+      if (form.style.display === 'none' || form.style.display === '') {
+        form.style.display = 'block';
+      } else {
+        form.style.display = 'none';
+      }
+    }
+  </script>
 </body>
 </html>

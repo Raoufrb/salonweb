@@ -2,16 +2,18 @@ import { pool } from '../config/db.js';
 import path from 'path';
 import fs from 'fs';
 
+// ✅ List all services
 export async function listServices() {
-    try {
-      const result = await pool.query('SELECT * FROM services ORDER BY id DESC');
-      return result.rows; // Return the list of services
-    } catch (err) {
-      console.error('❌ Error fetching services:', err.message);
-      throw err;
-    }
+  try {
+    const result = await pool.query('SELECT * FROM services ORDER BY id DESC');
+    return result.rows; // Return the list of services
+  } catch (err) {
+    console.error('❌ Error fetching services:', err.message);
+    throw err;
   }
+}
 
+// ✅ Add a new service
 export async function addService(req, res) {
   try {
     const { name, description, price, category, gender } = req.body;
@@ -25,11 +27,12 @@ export async function addService(req, res) {
 
     res.redirect('/admin/services');
   } catch (err) {
-    console.error('❌ Erreur addService:', err);
+    console.error('❌ Erreur addService:', err.message);
     res.status(500).send('Erreur serveur');
   }
 }
 
+// ✅ Update an existing service
 export async function updateService(req, res) {
   try {
     const id = req.params.id;
@@ -44,16 +47,17 @@ export async function updateService(req, res) {
 
     res.redirect('/admin/services');
   } catch (err) {
-    console.error('❌ Erreur updateService:', err);
+    console.error('❌ Erreur updateService:', err.message);
     res.status(500).send('Erreur serveur');
   }
 }
 
+// ✅ Delete a service
 export async function deleteService(req, res) {
   try {
     const id = req.params.id;
 
-    // Delete image if exists
+    // Delete image if it exists
     const result = await pool.query('SELECT image_url FROM services WHERE id = $1', [id]);
     const image = result.rows[0]?.image_url;
 
@@ -68,7 +72,7 @@ export async function deleteService(req, res) {
 
     res.redirect('/admin/services');
   } catch (err) {
-    console.error('❌ Erreur deleteService:', err);
+    console.error('❌ Erreur deleteService:', err.message);
     res.status(500).send('Erreur serveur');
   }
 }

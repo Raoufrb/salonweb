@@ -102,6 +102,7 @@ header h1 {
   margin-bottom: 1.5rem;
   display: flex;
   gap: 1rem;
+  justify-content: flex-start;
 }
 
 .return-home-btn {
@@ -118,102 +119,6 @@ header h1 {
   transition: all 0.3s ease;
   border: none;
   font-size: 1rem;
-}
-:root {
-  --primary: #6d4e53;
-  --secondary: #6b8da9;
-  --light: #fff4f6;
-  --dark: #3a2e3d;
-  --gold: #d4af37;
-  --success: #27ae60;
-  --danger: #d32f2f;
-  --shadow: rgba(0, 0, 0, 0.1);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--light);
-  background-image: url('../assets/images/background.jpeg');
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
-  color: var(--dark);
-  padding: 20px;
-  line-height: 1.6;
-  min-height: 100vh;
-}
-
-/* Header */
-header {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(10px);
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px var(--shadow);
-  text-align: center;
-  position: sticky;
-  top: 20px;
-  z-index: 100;
-  margin-bottom: 2.5rem;
-  transition: all 0.3s ease;
-}
-
-header h1 {
-  font-size: 2.5rem;
-  color: var(--primary);
-  margin-bottom: 1rem;
-  font-weight: 700;
-}
-
-.search-container {
-  max-width: 600px;
-  margin: 0 auto;
-  position: relative;
-}
-
-#searchInput {
-  width: 100%;
-  padding: 0.9rem 1.5rem;
-  border: 2px solid var(--secondary);
-  border-radius: 30px;
-  background-color: #fff;
-  font-size: 1rem;
-  box-shadow: 0 3px 8px var(--shadow);
-  transition: all 0.3s ease;
-}
-
-#searchInput:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 4px 12px rgba(109, 78, 83, 0.2);
-}
-
-/* Navigation Buttons */
-.navigation-buttons {
-  margin-bottom: 1.5rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-start;
-}
-
-.return-home-btn {
-  background-color: var(--secondary);
-  color: #fff;
-  padding: 0.7rem 1.5rem;
-  border-radius: 30px;
-  font-weight: bold;
-  text-decoration: none;
-  box-shadow: 0 3px 8px var(--shadow);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.3s ease;
 }
 
 .return-home-btn:hover {
@@ -243,7 +148,7 @@ header h1 {
 
 /* Product Card */
 .product-card {
-  background-color: #fff;
+  background-color: var(--card-bg);
   border-radius: 16px;
   box-shadow: 0 5px 15px var(--shadow);
   padding: 25px;
@@ -254,6 +159,7 @@ header h1 {
   transition: all 0.4s ease;
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .product-card:hover {
@@ -268,7 +174,7 @@ header h1 {
   margin: 0 auto 1.5rem auto;
   overflow: hidden;
   border-radius: 16px;
-  background-color: #f8f8f8;
+  background-color: rgba(248, 248, 248, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -335,7 +241,7 @@ header h1 {
 }
 
 .show-more-btn:hover {
-  color: #873947;
+  color: var(--primary-dark);
 }
 
 /* Product Meta */
@@ -375,7 +281,7 @@ header h1 {
 }
 
 .add-to-cart:hover {
-  background-color: #873947;
+  background-color: var(--primary-dark);
   transform: translateY(-3px);
   box-shadow: 0 5px 12px rgba(109, 78, 83, 0.3);
 }
@@ -404,17 +310,32 @@ header h1 {
 /* Floating Cart */
 .cart-float {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background: var(--success);
-  color: white;
-  padding: 18px 25px;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+  padding: 12px 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: fadeInUp 0.3s ease-out;
+}
+.btn-panier {
+  background-color: #27ae60;
+  color: #fff;
+  padding: 8px 14px;
   text-align: center;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-panier:hover {
+  background-color: #219652;
+  transform: translateY(-2px);
 }
 
 .cart-float:hover {
@@ -454,6 +375,7 @@ header h1 {
   box-shadow: 0 4px 12px var(--shadow);
   max-width: 800px;
   margin: 2rem auto;
+  backdrop-filter: blur(8px);
 }
 
 .error-message button {
@@ -469,7 +391,7 @@ header h1 {
 }
 
 .error-message button:hover {
-  background-color: #873947;
+  background-color: var(--primary-dark);
   transform: translateY(-3px);
 }
 
@@ -516,7 +438,7 @@ header h1 {
   }
 
   #searchInput {
-    padding: 0.7rem 1rem;
+    padding: 0.7rem 1rem 0.7rem 2.5rem;
   }
 
   .product-img-container {

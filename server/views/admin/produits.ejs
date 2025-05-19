@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🛍️ Gestion des Produits – Admin</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap">
   <style>
-    :root {
+  :root {
       --primary-color: #9c8378;
       --secondary-color: #eae0d5;
       --accent-color: #c19a6b;
@@ -15,68 +16,72 @@
       --header-font: 'Playfair Display', Georgia, serif;
       --body-font: 'Montserrat', 'Segoe UI', sans-serif;
     }
-
+    
     body {
       font-family: var(--body-font);
       background-color: var(--light-bg);
       color: var(--text-color);
       margin: 0;
+      padding: 0;
+      line-height: 1.6;
     }
-
+    
     .container {
       max-width: 1200px;
-      margin: auto;
+      margin: 0 auto;
       padding: 20px;
     }
-
+    
     .salon-header {
-      background: #fff;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      background-color: white;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.08);
       padding: 15px 0;
+      position: relative;
     }
-
+    
     .salon-header .container {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-
+    
     .logo {
       font-family: var(--header-font);
-      font-size: 26px;
+      font-size: 28px;
       color: var(--primary-color);
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
+    
     .logo i {
       color: var(--accent-color);
     }
-
+    
     .nav-links {
       display: flex;
       gap: 20px;
     }
-
+    
     .nav-link {
       color: var(--text-color);
       text-decoration: none;
       font-weight: 500;
-      padding: 6px 12px;
+      padding: 5px 10px;
       border-radius: 4px;
-      transition: 0.3s ease;
+      transition: all 0.3s ease;
     }
-
+    
     .nav-link:hover {
-      background: var(--secondary-color);
+      background-color: var(--secondary-color);
       color: var(--primary-color);
     }
-
+    
     .nav-link.active {
-      background: var(--primary-color);
+      background-color: var(--primary-color);
       color: white;
     }
+    
 
     h1, h2 {
       font-family: var(--header-font);
@@ -86,6 +91,7 @@
     h1 {
       text-align: center;
       font-size: 32px;
+      font-weight: 300;
       margin-top: 30px;
       margin-bottom: 10px;
     }
@@ -100,7 +106,7 @@
     }
 
     h2 {
-      font-size: 22px;
+      font-size: 20px;
       margin-top: 40px;
     }
 
@@ -231,17 +237,18 @@
         <span>L'Oasis – Votre Instant Beauté</span>
       </div>
       <nav class="nav-links">
-        <a href="/admin/dashboard" class="nav-link">Tableau de Bord</a>
+        <a href="/admin/dashboard" class="nav-link ">Tableau de Bord</a>
         <a href="/admin/commandes" class="nav-link">Commandes</a>
-        <a href="/admin/employes" class="nav-link">Employés</a>
-        <a href="/admin/clients" class="nav-link">Clients</a>
-        <a href="/admin/paramètres" class="nav-link">Paramètres</a>
+        <a href="/admin/rdvs" class="nav-link">RDV</a>
+        <a href="/admin/services" class="nav-link">Services</a>
+        <a href="/admin/produits" class="nav-link active">Produits</a>
+        <a href="/admin/employes" class="nav-link">Employés</a> 
       </nav>
     </div>
   </header>
 
   <div class="container">
-    <h1>🛍️ Tableau des Produits</h1>
+    <h1>Tableau des Produits</h1>
 
     <h2>➕ Ajouter un produit</h2>
     <form action="/api/admin/products" method="POST" enctype="multipart/form-data" class="form-add">

@@ -4,7 +4,7 @@ import { pool } from '../config/db.js';
 
 const router = express.Router();
 
-// ✅ Route : Profil du client
+// ✅ Client Profile Route
 router.get('/profile', auth, async (req, res) => {
   if (req.user.role !== 'client') {
     return res.status(403).json({ error: 'Accès interdit' });
@@ -13,7 +13,7 @@ router.get('/profile', auth, async (req, res) => {
   const clientId = req.user.id;
 
   try {
-    // 🔍 Infos du client
+    // 🔍 Fetch client information
     const clientQuery = 'SELECT nom, email, tel FROM clients WHERE id = $1';
     const clientResult = await pool.query(clientQuery, [clientId]);
 
@@ -23,11 +23,11 @@ router.get('/profile', auth, async (req, res) => {
 
     const client = clientResult.rows[0];
 
-    // 📅 RDVs du client (par nom)
+    // 📅 Fetch client's RDVs
     const rdvsQuery = 'SELECT * FROM rdvs WHERE nom = $1';
     const rdvsResult = await pool.query(rdvsQuery, [client.nom]);
 
-    // 🛒 Commandes du client (par id)
+    // 🛒 Fetch client's orders
     const commandesQuery = 'SELECT * FROM commandes WHERE client_id = $1 ORDER BY created_at DESC';
     const commandesResult = await pool.query(commandesQuery, [clientId]);
 

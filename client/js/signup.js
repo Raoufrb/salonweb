@@ -1,24 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("signup.js loaded"); // Debug log to confirm the script is loaded
+    console.log("signup.js loaded"); // Confirm the script is loaded
 
     const signupForm = document.getElementById('signupForm');
     if (!signupForm) {
-        console.error("Form with ID 'signupForm' not found"); // Debug log if the form is not found
+        console.error("Form with ID 'signupForm' not found");
         return;
     }
 
     signupForm.addEventListener('submit', async function (event) {
-        event.preventDefault(); // Prevent the default form submission (page refresh)
-        console.log("Form submission intercepted"); // Debug log to confirm the event listener is working
+        event.preventDefault(); // Prevent default form submission
 
         const fullname = document.getElementById('fullname').value;
         const email = document.getElementById('email').value;
         const phone = document.getElementById('phone').value;
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirm-password').value;
-
-        // Debugging logs
-        console.log("Form submitted with data:", { fullname, email, phone, password, confirmPassword });
 
         // Validate passwords match
         if (password !== confirmPassword) {
@@ -36,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const result = await response.json();
-            console.log("Server response:", result); // Debug log
 
             if (response.ok) {
                 alert(result.message);

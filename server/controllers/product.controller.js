@@ -1,8 +1,12 @@
-// product.controller.js
 import {
-  getAllProducts,getProductById, addProduct,deleteProduct,updateProduct,
+  getAllProducts,
+  getProductById,
+  addProduct,
+  deleteProduct,
+  updateProduct,
 } from '../models/product.model.js';
 
+// ✅ List all products (JSON response)
 export async function listProducts(req, res) {
   try {
     const produits = await getAllProducts();
@@ -13,20 +17,19 @@ export async function listProducts(req, res) {
   }
 }
 
-export async function createProduct(req, res) {
+// ✅ Render all products (HTML page)
+export const getAllProductsPage = async (req, res) => {
   try {
-    const { name, price, description, image } = req.body;
-    if (!name || !price) {
-      return res.status(400).json({ error: 'Champs requis manquants' });
-    }
-    await addProduct({ name, price, description, image });
-    res.status(201).json({ message: 'Produit ajouté' });
+    const result = await db.query('SELECT * FROM products ORDER BY id DESC');
+    const produits = result.rows;
+    res.render('admin/produits.ejs', { produits });
   } catch (error) {
-    console.error('❌ Erreur createProduct :', error);
-    res.status(500).json({ error: 'Erreur ajout produit' });
+    console.error('Erreur affichage produits :', error);
+    res.status(500).send('Erreur serveur');
   }
-}
+};
 
+// ✅ Get one product (JSON response)
 export async function getOneProduct(req, res) {
   try {
     const id = parseInt(req.params.id);
@@ -41,17 +44,34 @@ export async function getOneProduct(req, res) {
   }
 }
 
-export async function removeProduct(req, res) {
+// ✅ Render edit product page (HTML page)
+export async function getEditProductPage(req, res) {
   try {
     const id = parseInt(req.params.id);
-    await deleteProduct(id);
-    res.status(200).json({ message: 'Produit supprimé' });
+    const produit = await getProductById(id);
+    res.render('admin/edit.ejs', { produit });
   } catch (error) {
-    console.error('❌ Erreur deleteProduct :', error);
-    res.status(500).json({ error: 'Erreur suppression produit' });
+    console.error('Erreur getEditProductPage :', error);
+    res.status(500).send('Erreur serveur');
   }
 }
 
+// ✅ Create a new product
+export async function createProduct(req, res) {
+  try {
+    const { name, price, description, image } = req.body;
+    if (!name || !price) {
+      return res.status(400).json({ error: 'Champs requis manquants' });
+    }
+    await addProduct({ name, price, description, image });
+    res.status(201).json({ message: 'Produit ajouté' });
+  } catch (error) {
+    console.error('❌ Erreur createProduct :', error);
+    res.status(500).json({ error: 'Erreur ajout produit' });
+  }
+}
+
+// ✅ Update an existing product
 export async function editProduct(req, res) {
   try {
     const id = parseInt(req.params.id);
@@ -64,26 +84,14 @@ export async function editProduct(req, res) {
   }
 }
 
-export const getAllProductsPage = async (req, res) => {
+// ✅ Delete a product
+export async function removeProduct(req, res) {
   try {
-    const result = await db.query('SELECT * FROM products ORDER BY id DESC');
-    const produits = result.rows;
-    res.render('admin/produits.ejs', { produits });
+    const id = parseInt(req.params.id);
+    await deleteProduct(id);
+    res.status(200).json({ message: 'Produit supprimé' });
   } catch (error) {
-    console.error('Erreur affichage produits :', error);
-    res.status(500).send('Erreur serveur');
+    console.error('❌ Erreur deleteProduct :', error);
+    res.status(500).json({ error: 'Erreur suppression produit' });
   }
-};
-
-
-// Ajout dans product.controller.js
-export async function getEditProductPage(req, res) {
-try {
-  const id = parseInt(req.params.id);
-  const produit = await getProductById(id);
-  res.render('admin/edit.ejs', { produit });
-} catch (error) {
-  console.error('Erreur getEditProductPage :', error);
-  res.status(500).send('Erreur serveur');
-}
 }

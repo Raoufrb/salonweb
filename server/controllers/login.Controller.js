@@ -1,10 +1,10 @@
-// auth.controller.js
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { pool } from '../config/db.js';
 
-const JWT_SECRET = 'mySuperSecretKey123!@#'; // Stocke ceci dans .env
+const JWT_SECRET = 'mySuperSecretKey123!@#'; // Store this in .env for security
 
+// ✅ Login a user (client or employee)
 export async function loginUser(req, res) {
   try {
     const { email, mot_de_passe } = req.body;
@@ -13,7 +13,7 @@ export async function loginUser(req, res) {
       return res.status(400).json({ error: 'Tous les champs sont requis' });
     }
 
-    // Vérifie si c'est un client
+    // Check if the user is a client
     const clientResult = await pool.query('SELECT * FROM clients WHERE email = $1', [email]);
 
     if (clientResult.rows.length > 0) {
@@ -38,7 +38,7 @@ export async function loginUser(req, res) {
       });
     }
 
-    // Vérifie si c'est un employé
+    // Check if the user is an employee
     const employeResult = await pool.query('SELECT * FROM employes WHERE email = $1', [email]);
 
     if (employeResult.rows.length > 0) {
@@ -62,6 +62,7 @@ export async function loginUser(req, res) {
       });
     }
 
+    // If no user is found
     return res.status(404).json({ error: 'Utilisateur non trouvé' });
   } catch (err) {
     console.error('❌ Erreur login:', err.message);

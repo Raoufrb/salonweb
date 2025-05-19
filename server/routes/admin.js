@@ -3,6 +3,8 @@ import multer from 'multer';
 import path from 'path';
 import methodOverride from 'method-override';
 
+import { authAdmin } from '../middlewares/authAdmin.js';
+
 import { 
   registerAdmin, 
   loginAdmin 
@@ -15,18 +17,11 @@ import {
   refuserCommande
 } from '../controllers/commande.controller.js';
 
-import { 
-  approveApplication,listApplications, rejectApplication  
+import {
+  approveApplication,
+  listApplications,
+  rejectApplication
 } from '../controllers/admin.controller.js';
-
-import { 
-  addProduct, 
-  updateProduct, 
-  deleteProduct 
-} from '../models/product.model.js';
-
-import { authAdmin } from '../middlewares/authAdmin.js';
-
 
 import {
   listServices,
@@ -35,7 +30,11 @@ import {
   deleteService
 } from '../controllers/adminServices.controller.js';
 
-import { listRdvs, validerRdv, refuserRdv } from '../controllers/rdvs.controller.js';
+import { 
+  listRdvs, 
+  validerRdv, 
+  refuserRdv 
+} from '../controllers/rdvs.controller.js';
 
 import {
   listEmployes,
@@ -48,11 +47,29 @@ import {
   sendReply
 } from '../controllers/contact.controller.js';
 
+import {
+  addProduct,
+  updateProduct,
+  deleteProduct
+} from '../models/product.model.js';
+
 const router = express.Router();
 router.use(methodOverride('_method'));
 
-// ----------------- AUTHENTIFICATION ADMIN -----------------
+// ----------------- MULTER CONFIGURATION -----------------
+const productStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/products'),
+  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
+});
+const uploadProduct = multer({ storage: productStorage });
 
+const serviceStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/services'),
+  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
+});
+const uploadService = multer({ storage: serviceStorage });
+
+// ----------------- AUTHENTIFICATION ADMIN -----------------
 router.post('/register', registerAdmin);
 router.post('/login', loginAdmin);
 
@@ -67,24 +84,7 @@ router.get('/protected', authAdmin, (req, res) => {
   });
 });
 
-// ----------------- MULTER CONFIGURATION -----------------
-
-const productStorage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/products'),
-  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
-});
-const uploadProduct = multer({ storage: productStorage });
-
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/services'),
-  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
-});
-const upload = multer({ storage });
-
-
-// ----------------- ADMIN PRODUIT CRUD -----------------
-
+// ----------------- PRODUIT CRUD -----------------
 router.post('/products', uploadProduct.single('image'), async (req, res) => {
   try {
     const { name, price, description } = req.body;
@@ -128,40 +128,22 @@ router.delete('/products/:id', async (req, res) => {
 });
 
 // ----------------- GESTION COMMANDES -----------------
-// Routes for commandes
-router.get('/commandes', showCommandes); // Show all commandes
-router.post('/commandes', passerCommande); // Place a new commande
-router.put('/commandes/:id/valider', validerCommande); // Validate a commande
-router.put('/commandes/:id/refuser', refuserCommande); // Refuse a commande
-
-// ✅ Commande client directe
+router.get('/commandes', showCommandes);
 router.post('/commandes', passerCommande);
+router.put('/commandes/:id/valider', validerCommande);
+router.put('/commandes/:id/refuser', refuserCommande);
 
+// ----------------- CONTACTS -----------------
+router.get('/contacts', getAllContacts);
+router.post('/contacts/reply', sendReply);
 
-
-// 📩 Contacts
-router.get('/contacts', getAllContacts); // Show messages
-router.post('/contacts/reply', sendReply); // Send reply & delete
-// ----------------- APPROBATION CANDIDATURE -----------------
-
-router.post('/approve-application', approveApplication);
+// ----------------- CANDIDATURES -----------------
 router.get('/recruitment', listApplications);
-
-
 router.post('/recruitment/:id/approve', approveApplication);
 router.post('/recruitment/:id/reject', rejectApplication);
 
-// Define the route handler for GET requests to '/'
-//router.get('/', (req, res) => {
-  //res.send('Admin Services Page');
-//});
-
-
-
-// ----------------- SERVICES ROUTES -----------------
-
-// GET /admin/services
-router.get('/', async (req, res) => {
+// ----------------- SERVICES -----------------
+router.get('/services', async (req, res) => {
   try {
     const services = await listServices();
     res.render('admin/service', { services });
@@ -171,29 +153,18 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST /admin/services
-router.post('/', upload.single('image'), addService);
+router.post('/services', uploadService.single('image'), addService);
+router.put('/services/:id', uploadService.single('image'), updateService);
+router.delete('/services/:id', deleteService);
 
-// PUT /admin/services/:id
-router.put('/:id', upload.single('image'), updateService);
-
-// DELETE /admin/services/:id
-router.delete('/:id', deleteService);
-
-
-
-// ----------------- RDV ROUTES -----------------
-
-// ----------------- RDV ADMIN ROUTES -----------------
-
-// RDVs (Gestion Admin)
+// ----------------- RDVS -----------------
 router.get('/rdvs', listRdvs);
 router.post('/rdvs/:id/valider', validerRdv);
 router.post('/rdvs/:id/refuser', refuserRdv);
 
+// ----------------- EMPLOYES -----------------
 router.get('/employes', listEmployes);
 router.post('/employes', createEmploye);
 router.delete('/employes/:id', deleteEmploye);
 
 export default router;
-
